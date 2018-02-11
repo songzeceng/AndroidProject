@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.IntSummaryStatistics;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BinaryOperator;
 import java.util.function.Predicate;
@@ -121,7 +122,69 @@ public class MainActivity extends Activity {
 //        studyOfRecyclerView();
 
         //安卓7.0(SDK版本24)才支持lambda表达式
-        studyOfLambda();
+        //studyOfLambda();
+        studyOfPallelStream();
+
+    }
+
+    private void studyOfPallelStream(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            //commonPool里最大并行线程数：系统CPU核数 - 1
+            Log.i(TAG,"并行流最大线程数："+ ForkJoinPool.commonPool().getParallelism()+"\n线程池容量："+ForkJoinPool.commonPool().getPoolSize());//1 0
+            Log.i(TAG,"可用CPU核数："+Runtime.getRuntime().availableProcessors());//2
+
+            List<String> letters =  new LinkedList<>();
+            letters.add("a");
+            letters.add("b");
+            letters.add("c");
+            letters.add("d");
+            letters.add("e");
+            letters.add("f");
+
+            //parallelStream():并行流
+            letters.parallelStream().filter(s -> {
+               Log.i(TAG,"filter:"+s+"--thread name:"+Thread.currentThread().getName());
+               return true;
+            }).map(s -> {
+                Log.i(TAG,"map:"+s+"--thread name:"+Thread.currentThread().getName());
+                return s.toUpperCase();
+            }).forEach(s -> {
+                Log.i(TAG,"forEach:"+s+"--thread name:"+Thread.currentThread().getName());
+            });
+            //d f e b c a
+
+            letters.stream().forEach(s->{
+                Log.i(TAG,"forEach:"+s);
+            });
+
+            //并行流的reduce
+            /**
+             * 执行总思路：二分
+             * 过程：f,e合并，fe和d合并
+             *      b,c合并, bc和a合并
+             *      abc和def合并
+             *
+             *      每次合并结果的顺序和传入参数的顺序一样
+             */
+            String result = letters.parallelStream().reduce("", (s1, s2) -> {
+                Log.i(TAG, "accumulator:<" + s1 + " " + s2 + ">--thread name:" + Thread.currentThread().getName());
+                return s1 + "+" + s2;
+            }, (s1,s2)->{
+                Log.i(TAG, "combiner:<" + s1 + " " + s2 + ">--thread name:" + Thread.currentThread().getName());
+                return s1 + "=" + s2;
+            });
+            Log.i(TAG,"result:"+result);
+
+            //串行流的reduce
+            result = letters.stream().reduce("", (s1, s2) -> {
+                Log.i(TAG, "accumulator:<" + s1 + " " + s2 + ">--thread name:" + Thread.currentThread().getName());
+                return s1 + "+" + s2;
+            }, (s1,s2)->{
+                Log.i(TAG, "combiner:<" + s1 + " " + s2 + ">--thread name:" + Thread.currentThread().getName());
+                return s1 + "=" + s2;
+            });
+            Log.i(TAG,"result:"+result);
+        }
     }
 
     private void studyOfLambda() {
