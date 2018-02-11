@@ -2,6 +2,7 @@ package com.example.songzeceng.studyofretrofit;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.songzeceng.studyofretrofit.recyclerView.AdapterForRecyclerVIew;
 import com.example.songzeceng.studyofretrofit.rxBus.MyRxBus;
@@ -22,9 +24,15 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.IntSummaryStatistics;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BinaryOperator;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,9 +65,12 @@ public class MainActivity extends Activity {
     private Subscription subscription = null;
     private ReactiveList<Student> reactiveList = null;
 
-    @BindView(R.id.tv_show) TextView tv_show;
-    @BindView(R.id.et_input) EditText et_input;
-    @BindView(R.id.rv_recycler) RecyclerView recyclerView;
+    @BindView(R.id.tv_show)
+    TextView tv_show;
+    @BindView(R.id.et_input)
+    EditText et_input;
+    @BindView(R.id.rv_recycler)
+    RecyclerView recyclerView;
     private ProgressDialog dialog = null;
 
     private AdapterForRecyclerVIew adapter = null;
@@ -70,21 +81,21 @@ public class MainActivity extends Activity {
     private int clickCount = 0;
 
     private int index = 0;
-    private String[] names = {"A","B","C","D","E"
-                            ,"F","G","H","I","J"
-                            ,"K","L","M","N","O"
-                            ,"P","R","S","T","U"};
+    private String[] names = {"A", "B", "C", "D", "E"
+            , "F", "G", "H", "I", "J"
+            , "K", "L", "M", "N", "O"
+            , "P", "R", "S", "T", "U"};
     private Student[] students = new Student[]{
-            new Student("001","杰森伯恩"),
-            new Student("002","托马斯穆勒"),
-            new Student("003","莱万多夫斯基"),
-            new Student("004","阿尔杰罗本"),
-            new Student("005","弗兰克兰帕德"),
-            new Student("006","史蒂文杰拉德"),
-            new Student("007","诺伊尔"),
-            new Student("008","罗伯特卡洛斯"),
-            new Student("009","因扎吉"),
-            new Student("010","里奥费迪南德")
+            new Student("001", "杰森伯恩"),
+            new Student("002", "托马斯穆勒"),
+            new Student("003", "莱万多夫斯基"),
+            new Student("004", "阿尔杰罗本"),
+            new Student("005", "弗兰克兰帕德"),
+            new Student("006", "史蒂文杰拉德"),
+            new Student("007", "诺伊尔"),
+            new Student("008", "罗伯特卡洛斯"),
+            new Student("009", "因扎吉"),
+            new Student("010", "里奥费迪南德")
     };
 
     private LinkedList<String> urls = new LinkedList<>();
@@ -103,27 +114,108 @@ public class MainActivity extends Activity {
 
 //        useOfThreeKindsOfSubjects();
 
+        //studyOfRecyclerView();
+
+        //安卓7.0(SDK版本24)才支持lambda表达式
+        studyOfLambda();
+    }
+
+    private void studyOfLambda() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            addUrls();
+            //lambda表达式之匿名内部类
+            new Thread(() -> {
+                for (int i = 0; i < 10; i++) {
+                    System.out.println("I love you son");
+                }
+            }).start();
+
+            //lambda表达式之设置监听
+            findViewById(R.id.btn_confirm).setOnClickListener((view) -> Toast.makeText(MainActivity.this, "Here we go.." + view.getClass().getCanonicalName(), Toast.LENGTH_LONG).show());
+
+            //lambda表达式之过滤
+            try {
+                filter(urls, (item) -> item.toString().startsWith("http"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //lambda表达式之过滤条件的合并
+            Predicate<String> startWithHttp = (item) -> item.startsWith("http");
+            Predicate<String> tenLettersLong = (item) -> item.length() >= 4;
+            urls.stream().filter(tenLettersLong.and(startWithHttp)).forEach((item) -> Log.i(TAG, item.toString()));
+            //类似的还有or(),xor()方法
+
+            //map方法
+            urls.stream().map((item) -> item.toLowerCase()).forEach((item) -> Log.i(TAG, item.toString()));
+
+            //reduce方法:折叠
+            //效果：url1--url2--url2
+            String result = urls.stream().map((item) -> item.toLowerCase()).reduce((item1, item2) -> (item1 + "--" + item2)).get();
+            Log.i(TAG,result);
+
+            //collect方法：把stream对象变成list
+            List<String> results = urls.stream().filter((item) -> item.length() > 20).collect(Collectors.toList());
+            results.forEach((item) -> Log.i(TAG,item));
+
+            //joining方法 注意返回值不是list
+            result = urls.stream().filter((item) -> item.length() > 20).collect(Collectors.joining(","));
+            Log.i(TAG,result);
+
+            //distinct方法 去重
+            LinkedList<Integer> numbers = (LinkedList<Integer>) Arrays.asList(1,2,3,4,3,2,5);
+            List<Integer> gets = numbers.stream().map((item) -> item*item).distinct().collect(Collectors.toList());
+            gets = (LinkedList)gets;
+            gets.forEach((item) -> Log.i(TAG,item+""));
+
+            //数字类型的stream可以先mapToInt，再获取intSummaryStatistics对象
+            IntSummaryStatistics stats = gets.stream().mapToInt((item) -> item).summaryStatistics();
+            Log.i(TAG,"最大的数："+stats.getMax());
+            Log.i(TAG,"最小的数："+stats.getMin());
+            Log.i(TAG,"和："+stats.getSum());
+            Log.i(TAG,"平均数:"+stats.getAverage());
+        }
+    }
+
+    private void filter(List list, Predicate predicate) throws Exception {
+        for (int i = 0; i < list.size(); i++) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                if (predicate.test(list.get(i))) {//test函数：参数是否符合过滤条件
+                    Log.i(TAG, "" + list.get(i).toString());
+                }
+            }
+        }
+    }
+
+    private void studyOfRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 //        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        adapter = new AdapterForRecyclerVIew(urls,descriptions,this);
+        adapter = new AdapterForRecyclerVIew(urls, descriptions, this);
 
-        urls.add("http://n.sinaimg.cn/sports/transform/20170216/1s3V-fyarzzv2801842.jpg");
-        urls.add("http://www.zq1.com/Upload/20170415/235459msc9i5yiqracirfw.jpg");
-        urls.add("https://c1.hoopchina.com.cn/uploads/star/event/images/171106/a694dde65a88b5f820c02c03d62d76caf02aeb09.jpg");
-        urls.add("http://k.sinaimg.cn/n/sports/transform/20160424/dfCS-fxrqhar9877773.JPG/w570fe9.jpg");
-        urls.add("http://n.sinaimg.cn/sports/transform/20170423/L9Uj-fyeqcac1387497.jpg");
+        addUrls();
+        addDescriptions();
+
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void addDescriptions() {
         descriptions.add("南部之星拜仁慕尼黑");
         descriptions.add("骄傲的大黄蜂多特蒙德");
         descriptions.add("蓝月亮曼城");
         descriptions.add("红魔曼联");
         descriptions.add("蓝军切尔西");
+    }
 
-        recyclerView.setAdapter(adapter);
-
+    private void addUrls() {
+        urls.add("http://n.sinaimg.cn/sports/transform/20170216/1s3V-fyarzzv2801842.jpg");
+        urls.add("http://www.zq1.com/Upload/20170415/235459msc9i5yiqracirfw.jpg");
+        urls.add("https://c1.hoopchina.com.cn/uploads/star/event/images/171106/a694dde65a88b5f820c02c03d62d76caf02aeb09.jpg");
+        urls.add("http://k.sinaimg.cn/n/sports/transform/20160424/dfCS-fxrqhar9877773.JPG/w570fe9.jpg");
+        urls.add("http://n.sinaimg.cn/sports/transform/20170423/L9Uj-fyeqcac1387497.jpg");
     }
 
     @OnClick(R.id.btn_confirm)
-    public void translate(Button button){
+    public void translate(Button button) {
         Log.i("onClickListener", "onClick");
 
         input = et_input.getText().toString();
@@ -167,7 +259,7 @@ public class MainActivity extends Activity {
         reactiveList.changes().subscribe(new Action1<ReactiveList.ChangeType>() {
             @Override
             public void call(ReactiveList.ChangeType changeType) {
-                Log.i(TAG,"changeType:"+changeType);
+                Log.i(TAG, "changeType:" + changeType);
             }
         });
 
@@ -183,14 +275,14 @@ public class MainActivity extends Activity {
         reactiveList.changesValues().subscribe(new Action1<Student>() {
             @Override
             public void call(Student student) {
-                Log.i(TAG,"changesValues:"+student.toString());
+                Log.i(TAG, "changesValues:" + student.toString());
             }
         });
 
         reactiveList.latestChanged().subscribe(new Action1<Student>() {
             @Override
             public void call(Student student) {
-                Log.i(TAG,"lastedChanged:"+student.toString());
+                Log.i(TAG, "lastedChanged:" + student.toString());
             }
         });
 
@@ -203,14 +295,14 @@ public class MainActivity extends Activity {
     }
 
     private void dataOperation() {
-        for (int i=0;i<students.length;i++){
+        for (int i = 0; i < students.length; i++) {
             reactiveList.adder().onNext(students[i]);
         }
 
         reactiveList.list().subscribe(new Action1<Student>() {
             @Override
             public void call(Student student) {
-                Log.i(TAG,"list:"+student.toString());
+                Log.i(TAG, "list:" + student.toString());
             }
         });
 
@@ -224,13 +316,13 @@ public class MainActivity extends Activity {
         subscription = MyRxBus.getInstance().tObservable(Student.class).subscribe(new Action1<Student>() {
             @Override
             public void call(Student student) {
-                Log.i(TAG,student.toString());
+                Log.i(TAG, student.toString());
             }
         });
     }
 
     private void usingIntervalRange() {
-        Observable<Long> observable = Observable.intervalRange(0,20,1,1, TimeUnit.SECONDS);
+        Observable<Long> observable = Observable.intervalRange(0, 20, 1, 1, TimeUnit.SECONDS);
         observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Object>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -244,14 +336,14 @@ public class MainActivity extends Activity {
 
             @Override
             public void onNext(Object value) {
-                index = ((Long)value).intValue() % 4;
-                Log.i(TAG,"index:"+index+"--value:"+value);
-                MyRxBus.getInstance().post(new Student(""+value,names[((Long) value).intValue()]));
+                index = ((Long) value).intValue() % 4;
+                Log.i(TAG, "index:" + index + "--value:" + value);
+                MyRxBus.getInstance().post(new Student("" + value, names[((Long) value).intValue()]));
             }
 
             @Override
             public void onComplete() {
-                Log.i(TAG,"event complete");
+                Log.i(TAG, "event complete");
             }
         });
     }
