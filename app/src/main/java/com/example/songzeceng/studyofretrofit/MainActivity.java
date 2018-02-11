@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.IntSummaryStatistics;
@@ -33,6 +34,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.BinaryOperator;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -100,6 +103,7 @@ public class MainActivity extends Activity {
 
     private LinkedList<String> urls = new LinkedList<>();
     private LinkedList<String> descriptions = new LinkedList<>();
+    private LinkedList<Student> studentList = new LinkedList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +118,7 @@ public class MainActivity extends Activity {
 
 //        useOfThreeKindsOfSubjects();
 
-        //studyOfRecyclerView();
+//        studyOfRecyclerView();
 
         //安卓7.0(SDK版本24)才支持lambda表达式
         studyOfLambda();
@@ -139,42 +143,68 @@ public class MainActivity extends Activity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            separate();
 
             //lambda表达式之过滤条件的合并
             Predicate<String> startWithHttp = (item) -> item.startsWith("http");
             Predicate<String> tenLettersLong = (item) -> item.length() >= 4;
             urls.stream().filter(tenLettersLong.and(startWithHttp)).forEach((item) -> Log.i(TAG, item.toString()));
             //类似的还有or(),xor()方法
+            separate();
 
             //map方法
             urls.stream().map((item) -> item.toLowerCase()).forEach((item) -> Log.i(TAG, item.toString()));
 
+            //构造列表 range()就相当于一个for循环，但返回的是一个stream对象
+            IntStream.range(0, students.length).forEach((i) -> {
+                studentList.add(students[i]);
+            });
+
+            //flatMap方法:第二个泛型必须是stream类型；而map方法第二个泛型没有限制
+            studentList.stream().flatMap(student -> {
+                List<String> info = new ArrayList<>();
+                info.add(student.toString());
+                return info.stream();
+            }).forEach(item -> Log.i(TAG, item.toString()));
+            separate();
+
             //reduce方法:折叠
-            //效果：url1--url2--url2
+            //效果：url1--url2--url3
             String result = urls.stream().map((item) -> item.toLowerCase()).reduce((item1, item2) -> (item1 + "--" + item2)).get();
-            Log.i(TAG,result);
+            Log.i(TAG, result);
+            separate();
 
             //collect方法：把stream对象变成list
             List<String> results = urls.stream().filter((item) -> item.length() > 20).collect(Collectors.toList());
-            results.forEach((item) -> Log.i(TAG,item));
+            results.forEach((item) -> Log.i(TAG, item));
+            separate();
 
             //joining方法 注意返回值不是list
             result = urls.stream().filter((item) -> item.length() > 20).collect(Collectors.joining(","));
-            Log.i(TAG,result);
+            Log.i(TAG, result);
+            separate();
 
             //distinct方法 去重
-            LinkedList<Integer> numbers = (LinkedList<Integer>) Arrays.asList(1,2,3,4,3,2,5);
-            List<Integer> gets = numbers.stream().map((item) -> item*item).distinct().collect(Collectors.toList());
-            gets = (LinkedList)gets;
-            gets.forEach((item) -> Log.i(TAG,item+""));
+            List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 3, 2, 5);
+            List<Integer> gets = numbers.stream().map((item) -> item * item).distinct().collect(Collectors.toList());
+            gets.forEach((item) -> Log.i(TAG, item + ""));
+            separate();
 
             //数字类型的stream可以先mapToInt，再获取intSummaryStatistics对象
             IntSummaryStatistics stats = gets.stream().mapToInt((item) -> item).summaryStatistics();
-            Log.i(TAG,"最大的数："+stats.getMax());
-            Log.i(TAG,"最小的数："+stats.getMin());
-            Log.i(TAG,"和："+stats.getSum());
-            Log.i(TAG,"平均数:"+stats.getAverage());
+            Log.i(TAG, "最大的数：" + stats.getMax());
+            Log.i(TAG, "最小的数：" + stats.getMin());
+            Log.i(TAG, "和：" + stats.getSum());
+            Log.i(TAG, "平均数:" + stats.getAverage());
+
+            /**
+             * lambda表达式限制：对于外部变量，只能访问但不能修改值。
+             */
         }
+    }
+
+    private void separate() {
+        Log.i(TAG,"========================================================================");
     }
 
     private void filter(List list, Predicate predicate) throws Exception {

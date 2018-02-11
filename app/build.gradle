@@ -4,11 +4,13 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.example.songzeceng.studyofretrofit"
-        minSdkVersion 19
+        minSdkVersion 24
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -24,6 +26,7 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+
 }
 
 dependencies {
