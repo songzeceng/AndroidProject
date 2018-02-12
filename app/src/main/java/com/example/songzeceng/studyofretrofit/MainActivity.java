@@ -1,18 +1,18 @@
 package com.example.songzeceng.studyofretrofit;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,28 +20,33 @@ import com.example.songzeceng.studyofretrofit.recyclerView.AdapterForRecyclerVIe
 import com.example.songzeceng.studyofretrofit.rxBus.MyRxBus;
 import com.example.songzeceng.studyofretrofit.rxBus.Student;
 import com.example.songzeceng.studyofretrofit.subject.ReactiveList;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.IntSummaryStatistics;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
-import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -59,12 +64,12 @@ import io.reactivex.Observer;
 import io.reactivex.schedulers.Schedulers;
 import rx.Subscription;
 import rx.functions.Action1;
-import rx.functions.Func1;
 
 public class MainActivity extends Activity {
     private final static String TAG = "MainActivity";
     public static final String BASE_URL = "http://fy.iciba.com/";
     public static final int RETRY_DELAY = 1000;
+    public static final String SRC_FILE_PATH = "/storage/emulated/0/Download/download.jpg";
 
     private Subscription subscription = null;
     private ReactiveList<Student> reactiveList = null;
@@ -113,6 +118,14 @@ public class MainActivity extends Activity {
 
         ButterKnife.bind(this);
 
+        //高版本的手机需要手动赋予权限，并在onRequestPermissionsResult()方法中处理结果
+        if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}
+                    ,0);
+        }else{
+            studyOfExecutor();
+        }
+
 //        usingIntervalRange();
 //
 //        simpleUseOfSubject();
@@ -123,8 +136,73 @@ public class MainActivity extends Activity {
 
         //安卓7.0(SDK版本24)才支持lambda表达式
         //studyOfLambda();
-        studyOfPallelStream();
+        //studyOfPallelStream();
 
+    }
+
+    private void studyOfExecutor() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();//实例化一个单线程的executor
+        executor.submit(() -> {
+            copyFile();
+        });
+
+        executor = Executors.newFixedThreadPool(5);//我们也可以自己指定线程数目
+        List<Callable<String>> callables = Arrays.asList(
+                () -> "task1",
+                () -> "task2",
+                () -> "task3");
+        try {
+             executor.invokeAll(callables).stream().map((future)->{
+                try {
+                    return future.get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+
+                return "";
+            }).forEach((s) -> Log.i(TAG,s));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        executor.shutdown();//等待所有任务执行完，就关闭executor（其间不再接收新的任务submit）
+        try {
+            executor.awaitTermination(5,TimeUnit.SECONDS);//最多等待三秒，强制关闭所有任务
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            executor.shutdownNow();//强制立刻关闭所有任务
+        }
+    }
+
+    private void copyFile() {
+        try {
+            // /storage/emulated/0/Download/download.jpg
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(new File(SRC_FILE_PATH)));
+            File newFile = new File(getFilesDir().getPath()+"/new.jpg");
+            //不要在系统根目录下直接写文件
+            if(!newFile.exists()){
+                newFile.createNewFile();
+            }
+            Log.i(TAG,newFile.getPath());
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(newFile));
+
+            byte[] bytes = new byte[1024];
+            int len = 0;
+
+            while((len = bufferedInputStream.read(bytes)) != -1){
+                bufferedOutputStream.write(bytes,0,len);
+                bufferedOutputStream.flush();
+            }
+
+            bufferedInputStream.close();
+            bufferedOutputStream.close();
+
+            Log.i(TAG,"copy finished...");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void studyOfPallelStream(){
@@ -621,5 +699,17 @@ public class MainActivity extends Activity {
         super.onDestroy();
         subscription.unsubscribe();
         subscription = null;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //在这里处理权限赋予的结果
+        switch (requestCode){
+            case 0:
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    studyOfExecutor();
+                }
+                break;
+        }
     }
 }
