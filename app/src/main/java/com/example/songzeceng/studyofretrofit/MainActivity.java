@@ -2,15 +2,20 @@ package com.example.songzeceng.studyofretrofit;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,14 +37,17 @@ import java.util.Arrays;
 import java.util.IntSummaryStatistics;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -80,7 +88,7 @@ public class MainActivity extends Activity {
     EditText et_input;
     @BindView(R.id.rv_recycler)
     RecyclerView recyclerView;
-    private ProgressDialog dialog = null;
+    private DialogFragment dialog = null;//尽量使用DialogFragment，以保持生命周期和activity一致
 
     private AdapterForRecyclerVIew adapter = null;
 
@@ -123,7 +131,7 @@ public class MainActivity extends Activity {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}
                     ,0);
         }else{
-            studyOfExecutor();
+           // studyOfExecutor();
         }
 
 //        usingIntervalRange();
@@ -138,6 +146,24 @@ public class MainActivity extends Activity {
         //studyOfLambda();
         //studyOfPallelStream();
 
+        //correctWayToCreateThreadInAndroid();
+    }
+
+    private void correctWayToCreateThreadInAndroid() {
+        int core_number = Runtime.getRuntime().availableProcessors();
+        int keep_alive_time = 1;
+        TimeUnit time_unit = TimeUnit.SECONDS;
+        BlockingQueue<Runnable> taskQueue = new LinkedBlockingDeque<>();
+        //利用线程池构建线程。减少创建和销毁线程的系统开销
+        ExecutorService executorService = new ThreadPoolExecutor(core_number, core_number * 2,
+                keep_alive_time, time_unit, taskQueue,
+                Executors.defaultThreadFactory());
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                copyFile();
+            }
+        });
     }
 
     private void studyOfExecutor() {
@@ -169,7 +195,7 @@ public class MainActivity extends Activity {
 
         executor.shutdown();//等待所有任务执行完，就关闭executor（其间不再接收新的任务submit）
         try {
-            executor.awaitTermination(5,TimeUnit.SECONDS);//最多等待三秒，强制关闭所有任务
+            executor.awaitTermination(5,TimeUnit.SECONDS);//最多等待五秒，强制关闭所有任务
         } catch (InterruptedException e) {
             e.printStackTrace();
             executor.shutdownNow();//强制立刻关闭所有任务
@@ -668,11 +694,8 @@ public class MainActivity extends Activity {
     }
 
     private void createDialog() {
-        dialog = new ProgressDialog(MainActivity.this);
-        dialog.setCancelable(false);
-        dialog.setTitle("翻译中");
-        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        dialog.show();
+        dialog = new MyDialog();
+        dialog.show(getFragmentManager(),TAG);
     }
 
     private void dismissDialog() {
@@ -707,7 +730,7 @@ public class MainActivity extends Activity {
         switch (requestCode){
             case 0:
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    studyOfExecutor();
+                    //studyOfExecutor();
                 }
                 break;
         }
