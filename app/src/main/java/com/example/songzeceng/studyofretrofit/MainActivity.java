@@ -4,11 +4,15 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -32,6 +36,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.IntSummaryStatistics;
@@ -144,9 +149,16 @@ public class MainActivity extends Activity {
 
         //安卓7.0(SDK版本24)才支持lambda表达式
         //studyOfLambda();
-        //studyOfPallelStream();
+      //  studyOfPallelStream();
 
         //correctWayToCreateThreadInAndroid();
+
+        //使用FileProvider进行文件共享
+        Uri imageUri = FileProvider.getUriForFile(this,"com.example.songzeceng.myFileProvider",new File(SRC_FILE_PATH));
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+        startActivityForResult(intent,0);
+
     }
 
     private void correctWayToCreateThreadInAndroid() {
@@ -158,12 +170,7 @@ public class MainActivity extends Activity {
         ExecutorService executorService = new ThreadPoolExecutor(core_number, core_number * 2,
                 keep_alive_time, time_unit, taskQueue,
                 Executors.defaultThreadFactory());
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                copyFile();
-            }
-        });
+        executorService.execute(() -> copyFile());
     }
 
     private void studyOfExecutor() {
@@ -255,7 +262,10 @@ public class MainActivity extends Activity {
             }).forEach(s -> {
                 Log.i(TAG,"forEach:"+s+"--thread name:"+Thread.currentThread().getName());
             });
-            //d f e b c a
+            //D A C E B F
+            //D B C E A F
+            //D F E A B C
+            //...随机运行
 
             letters.stream().forEach(s->{
                 Log.i(TAG,"forEach:"+s);
