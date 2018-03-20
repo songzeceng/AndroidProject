@@ -3,7 +3,9 @@ package com.example.songzeceng.studyoflivedata.room;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
+import android.support.annotation.NonNull;
 
 /**
  * Created by songzeceng on 2018/3/19.
@@ -14,10 +16,10 @@ import android.arch.persistence.room.Index;
         indices = {//索引
                 @Index(value = "id", unique = true) //唯一性
         }) //实体
-public class User {
+public class User implements Comparable {
     @android.support.annotation.NonNull
     @ColumnInfo(name = "id")
-    private String id;
+    private long id;
 
     @android.support.annotation.NonNull
     @ColumnInfo(name = "name")
@@ -38,28 +40,29 @@ public class User {
                 .append(name).append('\"');
         sb.append(",\"position\":\"")
                 .append(position).append('\"');
-        sb.append(",\"performs\":")
-                .append(performs.toString());
+        if(performs != null) {
+            sb.append(",\"performs\":")
+                    .append(performs.toString());
+        }
         sb.append('}');
         return sb.toString();
     }
 
+    @Ignore
     public User() {
     }
 
-    public User(String id, String name, String position, UserPerforms performs) {
+    public User(long id, String name, String position) {
         this.id = id;
         this.name = name;
         this.position = position;
-        this.performs = performs;
     }
 
-    public String getId() {
-
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -85,5 +88,20 @@ public class User {
 
     public void setPerforms(UserPerforms performs) {
         this.performs = performs;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        if (o instanceof User) {
+            User u = (User) o;
+            if (this.id > u.id) {
+                return 1;
+            } else if (this.id < u.id) {
+                return -1;
+            } else if (this.id == u.id) {
+                return 0;
+            }
+        }
+        return 0;
     }
 }

@@ -3,6 +3,7 @@ package com.example.songzeceng.studyoflivedata.room;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 
 /**
  * Created by songzeceng on 2018/3/19.
@@ -14,46 +15,47 @@ import android.arch.persistence.room.ForeignKey;
                 , parentColumns = "id"
                 , childColumns = "p_id")) //定义主键
 public class UserPerforms {
-    @android.support.annotation.NonNull
+    @android.support.annotation.NonNull //
     @ColumnInfo(name = "p_id")
-    private String p_id;
+    private long p_id;
 
     @ColumnInfo(name = "score")
-    private String score;
+    private int score;
 
     @ColumnInfo(name = "assist")
-    private String assist;
+    private int assist;
 
+    @Ignore
     public UserPerforms() {
     }
 
-    public UserPerforms(String p_id, String score, String assist) {
+    public UserPerforms(long p_id, int score, int assist) {
         this.p_id = p_id;
         this.score = score;
         this.assist = assist;
     }
 
-    public String getP_id() {
+    public long getP_id() {
         return p_id;
     }
 
-    public void setP_id(String p_id) {
+    public void setP_id(long p_id) {
         this.p_id = p_id;
     }
 
-    public String getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(int score) {
         this.score = score;
     }
 
-    public String getAssist() {
+    public int getAssist() {
         return assist;
     }
 
-    public void setAssist(String assist) {
+    public void setAssist(int assist) {
         this.assist = assist;
     }
 

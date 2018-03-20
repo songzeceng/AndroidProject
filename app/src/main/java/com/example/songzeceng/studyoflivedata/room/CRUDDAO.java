@@ -19,13 +19,20 @@ public interface CRUDDAO {
     List<User> getAllUsers();
     //查询方法返回值必须是cursor或arrayList
 
-    @Query("select users.id,users.name from users,performs" +
-            " where users.id = performs.p_id and performs.score > :score and performs.assist > :assist")
+    @Query("select users.id,users.name from users,performs " +
+            "where users.id = performs.p_id and performs.score > :score and performs.assist > :assist")
     // 多表+筛选查询
     List<UserSimple> getUserWithLimits(int score,int assist);
 
+    @Query("select p_id,score,performs.assist from performs " +
+            "order by p_id asc")
+    List<UserPerforms> getAllPerforms();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE) //插入有冲突，就直接替换
     void insert(User[] users);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(UserPerforms[] performs);
 
     @Delete
     int delete(User user);

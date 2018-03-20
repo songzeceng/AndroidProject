@@ -9,7 +9,7 @@ import android.content.Context;
  * Created by songzeceng on 2018/3/19.
  */
 
-@Database(entities = {User.class, UserPerforms.class},version = 1)
+@Database(entities = {User.class, UserPerforms.class},version = 1,exportSchema = false)
 public abstract class DatabaseCreator extends RoomDatabase{
     private static DatabaseCreator databaseCreator;
 
@@ -17,7 +17,8 @@ public abstract class DatabaseCreator extends RoomDatabase{
         if(databaseCreator == null){
             synchronized (DatabaseCreator.class){
                 if(databaseCreator == null){
-                    databaseCreator = Room.databaseBuilder(context.getApplicationContext(),DatabaseCreator.class,"user_perfom.db").build();
+                    databaseCreator = Room.databaseBuilder(context.getApplicationContext(),DatabaseCreator.class,
+                            "user_perfom_2018.db").build();
                 }
             }
         }

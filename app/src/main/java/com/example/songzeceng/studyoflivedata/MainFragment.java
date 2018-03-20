@@ -25,7 +25,7 @@ import com.example.songzeceng.studyoflivedata.room.UserPerforms;
 import com.example.songzeceng.studyoflivedata.room.UserSimple;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -44,33 +44,61 @@ import butterknife.OnClick;
 
 public class MainFragment extends Fragment {
     public static final String TAG = "MainFragment";
+    public static final int READY_TO_SHOW = 0;
+    public static final int READY_TO_SHOW_WITH_LIMITS = 1;
+    public static final int READY_TO_UPDATE_USERS_INFO = 2;
 
     private MyModel nameModel;
     private Observer<String> nameObserver;
     private Random r = new Random();
 
-    private ArrayList<UserSimple> users;
-    private ArrayList<User> usersAll;
-    private ArrayList<User> usersShow;
+    private ArrayList<UserSimple> users = new ArrayList<UserSimple>();
+    private ArrayList<User> usersAll = new ArrayList<User>();
+    private ArrayList<User> usersShow = new ArrayList<User>();
+    private ArrayList<UserPerforms> performsAll = new ArrayList<UserPerforms>();
+    private ArrayList<UserPerforms> performsShow = new ArrayList<UserPerforms>();
+    private ArrayList<UserPerforms> performs = new ArrayList<UserPerforms>();
 
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
-                case 0:
+                case READY_TO_SHOW:
                     executeRunnable(new Runnable() {
                         @Override
                         public void run() {
-                            //usersShow = (ArrayList<User>) DatabaseCreator.getInstance(getContext()).getDao().getAllUsers();
+                            usersShow = (ArrayList<User>) getDao().getAllUsers();
                             users = (ArrayList<UserSimple>) getDao().getUserWithLimits(10,10);
-                            handler.sendEmptyMessage(1);
+                            handler.sendEmptyMessage(READY_TO_SHOW_WITH_LIMITS);
                         }
                     });
                     break;
-                case 1:
+                case READY_TO_SHOW_WITH_LIMITS:
                     for (int i=0;i<users.size();i++){
-                        Log.i(TAG,users.get(i).toString());
+                        logger(users.get(i).toString());
                     }
+                    logger("-------");
+                    for (int i=0;i<usersShow.size();i++){
+                        logger(usersShow.get(i).toString());
+                    }
+                    logger("-------");
+                    for (int i=0;i<usersAll.size();i++){
+                        logger(usersAll.get(i).toString());
+                    }
+                    break;
+                case READY_TO_UPDATE_USERS_INFO:
+                    executeRunnable(new Runnable() {
+                        @Override
+                        public void run() {
+                            performs = (ArrayList<UserPerforms>) getDao().getAllPerforms();
+                            for (int i=0;i<usersAll.size();i++) {
+                                User user = usersAll.get(i);
+                                user.setPerforms(performs.get(i));
+                            }
+
+                            handler.sendEmptyMessage(READY_TO_SHOW);
+                        }
+                    });
                     break;
             }
         }
@@ -115,13 +143,21 @@ public class MainFragment extends Fragment {
 
         nameModel.getName2().observe(getActivity(), nameObserver);
 
-        usersAll = (ArrayList<User>) Arrays.asList(new User[]{
-                new User("11","Jason","中锋",new UserPerforms("11","32","19")),
-                new User("17","Mike","前腰",new UserPerforms("17","37","20")),
-                new User("2","Kane","中卫",new UserPerforms("2","1","5")),
-                new User("8","Handerson","后腰",new UserPerforms("8","3","7")),
-                new User("1","Frank","门将",new UserPerforms("1","0","0"))
-        });
+        setInfo();
+        Collections.sort(usersAll);
+    }
+
+    private void setInfo() {
+        usersAll.add(new User(11,"Jason","中锋"));
+        usersAll.add(new User(17,"Mike","前腰"));
+        usersAll.add(new User(2,"Kane","中卫"));
+        usersAll.add(new User(8,"Handerson","后腰"));
+        usersAll.add(new User(1,"Frank","门将"));
+        performsAll.add(new UserPerforms(11,32,15));
+        performsAll.add(new UserPerforms(1,0,0));
+        performsAll.add(new UserPerforms(17,20,23));
+        performsAll.add(new UserPerforms(8,6,10));
+        performsAll.add(new UserPerforms(2,3,4));
     }
 
     @Override
@@ -140,10 +176,13 @@ public class MainFragment extends Fragment {
         executeRunnable(new Runnable() {
             @Override
             public void run() {
-                getDao().insert((User[]) usersAll.toArray());
-                usersAll.get(2).setPerforms(new UserPerforms("2","3","5"));
+                getDao().insert(usersAll.toArray(new User[1]));
+                getDao().insert(performsAll.toArray(new UserPerforms[1]));
+
+                usersAll.get(2).setName("Justin");
                 getDao().update(usersAll.get(2));
-                handler.sendEmptyMessage(0);
+                handler.sendEmptyMessage(READY_TO_UPDATE_USERS_INFO);
+
             }
         });
 
