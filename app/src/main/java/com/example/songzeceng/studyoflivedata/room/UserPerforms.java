@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
+import android.support.annotation.IntDef;
 
 /**
  * Created by songzeceng on 2018/3/19.
@@ -13,7 +14,9 @@ import android.arch.persistence.room.Ignore;
         primaryKeys = "p_id",
         foreignKeys = @ForeignKey(entity = User.class
                 , parentColumns = "id"
-                , childColumns = "p_id")) //定义主键
+                , childColumns = "p_id"
+                , onUpdate = ForeignKey.CASCADE
+                , onDelete = ForeignKey.CASCADE)) //定义主键
 public class UserPerforms {
     @android.support.annotation.NonNull //
     @ColumnInfo(name = "p_id")

@@ -9,6 +9,8 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 /**
  * Created by songzeceng on 2018/3/19.
  */
@@ -28,6 +30,9 @@ public interface CRUDDAO {
             "order by p_id asc")
     List<UserPerforms> getAllPerforms();
 
+    @Query("select * from users")
+    Flowable<List<User>> getAllUsersFlowable();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE) //插入有冲突，就直接替换
     void insert(User[] users);
 
@@ -40,5 +45,9 @@ public interface CRUDDAO {
 
     @Update
     int update(User user);
-    //更新方法返回值也必须是int或void
+    //更新方法返回值也必须是int或void，但不要这么更新，要么用query，指定sql语句，要么直接重新插入
+    //实际覆盖插入也可以实现更新
+
+    @Query("update users set name=:name where id = :id")
+    void updateName(String name,long id);
 }
