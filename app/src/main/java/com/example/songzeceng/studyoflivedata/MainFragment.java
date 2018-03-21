@@ -42,7 +42,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainFragment extends Fragment {
     public static final String TAG = "MainFragment";
-    public static final int READY_TO_SHOW = 0;
     public static final int READY_TO_SHOW_WITH_LIMITS = 1;
     public static final int READY_TO_UPDATE_USERS_INFO = 2;
 
@@ -62,17 +61,6 @@ public class MainFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case READY_TO_SHOW:
-//                    ThreadUtil.executeRunnable(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            usersShow = nameModel.getAllUsers(getContext());
-//                            users = nameModel.getUsersWithLimits(getContext(), 10, 10);
-//
-//                           // handler.sendEmptyMessage(READY_TO_SHOW_WITH_LIMITS);
-//                        }
-//                    });
-                    break;
                 case READY_TO_SHOW_WITH_LIMITS:
                     traverseList(users);
                     separate("end of users in limits");
@@ -91,7 +79,6 @@ public class MainFragment extends Fragment {
                                 user.setPerforms(performs.get(i));
                             }
 
-                            //handler.sendEmptyMessage(READY_TO_SHOW);
                         }
                     });
                     break;
@@ -199,10 +186,8 @@ public class MainFragment extends Fragment {
                 nameModel.insert(performsAll.toArray(new UserPerforms[1]), getContext());
 
                 usersAll.get(2).setName("Justin");
-//                nameModel.insert(new User[]{usersAll.get(2)}, getContext());
                 nameModel.update(usersAll.get(2),getContext());
 
-//                handler.sendEmptyMessage(READY_TO_SHOW);
                 handler.sendEmptyMessage(READY_TO_UPDATE_USERS_INFO);
             }
         });
@@ -215,7 +200,6 @@ public class MainFragment extends Fragment {
             @Override
             public void run() {
                 usersAll.get(1).setName("szc");
-//                nameModel.insert(new User[]{usersAll.get(1)},getContext());
                 nameModel.update(usersAll.get(1),getContext());
             }
         });
