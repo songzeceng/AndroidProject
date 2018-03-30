@@ -463,12 +463,7 @@ public class MainActivity extends Activity {
          */
 //        dataOperation();
 
-        reactiveList.changes().subscribe(new Action1<ReactiveList.ChangeType>() {
-            @Override
-            public void call(ReactiveList.ChangeType changeType) {
-                Log.i(TAG, "changeType:" + changeType);
-            }
-        });
+        reactiveList.changes().subscribe(changeType -> Log.i(TAG, "changeType:" + changeType));
 
 
         /**
@@ -479,19 +474,9 @@ public class MainActivity extends Activity {
         dataOperation();
 
 
-        reactiveList.changesValues().subscribe(new Action1<Student>() {
-            @Override
-            public void call(Student student) {
-                Log.i(TAG, "changesValues:" + student.toString());
-            }
-        });
+        reactiveList.changesValues().subscribe(student -> Log.i(TAG, "changesValues:" + student.toString()));
 
-        reactiveList.latestChanged().subscribe(new Action1<Student>() {
-            @Override
-            public void call(Student student) {
-                Log.i(TAG, "lastedChanged:" + student.toString());
-            }
-        });
+        reactiveList.latestChanged().subscribe(student -> Log.i(TAG, "lastedChanged:" + student.toString()));
 
         /**
          * 这种情况：先订阅，再发事件
@@ -506,12 +491,7 @@ public class MainActivity extends Activity {
             reactiveList.adder().onNext(students[i]);
         }
 
-        reactiveList.list().subscribe(new Action1<Student>() {
-            @Override
-            public void call(Student student) {
-                Log.i(TAG, "list:" + student.toString());
-            }
-        });
+        reactiveList.list().subscribe(student -> Log.i(TAG, "list:" + student.toString()));
 
         students[5].setName("卡尼吉亚");
         reactiveList.updater().onNext(students[5]);
@@ -520,12 +500,7 @@ public class MainActivity extends Activity {
     }
 
     private void simpleUseOfSubject() {
-        subscription = MyRxBus.getInstance().tObservable(Student.class).subscribe(new Action1<Student>() {
-            @Override
-            public void call(Student student) {
-                Log.i(TAG, student.toString());
-            }
-        });
+        subscription = MyRxBus.getInstance().tObservable(Student.class).subscribe(student -> Log.i(TAG, student.toString()));
     }
 
     private void usingIntervalRange() {
@@ -560,34 +535,23 @@ public class MainActivity extends Activity {
         IRequest iRequest = retrofit.create(IRequest.class);
         Observable<Result> observable1 = iRequest.getResultInRxJava("fy", "auto", "auto", inputs[0]).subscribeOn(Schedulers.io());
         Observable<Result> observable2 = iRequest.getResultInRxJava("fy", "auto", "auto", inputs[1]).subscribeOn(Schedulers.io());
-        Observable.zip(observable1, observable2, new BiFunction<Result, Result, String>() {
-            //zip():按顺序合并两个observable的请求，一起显示结果
-            @Override
-            public String apply(Result result, Result result2) throws Exception {
-                //合并两个observable的结果。合并的结果返回到onNext()中去
-                return result.toString() + "\n" + result2.toString();
+        //zip():按顺序合并两个observable的请求，一起显示结果
+        Observable.zip(observable1, observable2, (result, result2) -> {
+            //合并两个observable的结果。合并的结果返回到onNext()中去
+            return result.toString() + "\n" + result2.toString();
+        }).retryWhen(throwableObservable -> throwableObservable.flatMap((Function<Throwable, ObservableSource<?>>) throwable -> {
+            if (throwable instanceof IOException) {
+                Log.i(TAG, "IO异常，次数:" + (tryCount + 1));
+                if (tryCount < 3) {
+                    tryCount++;
+                    return Observable.just(1).delay(RETRY_DELAY, TimeUnit.MILLISECONDS);
+                } else {
+                    return Observable.error(new Throwable("连接次数过多"));
+                }
+            } else {
+                return Observable.error(new Throwable("连接出错"));
             }
-        }).retryWhen(new Function<Observable<Throwable>, ObservableSource<?>>() {
-            @Override
-            public ObservableSource<?> apply(Observable<Throwable> throwableObservable) throws Exception {
-                return throwableObservable.flatMap(new Function<Throwable, ObservableSource<?>>() {
-                    @Override
-                    public ObservableSource<?> apply(Throwable throwable) throws Exception {
-                        if (throwable instanceof IOException) {
-                            Log.i(TAG, "IO异常，次数:" + (tryCount + 1));
-                            if (tryCount < 3) {
-                                tryCount++;
-                                return Observable.just(1).delay(RETRY_DELAY, TimeUnit.MILLISECONDS);
-                            } else {
-                                return Observable.error(new Throwable("连接次数过多"));
-                            }
-                        } else {
-                            return Observable.error(new Throwable("连接出错"));
-                        }
-                    }
-                });
-            }
-        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
+        })).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
             @Override
             public void onSubscribe(Disposable d) {
 
@@ -617,31 +581,22 @@ public class MainActivity extends Activity {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build();
         IRequest request = retrofit.create(IRequest.class);
         Observable<Result> observable = request.getResultInRxJava("fy", "auto", "auto", "" + input);
-        observable.retryWhen(new Function<Observable<Throwable>, ObservableSource<?>>() {
-                                 //tryWhen:出错时调用里面的apply方法
-                                 @Override
-                                 public ObservableSource<?> apply(Observable<Throwable> throwableObservable) throws Exception {
-
-                                     return throwableObservable.flatMap(new Function<Throwable, ObservableSource<?>>() {
-                                         //flatMap:将错误obserable转换为异常throwable
-                                         @Override
-                                         public ObservableSource<?> apply(Throwable throwable) throws Exception {
-                                             //把throwable(出错的起源)转换为observable(retryWhen的对象).
-                                             if (throwable instanceof IOException) {
-                                                 Log.i(TAG, "io异常");
-                                                 if (tryCount < 3) {
-                                                     tryCount++;
-                                                     return Observable.just(1).delay(RETRY_DELAY, TimeUnit.MILLISECONDS);
-                                                 } else {
-                                                     return Observable.error(new Throwable("连接重试次数过多"));
-                                                 }
-                                             } else {
-                                                 return Observable.error(new Throwable("连接出错"));
-                                             }
-                                         }
-                                     });
-                                 }
-                             }
+        //tryWhen:出错时调用里面的apply方法
+        //flatMap:将错误obserable转换为异常throwable
+        observable.retryWhen(throwableObservable -> throwableObservable.flatMap((Function<Throwable, ObservableSource<?>>) throwable -> {
+            //把throwable(出错的起源)转换为observable(retryWhen的对象).
+            if (throwable instanceof IOException) {
+                Log.i(TAG, "io异常");
+                if (tryCount < 3) {
+                    tryCount++;
+                    return Observable.just(1).delay(RETRY_DELAY, TimeUnit.MILLISECONDS);
+                } else {
+                    return Observable.error(new Throwable("连接重试次数过多"));
+                }
+            } else {
+                return Observable.error(new Throwable("连接出错"));
+            }
+        })
 
 
         ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
