@@ -1,10 +1,9 @@
-package com.example.songzeceng.studyoflivedata.room;
+package com.example.songzeceng.studyoflivedata.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
-import android.support.annotation.IntDef;
 
 /**
  * Created by songzeceng on 2018/3/19.
@@ -37,6 +36,8 @@ public class UserPerforms {
         this.score = score;
         this.assist = assist;
     }
+
+    //...get/set+toString()
 
     public long getP_id() {
         return p_id;

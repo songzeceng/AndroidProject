@@ -7,6 +7,10 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
+import com.example.songzeceng.studyoflivedata.entity.User;
+import com.example.songzeceng.studyoflivedata.entity.UserPerforms;
+import com.example.songzeceng.studyoflivedata.entity.UserSimple;
+
 import java.util.List;
 
 import io.reactivex.Flowable;
@@ -23,8 +27,8 @@ public interface CRUDDAO {
 
     @Query("select users.id,users.name from users,performs " +
             "where users.id = performs.p_id and performs.score > :score and performs.assist > :assist")
-    // 多表+筛选查询
-    List<UserSimple> getUserWithLimits(int score,int assist);
+        // 多表+筛选查询
+    List<UserSimple> getUserWithLimits(int score, int assist);
 
     @Query("select p_id,score,performs.assist from performs " +
             "order by p_id asc")
@@ -33,7 +37,8 @@ public interface CRUDDAO {
     @Query("select * from users")
     Flowable<List<User>> getAllUsersFlowable();
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE) //插入有冲突，就直接替换
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+        //插入有冲突，就直接替换
     void insert(User[] users);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -49,5 +54,5 @@ public interface CRUDDAO {
     //实际覆盖插入也可以实现更新
 
     @Query("update users set name=:name where id = :id")
-    void updateName(String name,long id);
+    void updateName(String name, long id);
 }

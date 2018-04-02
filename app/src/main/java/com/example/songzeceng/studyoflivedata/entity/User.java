@@ -1,4 +1,4 @@
-package com.example.songzeceng.studyoflivedata.room;
+package com.example.songzeceng.studyoflivedata.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
@@ -40,7 +40,7 @@ public class User implements Comparable {
                 .append(name).append('\"');
         sb.append(",\"position\":\"")
                 .append(position).append('\"');
-        if(performs != null) {
+        if (performs != null) {
             sb.append(",\"performs\":")
                     .append(performs.toString());
         }

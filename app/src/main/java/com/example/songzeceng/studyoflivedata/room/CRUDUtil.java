@@ -7,7 +7,7 @@ import android.content.Context;
  */
 
 public class CRUDUtil {
-    public static CRUDDAO getDao(Context context){
+    public static CRUDDAO getDao(Context context) {
         return DatabaseCreator.getInstance(context).getDao();
     }
 }

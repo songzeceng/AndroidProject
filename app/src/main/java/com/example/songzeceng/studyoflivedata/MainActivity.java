@@ -10,7 +10,7 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         MainFragment fragment = new MainFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main,fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main, fragment).commit();
         //getSupportFragmentManager()只能在FragmentActivity或AppCompatActivity中调用
     }
 }

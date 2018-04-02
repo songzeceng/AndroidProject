@@ -1,4 +1,4 @@
-package com.example.songzeceng.studyoflivedata.room;
+package com.example.songzeceng.studyoflivedata.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 

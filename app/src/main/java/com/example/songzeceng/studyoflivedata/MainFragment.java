@@ -18,9 +18,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.songzeceng.studyoflivedata.Thread.ThreadUtil;
-import com.example.songzeceng.studyoflivedata.room.User;
-import com.example.songzeceng.studyoflivedata.room.UserPerforms;
-import com.example.songzeceng.studyoflivedata.room.UserSimple;
+import com.example.songzeceng.studyoflivedata.entity.User;
+import com.example.songzeceng.studyoflivedata.entity.UserPerforms;
+import com.example.songzeceng.studyoflivedata.entity.UserSimple;
+import com.example.songzeceng.studyoflivedata.room.CRUDUtil;
 
 
 import java.util.ArrayList;
@@ -86,15 +87,6 @@ public class MainFragment extends Fragment {
         }
     };
 
-    private void traverseList(ArrayList list) {
-        for (int i = 0; i < list.size(); i++) {
-            logger(list.get(i).toString());
-        }
-    }
-
-    private void separate(String info) {
-        logger("------" + info + "------");
-    }
 
     @BindView(R.id.tv_name)
     TextView tv_name;
@@ -186,7 +178,7 @@ public class MainFragment extends Fragment {
                 nameModel.insert(performsAll.toArray(new UserPerforms[1]), getContext());
 
                 usersAll.get(2).setName("Justin");
-                nameModel.update(usersAll.get(2),getContext());
+                nameModel.update(usersAll.get(2), getContext());
 
                 handler.sendEmptyMessage(READY_TO_UPDATE_USERS_INFO);
             }
@@ -195,33 +187,33 @@ public class MainFragment extends Fragment {
     }
 
     @OnClick(R.id.btn_update)
-    public void update(){
+    public void update() {
         ThreadUtil.executeRunnable(new Runnable() {
             @Override
             public void run() {
                 usersAll.get(1).setName("szc");
-                nameModel.update(usersAll.get(1),getContext());
+                nameModel.update(usersAll.get(1), getContext());
             }
         });
     }
 
     @OnClick(R.id.btn_clear)
-    public void clear(){
+    public void clear() {
         ThreadUtil.executeRunnable(new Runnable() {
             @Override
             public void run() {
-                for(int i=0;i<usersAll.size();i++){
-                    nameModel.delete(usersAll.get(i),getContext());
+                for (int i = 0; i < usersAll.size(); i++) {
+                    nameModel.delete(usersAll.get(i), getContext());
                     sleep(1000);
                 }
             }
         });
     }
 
-    private void sleep(int time){
+    private void sleep(int time) {
         try {
             Thread.sleep(time);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -230,4 +222,13 @@ public class MainFragment extends Fragment {
         Log.i(TAG, info);
     }
 
+    private void traverseList(ArrayList list) {
+        for (int i = 0; i < list.size(); i++) {
+            logger(list.get(i).toString());
+        }
+    }
+
+    private void separate(String info) {
+        logger("------" + info + "------");
+    }
 }
