@@ -101,6 +101,7 @@ public class MainActivity extends Activity {
     private String inputs[] = new String[2];
     private int tryCount = 0;
     private int clickCount = 0;
+    private int changeCount = 0;
 
     private int index = 0;
     private String[] names = {"A", "B", "C", "D", "E"
@@ -463,7 +464,7 @@ public class MainActivity extends Activity {
          */
 //        dataOperation();
 
-        reactiveList.changes().subscribe(changeType -> Log.i(TAG, "changeType:" + changeType));
+        reactiveList.changes().subscribe(changeType -> Log.i(TAG, "changeType-"+(++changeCount)+":" + changeType));
 
 
         /**
