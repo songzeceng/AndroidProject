@@ -8,6 +8,7 @@
 #include "stdlib.h"
 #include "android/log.h"
 #include "assert.h"
+#include "person_ndk_util.h"
 
 const char *tag = "my_ndk_util";
 
@@ -15,18 +16,24 @@ JNIEXPORT jstring JNICALL
 transfer(JNIEnv *env, jclass type, jstring str);
 
 static JNINativeMethod method[] = {
-        {"getAppKey", "(Ljava/lang/String;)Ljava/lang/String;", (void*)transfer}
-        // jni方法数组，每一个元素表示一个native函数，元素的组成部分：java方法名，java方法签名((方法参数;)方法返回值类型;)，对应的native函数名
+        {"getAppKey", "(Ljava/lang/String;)Ljava/lang/String;", (void*)transfer},
+        {"updatePersonInfo", "(Lcom/example/songzeceng/myndkdemo/model/Person;)V;", (void*)updateInfo}
+        // jni方法数组，每一个元素表示一个java方法和native函数的对应关系
+        // 元素的组成部分：java方法名，java方法签名((方法参数;)方法返回值类型;)，对应的native函数名
 };
 
 static int registNatives(JNIEnv* jniEnv) {
-    char* className = "com/example/songzeceng/myndkdemo/MyNdkUtil";
+    char* className = "com/example/songzeceng/myndkdemo/MyNdkUtil"; // java方法所在的类名
     jclass clazz = (*jniEnv)->FindClass(jniEnv, className);
     if (clazz == NULL) {
         return JNI_FALSE;
     }
 
-    if ((*jniEnv)->RegisterNatives(jniEnv, clazz, method, sizeof(method)/ sizeof(method[0])) < 0) {
+    int methodNumber = sizeof(method) / sizeof(method[0]);
+    __android_log_print(ANDROID_LOG_INFO, tag, "Jni method number:%d\n", methodNumber);
+
+    if ((*jniEnv)->RegisterNatives(jniEnv, clazz, method, methodNumber) < 0) {
+        // 真正的动态注册
         return JNI_FALSE;
     }
 
@@ -45,6 +52,9 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *javaVM, void *other) {
     }
 
     assert(jniEnv != NULL);
+
+    jint versionCode = (*jniEnv)->GetVersion(jniEnv);
+    __android_log_print(ANDROID_LOG_INFO, tag, "Jni version:%d\n", versionCode);
 
     if (registNatives(jniEnv) != JNI_TRUE) {
         return -1;
