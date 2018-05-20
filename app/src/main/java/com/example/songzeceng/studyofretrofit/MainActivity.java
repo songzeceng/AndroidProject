@@ -3,25 +3,30 @@ package com.example.songzeceng.studyofretrofit;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +41,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.IntSummaryStatistics;
@@ -45,12 +49,10 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
@@ -63,7 +65,6 @@ import butterknife.OnClick;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -76,23 +77,22 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.schedulers.Schedulers;
 import rx.Subscription;
-import rx.functions.Action1;
 
 public class MainActivity extends Activity {
-    private final static String TAG = "MainActivity";
     public static final String BASE_URL = "http://fy.iciba.com/";
     public static final int RETRY_DELAY = 1000;
     public static final String SRC_FILE_PATH = "/storage/emulated/0/Download/download.jpg";
-
-    private Subscription subscription = null;
-    private ReactiveList<Student> reactiveList = null;
-
+    private final static String TAG = "MainActivity";
     @BindView(R.id.tv_show)
     TextView tv_show;
     @BindView(R.id.et_input)
     EditText et_input;
     @BindView(R.id.rv_recycler)
     RecyclerView recyclerView;
+    @BindView(R.id.iv_test)
+    ImageView iv_test;
+    private Subscription subscription = null;
+    private ReactiveList<Student> reactiveList = null;
     private DialogFragment dialog = null;//尽量使用DialogFragment，以保持生命周期和activity一致
 
     private AdapterForRecyclerVIew adapter = null;
@@ -133,11 +133,11 @@ public class MainActivity extends Activity {
         ButterKnife.bind(this);
 
         //高版本的手机需要手动赋予权限，并在onRequestPermissionsResult()方法中处理结果
-        if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}
-                    ,0);
-        }else{
-           // studyOfExecutor();
+        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}
+                    , 0);
+        } else {
+            // studyOfExecutor();
         }
 
 //        usingIntervalRange();
@@ -146,19 +146,36 @@ public class MainActivity extends Activity {
 
 //        useOfThreeKindsOfSubjects();
 
-//        studyOfRecyclerView();
+        studyOfRecyclerView();
 
         //安卓7.0(SDK版本24)才支持lambda表达式
         //studyOfLambda();
-      //  studyOfPallelStream();
+        //  studyOfPallelStream();
 
         //correctWayToCreateThreadInAndroid();
 
         //使用FileProvider进行文件共享
-        Uri imageUri = FileProvider.getUriForFile(this,"com.example.songzeceng.myFileProvider",new File(SRC_FILE_PATH));
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-        startActivityForResult(intent,0);
+//        Uri imageUri = FileProvider.getUriForFile(this,"com.example.songzeceng.myFileProvider",new File(SRC_FILE_PATH));
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+//        startActivityForResult(intent,0);
+
+//        try {
+//            JSONObject jsonObject = new JSONObject("{\"b\":[1,2,3],\"c\":[{\"name\":12,\"age\":55},{\"name\":45,\"age\":99}]}");
+//            JSONArray menJson = jsonObject.getJSONArray("c");
+//            for (int i = 0; i < menJson.length(); i++) {
+//                JSONObject item = menJson.getJSONObject(i);
+//                int name = item.getInt("name");
+//                int age = item.getInt("age");
+//
+//                Log.i(TAG, "name:"+name+"---age:"+age);
+//                Log.i(TAG, Environment.getExternalStorageDirectory().getPath()+getPackageName());
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+
+//        Picasso.with(this).load("http://img.newspim.com/news/2016/05/08/1605080038518300_w.jpg").into(iv_test);
 
     }
 
@@ -186,7 +203,7 @@ public class MainActivity extends Activity {
                 () -> "task2",
                 () -> "task3");
         try {
-             executor.invokeAll(callables).stream().map((future)->{
+            executor.invokeAll(callables).stream().map((future) -> {
                 try {
                     return future.get();
                 } catch (InterruptedException e) {
@@ -196,14 +213,14 @@ public class MainActivity extends Activity {
                 }
 
                 return "";
-            }).forEach((s) -> Log.i(TAG,s));
+            }).forEach((s) -> Log.i(TAG, s));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         executor.shutdown();//等待所有任务执行完，就关闭executor（其间不再接收新的任务submit）
         try {
-            executor.awaitTermination(5,TimeUnit.SECONDS);//最多等待五秒，强制关闭所有任务
+            executor.awaitTermination(5, TimeUnit.SECONDS);//最多等待五秒，强制关闭所有任务
         } catch (InterruptedException e) {
             e.printStackTrace();
             executor.shutdownNow();//强制立刻关闭所有任务
@@ -214,38 +231,38 @@ public class MainActivity extends Activity {
         try {
             // /storage/emulated/0/Download/download.jpg
             BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(new File(SRC_FILE_PATH)));
-            File newFile = new File(getFilesDir().getPath()+"/new.jpg");
+            File newFile = new File(getFilesDir().getPath() + "/new.jpg");
             //不要在系统根目录下直接写文件
-            if(!newFile.exists()){
+            if (!newFile.exists()) {
                 newFile.createNewFile();
             }
-            Log.i(TAG,newFile.getPath());
+            Log.i(TAG, newFile.getPath());
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(newFile));
 
             byte[] bytes = new byte[1024];
             int len = 0;
 
-            while((len = bufferedInputStream.read(bytes)) != -1){
-                bufferedOutputStream.write(bytes,0,len);
+            while ((len = bufferedInputStream.read(bytes)) != -1) {
+                bufferedOutputStream.write(bytes, 0, len);
                 bufferedOutputStream.flush();
             }
 
             bufferedInputStream.close();
             bufferedOutputStream.close();
 
-            Log.i(TAG,"copy finished...");
-        }catch (Exception e){
+            Log.i(TAG, "copy finished...");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void studyOfPallelStream(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+    private void studyOfPallelStream() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             //commonPool里最大并行线程数：系统CPU核数 - 1
-            Log.i(TAG,"并行流最大线程数："+ ForkJoinPool.commonPool().getParallelism()+"\n线程池容量："+ForkJoinPool.commonPool().getPoolSize());//1 0
-            Log.i(TAG,"可用CPU核数："+Runtime.getRuntime().availableProcessors());//2
+            Log.i(TAG, "并行流最大线程数：" + ForkJoinPool.commonPool().getParallelism() + "\n线程池容量：" + ForkJoinPool.commonPool().getPoolSize());//1 0
+            Log.i(TAG, "可用CPU核数：" + Runtime.getRuntime().availableProcessors());//2
 
-            List<String> letters =  new LinkedList<>();
+            List<String> letters = new LinkedList<>();
             letters.add("a");
             letters.add("b");
             letters.add("c");
@@ -255,21 +272,21 @@ public class MainActivity extends Activity {
 
             //parallelStream():并行流
             letters.parallelStream().filter(s -> {
-               Log.i(TAG,"filter:"+s+"--thread name:"+Thread.currentThread().getName());
-               return true;
+                Log.i(TAG, "filter:" + s + "--thread name:" + Thread.currentThread().getName());
+                return true;
             }).map(s -> {
-                Log.i(TAG,"map:"+s+"--thread name:"+Thread.currentThread().getName());
+                Log.i(TAG, "map:" + s + "--thread name:" + Thread.currentThread().getName());
                 return s.toUpperCase();
             }).forEach(s -> {
-                Log.i(TAG,"forEach:"+s+"--thread name:"+Thread.currentThread().getName());
+                Log.i(TAG, "forEach:" + s + "--thread name:" + Thread.currentThread().getName());
             });
             //D A C E B F
             //D B C E A F
             //D F E A B C
             //...随机运行
 
-            letters.stream().forEach(s->{
-                Log.i(TAG,"forEach:"+s);
+            letters.stream().forEach(s -> {
+                Log.i(TAG, "forEach:" + s);
             });
 
             //并行流的reduce
@@ -284,21 +301,21 @@ public class MainActivity extends Activity {
             String result = letters.parallelStream().reduce("", (s1, s2) -> {
                 Log.i(TAG, "accumulator:<" + s1 + " " + s2 + ">--thread name:" + Thread.currentThread().getName());
                 return s1 + "+" + s2;
-            }, (s1,s2)->{
+            }, (s1, s2) -> {
                 Log.i(TAG, "combiner:<" + s1 + " " + s2 + ">--thread name:" + Thread.currentThread().getName());
                 return s1 + "=" + s2;
             });
-            Log.i(TAG,"result:"+result);
+            Log.i(TAG, "result:" + result);
 
             //串行流的reduce
             result = letters.stream().reduce("", (s1, s2) -> {
                 Log.i(TAG, "accumulator:<" + s1 + " " + s2 + ">--thread name:" + Thread.currentThread().getName());
                 return s1 + "+" + s2;
-            }, (s1,s2)->{
+            }, (s1, s2) -> {
                 Log.i(TAG, "combiner:<" + s1 + " " + s2 + ">--thread name:" + Thread.currentThread().getName());
                 return s1 + "=" + s2;
             });
-            Log.i(TAG,"result:"+result);
+            Log.i(TAG, "result:" + result);
         }
     }
 
@@ -382,7 +399,7 @@ public class MainActivity extends Activity {
     }
 
     private void separate() {
-        Log.i(TAG,"========================================================================");
+        Log.i(TAG, "========================================================================");
     }
 
     private void filter(List list, Predicate predicate) throws Exception {
@@ -397,7 +414,6 @@ public class MainActivity extends Activity {
 
     private void studyOfRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         adapter = new AdapterForRecyclerVIew(urls, descriptions, this);
 
         addUrls();
@@ -409,7 +425,6 @@ public class MainActivity extends Activity {
     private void addDescriptions() {
         descriptions.add("南部之星拜仁慕尼黑");
         descriptions.add("骄傲的大黄蜂多特蒙德");
-        descriptions.add("蓝月亮曼城");
         descriptions.add("红魔曼联");
         descriptions.add("蓝军切尔西");
     }
@@ -417,7 +432,6 @@ public class MainActivity extends Activity {
     private void addUrls() {
         urls.add("http://n.sinaimg.cn/sports/transform/20170216/1s3V-fyarzzv2801842.jpg");
         urls.add("http://www.zq1.com/Upload/20170415/235459msc9i5yiqracirfw.jpg");
-        urls.add("https://c1.hoopchina.com.cn/uploads/star/event/images/171106/a694dde65a88b5f820c02c03d62d76caf02aeb09.jpg");
         urls.add("http://k.sinaimg.cn/n/sports/transform/20160424/dfCS-fxrqhar9877773.JPG/w570fe9.jpg");
         urls.add("http://n.sinaimg.cn/sports/transform/20170423/L9Uj-fyeqcac1387497.jpg");
     }
@@ -446,6 +460,27 @@ public class MainActivity extends Activity {
         et_input.setText("");
     }
 
+    @OnClick(R.id.btn_share)
+    public void share() {
+        try {
+            ComponentName componentName = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareToTimeLineUI");
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setComponent(componentName);
+            intent.setType("image/*");
+            String path = Environment.getExternalStorageDirectory().getPath() + "/Pictures/dongqiudi/1523624189281.jpg";
+            File file = new File(path);
+            if (file.exists()) {
+                Uri uri = FileProvider.getUriForFile(MainActivity.this, "com.example.songzeceng.myFileProvider", file);
+                Log.i(TAG, "uri:" + uri.toString());
+                intent.putExtra(Intent.EXTRA_STREAM, uri);
+            }
+            intent.putExtra("Kdescrpition","测试转发一张图片");
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void useOfThreeKindsOfSubjects() {
         reactiveList = ReactiveList.getInstance();
 
@@ -464,7 +499,7 @@ public class MainActivity extends Activity {
          */
 //        dataOperation();
 
-        reactiveList.changes().subscribe(changeType -> Log.i(TAG, "changeType-"+(++changeCount)+":" + changeType));
+        reactiveList.changes().subscribe(changeType -> Log.i(TAG, "changeType-" + (++changeCount) + ":" + changeType));
 
 
         /**
@@ -585,19 +620,19 @@ public class MainActivity extends Activity {
         //tryWhen:出错时调用里面的apply方法
         //flatMap:将错误obserable转换为异常throwable
         observable.retryWhen(throwableObservable -> throwableObservable.flatMap((Function<Throwable, ObservableSource<?>>) throwable -> {
-            //把throwable(出错的起源)转换为observable(retryWhen的对象).
-            if (throwable instanceof IOException) {
-                Log.i(TAG, "io异常");
-                if (tryCount < 3) {
-                    tryCount++;
-                    return Observable.just(1).delay(RETRY_DELAY, TimeUnit.MILLISECONDS);
-                } else {
-                    return Observable.error(new Throwable("连接重试次数过多"));
-                }
-            } else {
-                return Observable.error(new Throwable("连接出错"));
-            }
-        })
+                    //把throwable(出错的起源)转换为observable(retryWhen的对象).
+                    if (throwable instanceof IOException) {
+                        Log.i(TAG, "io异常");
+                        if (tryCount < 3) {
+                            tryCount++;
+                            return Observable.just(1).delay(RETRY_DELAY, TimeUnit.MILLISECONDS);
+                        } else {
+                            return Observable.error(new Throwable("连接重试次数过多"));
+                        }
+                    } else {
+                        return Observable.error(new Throwable("连接出错"));
+                    }
+                })
 
 
         ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -661,7 +696,7 @@ public class MainActivity extends Activity {
 
     private void createDialog() {
         dialog = new MyDialog();
-        dialog.show(getFragmentManager(),TAG);
+        dialog.show(getFragmentManager(), TAG);
     }
 
     private void dismissDialog() {
@@ -693,9 +728,9 @@ public class MainActivity extends Activity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         //在这里处理权限赋予的结果
-        switch (requestCode){
+        switch (requestCode) {
             case 0:
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //studyOfExecutor();
                 }
                 break;

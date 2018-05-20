@@ -7,5 +7,6 @@
         <external-files-path path="files" name="externalfiles"/>
         <!-- 此标签需要 support 25.0.0以上才可以使用-->
         <external-cache-path  path="files" name="externalcache"/>
+        <external-path name = "fp_pictures" path = "/Pictures/dongqiudi/"></external-path>
     </paths>
 </resources>

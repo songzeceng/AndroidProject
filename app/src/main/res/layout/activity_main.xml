@@ -9,6 +9,7 @@
 
     <EditText
         android:id="@+id/et_input"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -17,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -25,6 +27,14 @@
     <com.example.songzeceng.studyofretrofit.MyButton
         android:id="@+id/btn_confirm"
         android:text="翻译"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_share"
+        android:text="分享"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -34,5 +44,15 @@
         android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:listSelector="@mipmap/ic_launcher"></ListView>
+
+    <ImageView
+        android:id="@+id/iv_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </com.example.songzeceng.studyofretrofit.MyLinearLayout>

@@ -54,7 +54,7 @@ public class AdapterForRecyclerVIew extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (position > 0 && position < urls.size() + 1) {
+        if (holder.getItemViewType() == viewType.TYPE_IMAGE.ordinal()) {
             MyViewHolderForImage holderForImage = (MyViewHolderForImage) holder;
             Picasso.with(context).load(urls.get(position - 1)).into(holderForImage.getImageView());
             holderForImage.getTextView().setText(descriptions.get(position - 1));
