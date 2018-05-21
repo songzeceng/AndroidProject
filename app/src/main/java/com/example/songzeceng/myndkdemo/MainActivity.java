@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.songzeceng.myndkdemo.model.Man;
 import com.example.songzeceng.myndkdemo.model.Person;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,5 +24,13 @@ public class MainActivity extends AppCompatActivity {
         MyNdkUtil.updatePersonInfo(p);
         Log.i(TAG, p.toString());
 
+        Person p2 = MyNdkUtil.getPerson(30, p);
+        Log.i(TAG, p2.toString());
+
+        p2 = MyNdkUtil.getPerson2(p2, 29);
+        Log.i(TAG, p2.toString());
+
+        Man m = new Man("Mike", 19);
+        MyNdkUtil.callSuper(m);
     }
 }
