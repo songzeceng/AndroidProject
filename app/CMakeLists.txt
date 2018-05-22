@@ -1,7 +1,7 @@
 # For more information about using CMake with Android Studio, read the
 # documentation: https://d.android.com/studio/projects/add-native-code.html
 
-# .Sets the minimum version of CMake required to build the native library.
+# Sets the minimum version of CMake required to build the native library.
 
 cmake_minimum_required(VERSION 3.4.1)
 
@@ -17,8 +17,7 @@ add_library( # Sets the name of the library.
              SHARED
 
              # Provides a relative path to your source file(s).
-             src/main/jni/my_ndk_util.c
-             src/main/jni/person_ndk_util.c)
+             src/main/cpp/native-lib.cpp )
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -44,5 +43,3 @@ target_link_libraries( # Specifies the target library.
                        # included in the NDK.
                        ${log-lib} )
 
-set(CMAKE_C_FLAGS "-Wno-error=format-security")
-set(CMAKE_C_FLAGS "-isystem /Users/songzeceng/Library/Android/sdk/ndk-bundle/sysroot/usr/include/arm-linux-androideabi")
