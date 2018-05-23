@@ -8,14 +8,11 @@ import com.example.songzeceng.myndkdemo.model.Person;
  */
 
 public class MyNdkUtil {
-    private static final String LIB = "native-lib";
+    private static final String LIB = "bspatch";
     static {
         System.loadLibrary(LIB);
     }
 
-    public static native String getAppKey(String s);
-    public static native void updatePersonInfo(Person p);
-    public static native Person getPerson(int age, Person p);
-    public static native Person getPerson2(Person p, int age);
-    public static native void callSuper(Man m);
+    public static native int patch(String oldApkPath, String newApkPath, String patchPath);
+
 }

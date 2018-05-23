@@ -10,15 +10,20 @@ cmake_minimum_required(VERSION 3.4.1)
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 
+set(CMAKE_VERBOSE_MAKEFILE on)
+
+set(bzip2_src_DIR ${CMAKE_SOURCE_DIR})
+
+add_subdirectory(${bzip2_src_DIR}/bzip2)
+
 add_library( # Sets the name of the library.
-             native-lib
+             bspatch
 
              # Sets the library as a shared library.
              SHARED
 
              # Provides a relative path to your source file(s).
-             src/main/jni/my_ndk_util.c
-             src/main/jni/person_ndk_util.c)
+             bspatch.c)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -38,11 +43,11 @@ find_library( # Sets the name of the path variable.
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries( # Specifies the target library.
-                       native-lib
+                       bspatch
 
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib} )
 
-set(CMAKE_C_FLAGS "-Wno-error=format-security")
-set(CMAKE_C_FLAGS "-isystem /Users/songzeceng/Library/Android/sdk/ndk-bundle/sysroot/usr/include/arm-linux-androideabi")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -Wall -DGLM_FORCE_SIZE_T_LENGTH")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGLM_FORCE_RADIANS")

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MyNdkDemo</string>
+    <string name="str_click">点击</string>
 </resources>
