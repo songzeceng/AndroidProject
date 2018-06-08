@@ -2,7 +2,6 @@ package com.example.songzeceng.client;
 
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -14,16 +13,24 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.Process;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 
 import com.example.songzeceng.studyofipc.IPersonManagerInterface;
-import com.example.songzeceng.studyofipc.MessengerService;
 import com.example.songzeceng.studyofipc.PeopleService;
 import com.example.songzeceng.studyofipc.Person;
 import com.example.songzeceng.studyofipc.PersonProvider;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class MainActivity extends Activity {
     public static final String TAG = "MainActivity";
@@ -31,6 +38,12 @@ public class MainActivity extends Activity {
 
     private boolean isConnected = false;
     private Person p = new Person("Dustin", 27);
+
+    private BufferedInputStream inputStream;
+    private BufferedOutputStream outputStream;
+    private boolean isOver = false;
+    private Socket server;
+    private EditText et_input;
 
     private Messenger serviceMessenger;
     private Messenger clientMessenger = new Messenger(new Handler() {
@@ -52,6 +65,7 @@ public class MainActivity extends Activity {
 //            if (studyOfAidl(name, service)) return;
 
 //            studyOfMessenger(service);
+            System.out.println("service connected...");
         }
 
         @Override
@@ -174,6 +188,35 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        et_input = (EditText) findViewById(R.id.client_input);
+        findViewById(R.id.client_send).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            outputStream = new BufferedOutputStream(server.getOutputStream());
+
+                            String toServer = et_input.getText().toString();
+
+                            outputStream.write(toServer.getBytes());
+                            outputStream.flush();
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+
+            }
+        });
+
+//        useOfContentProvider();
+    }
+
+    private void useOfContentProvider() {
         try {
             Uri providerUrl = PersonProvider.PERSON_URI;
 
@@ -196,11 +239,46 @@ public class MainActivity extends Activity {
     protected void onStart() {
         super.onStart();
         if (!isConnected) {
-//            Intent intent = new Intent(this, PeopleService.class);
-//            intent.setAction("com.example.songzeceng");
+            final Intent intent = new Intent(this, PeopleService.class);
+            intent.setAction("com.example.songzeceng");
 //            Intent intent = new Intent(this, MessengerService.class);
 //            intent.setAction("com.example.songzeceng.Messenger");
-//            bindService(intent, connection, BIND_AUTO_CREATE);
+            bindService(intent, connection, BIND_AUTO_CREATE);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // 等待1s，以便服务端创建socket
+                    try {
+                        Thread.sleep(1000);
+                        server = new Socket("localhost", 12345);
+
+                        inputStream = new BufferedInputStream(server.getInputStream());
+                        while (!isOver) {
+                            while (inputStream.available() <= 0);
+
+                            byte[] bytes = new byte[1024];
+                            int len;
+                            StringBuffer stringBuffer = new StringBuffer();
+                            while (inputStream.available() > 0 && (len = inputStream.read(bytes)) != -1) {
+                                stringBuffer.append(new String(bytes, 0, len));
+                            }
+                            String fromServer = stringBuffer.toString();
+                            System.out.println(fromServer);
+                            isOver = fromServer.equals("over");
+                        }
+                        System.out.println("over..");
+                        inputStream.close();
+                        outputStream.close();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (UnknownHostException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         }
     }
 
