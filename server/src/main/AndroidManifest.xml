@@ -9,26 +9,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".MainActivity"></activity>
 
-        <service android:name=".PeopleService"
+        <service
+            android:name=".PeopleService"
             android:exported="true"
             android:process=":remote">
             <intent-filter>
                 <action android:name="com.example.songzeceng"></action>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
 
-        <service android:name=".MessengerService"
+        <service
+            android:name=".MessengerService"
             android:exported="true"
             android:process=":remote">
             <intent-filter>
                 <action android:name="com.example.songzeceng.Messenger"></action>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
+
+        <provider
+            android:name=".PersonProvider"
+            android:authorities="com.example.songzeceng.PersonProvider"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:process=":provider">
+
+        </provider>
     </application>
 
 </manifest>

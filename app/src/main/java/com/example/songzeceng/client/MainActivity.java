@@ -2,8 +2,12 @@ package com.example.songzeceng.client;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -16,6 +20,7 @@ import com.example.songzeceng.studyofipc.IPersonManagerInterface;
 import com.example.songzeceng.studyofipc.MessengerService;
 import com.example.songzeceng.studyofipc.PeopleService;
 import com.example.songzeceng.studyofipc.Person;
+import com.example.songzeceng.studyofipc.PersonProvider;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -54,6 +59,40 @@ public class MainActivity extends Activity {
             isConnected = false;
         }
     };
+
+    private void insertData(Uri providerUrl, int id, String name, String description) {
+        ContentValues values = new ContentValues();
+        values.put("id", id);
+        values.put("name", name);
+        values.put("description", description);
+        getContentResolver().insert(providerUrl, values);
+    }
+
+    private void updateData(Uri providerUrl, int id, String name, String description) {
+        ContentValues values = new ContentValues();
+        values.put("id", id);
+        values.put("name", name);
+        values.put("description", description);
+        getContentResolver().update(providerUrl, values, "id = " + id, null);
+    }
+
+    private void deleteData(Uri providerUrl, int id) {
+        getContentResolver().delete(providerUrl, "id = " + id, null);
+    }
+
+    private void queryData(Uri providerUrl) {
+        Cursor cursor = getContentResolver().query(providerUrl, null, null, null, null);
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndex("id"));
+            String userName = cursor.getString(cursor.getColumnIndex("name"));
+            String description = cursor.getString(cursor.getColumnIndex("description"));
+
+            System.out.println(id + "--" + userName + "--" + description);
+        }
+
+        cursor.close();
+        System.out.println("----------------------------------");
+    }
 
     private void studyOfMessenger(IBinder service) {
         try {
@@ -134,6 +173,23 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        try {
+            Uri providerUrl = PersonProvider.PERSON_URI;
+
+            insertData(providerUrl, 1, "szc", "a simple boy");
+            insertData(providerUrl, 2, "jason", "an interesting boy");
+
+            queryData(providerUrl);
+
+            updateData(providerUrl, 2, "dustin", "a brave boy");
+            queryData(providerUrl);
+
+            deleteData(providerUrl, 2);
+            queryData(providerUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -142,9 +198,9 @@ public class MainActivity extends Activity {
         if (!isConnected) {
 //            Intent intent = new Intent(this, PeopleService.class);
 //            intent.setAction("com.example.songzeceng");
-            Intent intent = new Intent(this, MessengerService.class);
-            intent.setAction("com.example.songzeceng.Messenger");
-            bindService(intent, connection, BIND_AUTO_CREATE);
+//            Intent intent = new Intent(this, MessengerService.class);
+//            intent.setAction("com.example.songzeceng.Messenger");
+//            bindService(intent, connection, BIND_AUTO_CREATE);
         }
     }
 
