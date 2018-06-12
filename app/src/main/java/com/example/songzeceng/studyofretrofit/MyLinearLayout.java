@@ -29,15 +29,15 @@ public class MyLinearLayout extends LinearLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        Log.i(TAG,"MyLinearLayout----dispatchTouchEvent:"+ev.getAction());
-        switch (ev.getAction()){
-//            case 0:
-//                return false;
-            case 1:
-                return super.dispatchTouchEvent(ev);
-            case 2:
-                return super.dispatchTouchEvent(ev);
-        }
+//        Log.i(TAG,"MyLinearLayout----dispatchTouchEvent:"+ev.getAction());
+//        switch (ev.getAction()){
+////            case 0:
+////                return false;
+//            case 1:
+//                return super.dispatchTouchEvent(ev);
+//            case 2:
+//                return super.dispatchTouchEvent(ev);
+//        }
         return super.dispatchTouchEvent(ev);
         /*
         dispatchTouchEvent()返回false：
@@ -48,30 +48,30 @@ public class MyLinearLayout extends LinearLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.i(TAG,"MyLinearLayout----onTouchEvent:"+event.getAction());
-        switch (event.getAction()){
-            case 0:
-                return false;
-            case 1:
-                return true;
-            case 2:
-                return super.onTouchEvent(event);
-        }
-        return super.onTouchEvent(event);
+//        Log.i(TAG,"MyLinearLayout----onTouchEvent:"+event.getAction());
+//        switch (event.getAction()){
+//            case 0:
+//                return false;
+//            case 1:
+//                return true;
+//            case 2:
+//                return super.onTouchEvent(event);
+//        }
+        return false;
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        Log.i(TAG,"MyLinearLayout--onInterceptTouchEvent:"+ev.getAction());
-        switch (ev.getAction()){
-            case 0:
-                return false;
-            case 1:
-                return super.onInterceptTouchEvent(ev);
-            case 2:
-                return super.onInterceptTouchEvent(ev);
-        }
-        return super.onInterceptTouchEvent(ev);
+//        Log.i(TAG,"MyLinearLayout--onInterceptTouchEvent:"+ev.getAction());
+//        switch (ev.getAction()){
+//            case 0:
+//                return false;
+//            case 1:
+//                return super.onInterceptTouchEvent(ev);
+//            case 2:
+//                return super.onInterceptTouchEvent(ev);
+//        }
+        return false;
     }
     /*
     onInterceptTouchEvent返回true：此事件和这次事件流的剩余事件，都由自己的onTouch()处理，不会往下传递

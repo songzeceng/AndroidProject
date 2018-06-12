@@ -27,9 +27,10 @@
     <com.example.songzeceng.studyofretrofit.MyButton
         android:id="@+id/btn_confirm"
         android:text="翻译"
-        android:visibility="gone"
+        android:gravity="center"
+        android:background="@color/colorAccent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="50dp" />
 
     <Button
         android:id="@+id/btn_share"
@@ -40,6 +41,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_recycler"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -48,10 +50,12 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:visibility="gone"
         android:listSelector="@mipmap/ic_launcher"></ListView>
 
     <ImageView
         android:id="@+id/iv_test"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

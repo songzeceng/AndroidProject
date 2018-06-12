@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Button;
+import android.widget.Scroller;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -13,53 +13,45 @@ import org.jetbrains.annotations.Nullable;
  * Created by songzeceng on 2018/2/5.
  */
 
-public class MyButton extends Button implements View.OnTouchListener{
+public class MyButton extends Button {
     public static final String TAG = "MyButton";
-    private int count = 0;
+    private Scroller mScroller;
+
     public MyButton(Context context) {
-        super(context);
-        setOnTouchListener(this);
+        this(context, null);
     }
 
     public MyButton(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        setOnTouchListener(this);
+        this(context, attrs, 0);
     }
 
     public MyButton(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setOnTouchListener(this);
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        Log.i(TAG,"MyButton--dispatchTouchEvent:"+event.getAction());
-        return super.dispatchTouchEvent(event);
+        mScroller = new Scroller(context);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.i(TAG,"MyButton--onTouchEvent:"+event.getAction());
-        switch (event.getAction()){
-            case 0:
-//                if(count == 0){
-//                    count++;
-//                    return true;
-//                }else {
-//                    count--;
-//                    return super.onTouchEvent(event);
-//                }
-            case 1:
-                return super.onTouchEvent(event);
-            case 2:
-                return true;
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                int downOffset = mScroller.getCurrY() - 0;
+                mScroller.startScroll(getScrollX(), getScrollY(), 0, 40 - downOffset);
+                invalidate();
+                break;
+            case MotionEvent.ACTION_UP:
+                int upOffset = mScroller.getCurrY() - 40;
+                mScroller.startScroll(getScrollX(), getScrollY(), 0, -40 - upOffset);
+                invalidate();
+                break;
         }
-        return super.onTouchEvent(event);
+        return true;
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        Log.i(TAG,"MyButton--onTouch:"+event.getAction());
-        return false;
+    public void computeScroll() {
+        if (mScroller.computeScrollOffset()) {
+            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+            postInvalidate();
+        }
     }
 }
