@@ -11,19 +11,12 @@ import android.test.ActivityInstrumentationTestCase2;
 public class MyTestActivity extends ActivityInstrumentationTestCase2<MainActivity> {
     private Context context;
 
-    public MyTestActivity() {
-        super(MainActivity.class);
+    public MyTestActivity() { // 不要传参，否则会报错：has no public constructor TestCase(String name) or TestCase()
+        super(MainActivity.class); // 传入泛型的class
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        context = getActivity().getApplicationContext(); // 防止内存泄漏
-    }
 
     public void testStart() {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+
     }
 }
