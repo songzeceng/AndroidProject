@@ -146,7 +146,7 @@ public class MainActivity extends Activity {
 
 //        useOfThreeKindsOfSubjects();
 
-        studyOfRecyclerView();
+//        studyOfRecyclerView();
 
         //安卓7.0(SDK版本24)才支持lambda表达式
         //studyOfLambda();
@@ -721,8 +721,10 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        subscription.unsubscribe();
-        subscription = null;
+        if (subscription != null) {
+            subscription.unsubscribe();
+            subscription = null;
+        }
     }
 
     @Override

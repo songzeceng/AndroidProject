@@ -13,5 +13,6 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
+        // test目录下只用于java的单元测试，不能用于android的单元测试
     }
 }
