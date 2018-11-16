@@ -13,7 +13,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.Process;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -30,7 +29,6 @@ import java.lang.reflect.Field;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class MainActivity extends Activity {
     public static final String TAG = "MainActivity";
@@ -62,7 +60,7 @@ public class MainActivity extends Activity {
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-//            if (studyOfAidl(name, service)) return;
+            if (studyOfAidl(name, service)) return;
 
 //            studyOfMessenger(service);
             System.out.println("service connected...");
@@ -134,7 +132,7 @@ public class MainActivity extends Activity {
     }
 
     private boolean studyOfAidl(ComponentName name, IBinder service) {
-        logger(name.toString()); // BinderProxy
+        logger(name.toString());
         isConnected = true;
         if (service == null) {
             logger("service is null");
@@ -142,11 +140,11 @@ public class MainActivity extends Activity {
         }
 
         try {
-            logger(service.getClass().getCanonicalName());
+            logger(service.getClass().getCanonicalName());  // BinderProxy
             if (personManager == null) {
                 personManager = IPersonManagerInterface.Stub.asInterface(service);
-                // Stub.proxy
-                logger(personManager.getClass().getCanonicalName());
+                // 客户端的是Stub.proxy，服务端的是Stub
+                logger("客户端peopleManager类型：" + personManager.getClass().getCanonicalName());
             }
             if (personManager != null) {
 
@@ -280,6 +278,62 @@ public class MainActivity extends Activity {
                 }
             }).start();
         }
+
+        /**
+         * Activity四种启动模式
+         *
+         * Standard: 收到新的Intent的时候，创建新的实例，新的实例和发送intent的activity在同一个任务栈中
+         * SingleTop: 收到新的Intent，如果这个activity在当前的任务栈顶，就复用，否则创建新的实例，和发送意图的activity在同一个任务栈
+         * SingleTask: 收到新的intent，如果此activity在当期的任务栈顶，不创建新的实例直接启动，
+         *                            否则将在其上面的activity全部弹出销毁，保证任务栈中只有自己的一个实例。
+         * SingleInstance: 始终保持一个实例，独占一个任务栈
+         *
+         * 屏幕旋转：
+         *
+         * 不设置android:configChanges:切横屏调用一次生命周期，竖屏调用两次
+         * android:configChanges = orientation:切横竖屏各一次
+         * android:configChanges = orientation|hiddenKeyBoard:不会调用生命周期，只会执行onConfigurationChanged()方法
+         *
+         * Vector：线程安全 2
+         *
+         * ArrayList：线程不安全 1.5
+         *
+         * HashMap:2，允许null键值对(位置0)，线程不安全
+         *
+         * HashTable:2n + 1，不允许null键值对，线程安全，效率高
+         *
+         * view设置id和不设置id的区别：
+         * 如果不给一个view设置一个id，那么在Activity调用onSaveInstantceState(Bundle outState)方法时，
+         * 就没办法保存它的状态，而且即使它当前是焦点view，也没办法将其焦点状态记录在Bundle对象中，这会导致在需要取出Bundle状态对象时，出现问题。
+         *
+         * Fragment生命周期：
+         * onAttach()
+         * onCreate()
+         * onCreateView()
+         * onActivtyCreated()
+         * onResume():Fragment可视
+         * onPause()
+         * onStop()
+         * onDestroyView()：如果Fragment重新可视，回到onCreateView()
+         * onDestroy()
+         * onDetach()
+         *
+         * Http安全性：
+         *  1、内容是明文 --》 ssl加密
+         *  2、不验证通信方身份 --》 ssl证书
+         *  3、不验证明文内容的完整性 -》 ssl摘要
+         *
+         * https密钥交换：
+         *  1、网站花钱从CA买一个数字证书，包括一个公钥一个私钥，这两个是非对称加密的
+         *  2、用户通过浏览器访问网站，网站服务器把公钥发给浏览器
+         *  3、浏览器发现不是权威CA发放的证书，警告用户
+         *  4、用户信任或本身就是权威CA的话，浏览器生成一个随机私钥，利用服务器发的公钥进行对称加密构成密文，发给服务器
+         *  5、服务器收到密文后，利用服务器的私钥解密，得到浏览器的随机私钥。
+         *
+         * GC：
+         *
+         */
+
     }
 
     @Override
@@ -289,5 +343,10 @@ public class MainActivity extends Activity {
             unbindService(connection);
             isConnected = false;
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
     }
 }

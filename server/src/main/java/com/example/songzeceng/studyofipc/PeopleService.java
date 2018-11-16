@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.songzeceng.studyofipc.IPersonManagerInterface.Stub;
@@ -29,49 +28,7 @@ public class PeopleService extends Service {
     private boolean isOut = false;
     private boolean isOver = false;
 
-    private final Stub peopleManager = new Stub() {
-
-        @Override
-        public List<Person> getPeople() throws RemoteException {
-            return peopleList;
-        }
-
-        @Override
-        public void addPerson(Person person) throws RemoteException {
-            boolean isNull = person == null;
-            logger("in person is null--" + isNull);
-            person.setAge(person.getAge() + 1);
-            peopleList.add(person);
-        }
-
-        @Override
-        public Person updatePerson(Person person) throws RemoteException {
-            boolean isNull = person == null;
-            logger("out person is null--" + isNull);
-            if (isNull) {
-                person = new Person();
-            } else {
-                logger(person.toString());
-            }
-            person.setAge(random.nextInt() % 40);
-            person.setName("jason");
-            return person;
-        }
-
-        @Override
-        public Person updatePerson2(Person person) throws RemoteException {
-            boolean isNull = person == null;
-            logger("inout person is null--" + isNull);
-            if (isNull) {
-                person = new Person();
-            } else {
-                logger(person.toString());
-            }
-            person.setAge(random.nextInt() % 40);
-            person.setName("mike");
-            return person;
-        }
-    };
+    private Stub peopleManager;
 
     private void logger(String msg) {
         Log.i(TAG, msg);
@@ -79,6 +36,9 @@ public class PeopleService extends Service {
 
     @Override
     public void onCreate() {
+        if (peopleManager == null) {
+            instanitiatePeopleManager();
+        }
 //        Person p = new Person("szc", 21);
 //        peopleList.add(p);
         new Thread(new Runnable() {
@@ -138,11 +98,63 @@ public class PeopleService extends Service {
         }).start();
     }
 
+    private void instanitiatePeopleManager() {
+        peopleManager = new Stub() {
+
+            @Override
+            public List<Person> getPeople() throws RemoteException {
+                return peopleList;
+            }
+
+            @Override
+            public void addPerson(Person person) throws RemoteException {
+                boolean isNull = person == null;
+                logger("in person is null--" + isNull);
+                person.setAge(person.getAge() + 1);
+                peopleList.add(person);
+            }
+
+            @Override
+            public Person updatePerson(Person person) throws RemoteException {
+                boolean isNull = person == null;
+                logger("out person is null--" + isNull);
+                if (isNull) {
+                    person = new Person();
+                } else {
+                    logger(person.toString());
+                }
+                person.setAge(random.nextInt() % 40);
+                person.setName("jason");
+                return person;
+            }
+
+            @Override
+            public Person updatePerson2(Person person) throws RemoteException {
+                boolean isNull = person == null;
+                logger("inout person is null--" + isNull);
+                if (isNull) {
+                    person = new Person();
+                } else {
+                    logger(person.toString());
+                }
+                person.setAge(random.nextInt() % 40);
+                person.setName("mike");
+                return person;
+            }
+        };
+    }
+
     @Override
     public IBinder onBind(Intent intent) {
         logger("有连接请求");
         logger(intent.toString());
-//        return peopleManager;
-        return null;
+        logger("服务器端的peopleManager类型：" + peopleManager.getClass().getName());
+        return peopleManager;
+//        return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
     }
 }
