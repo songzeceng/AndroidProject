@@ -1,4 +1,4 @@
-package applicationmanager.com.example.a123;
+package applicationmanager.com.example.a123.util;
 
 public class Constants {
     public static final String TAG = "MainActivity";

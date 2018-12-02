@@ -1,15 +1,20 @@
-package applicationmanager.com.example.a123;
+package applicationmanager.com.example.a123.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import applicationmanager.com.example.a123.R;
+import applicationmanager.com.example.a123.handler.IHandler;
+import applicationmanager.com.example.a123.util.Logger;
+import applicationmanager.com.example.a123.worker.WeakHandler;
+
 /**
  * Created by 123 on 2018/11/29.
  */
 
-public class BActivity extends Activity implements IHandler{
+public class BActivity extends Activity implements IHandler {
     private Thread thread = null;
     private WeakHandler handler = new WeakHandler(this); // 让handler持有activity的弱引用
     private volatile boolean shouldEnd = false; // 通过修改标志位终止一个无限循环的线程
@@ -17,7 +22,7 @@ public class BActivity extends Activity implements IHandler{
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            Logger.logger("myHandler got Message");
+            Logger.log("myHandler got Message");
         }
     };
 
@@ -25,39 +30,39 @@ public class BActivity extends Activity implements IHandler{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_b);
-        Logger.logger("B - onCreate()");
+        Logger.log("B - onCreate()");
         myHandler.sendEmptyMessageDelayed(0, 50 * 1000);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Logger.logger("B - onStart");
+        Logger.log("B - onStart");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Logger.logger("B - onResume");
+        Logger.log("B - onResume");
         handler.sendEmptyMessage(0);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Logger.logger("B - onPause");
+        Logger.log("B - onPause");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Logger.logger("B - onStop");
+        Logger.log("B - onStop");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Logger.logger("B - onDestroy");
+        Logger.log("B - onDestroy");
         if (thread != null) {
             shouldEnd = true;
         }

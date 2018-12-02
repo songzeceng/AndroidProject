@@ -1,10 +1,12 @@
-package applicationmanager.com.example.a123;
+package applicationmanager.com.example.a123.worker;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import applicationmanager.com.example.a123.util.Constants;
+
 public abstract class BaseWorker implements Runnable{
     protected ConcurrentLinkedQueue<Object> mTasks ;
-    ConcurrentLinkedQueue<Object> mResults ;
+    protected ConcurrentLinkedQueue<Object> mResults ;
 
     public void setTasks(ConcurrentLinkedQueue<Object> mTasks) {
         this.mTasks = mTasks;

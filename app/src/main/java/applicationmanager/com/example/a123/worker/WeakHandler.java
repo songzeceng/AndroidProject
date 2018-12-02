@@ -1,9 +1,11 @@
-package applicationmanager.com.example.a123;
+package applicationmanager.com.example.a123.worker;
 
 import android.os.Handler;
 import android.os.Message;
 
 import java.lang.ref.WeakReference;
+
+import applicationmanager.com.example.a123.handler.IHandler;
 
 public class WeakHandler extends Handler {
     private WeakReference<IHandler> handlerRef;

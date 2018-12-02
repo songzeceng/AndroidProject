@@ -1,9 +1,15 @@
-package applicationmanager.com.example.a123;
+package applicationmanager.com.example.a123.activity;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import applicationmanager.com.example.a123.R;
+import applicationmanager.com.example.a123.master.Master;
+import applicationmanager.com.example.a123.util.Logger;
 
 public class MainActivity extends Activity {
     private Master master;
@@ -12,30 +18,34 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Logger.logger("A - onCreate()");
+        Logger.log("A - onCreate()");
 //        startActivity(new Intent(this, BActivity.class));
+        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            Logger.log("申请写外存权限");
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Logger.logger("A - onStart");
+        Logger.log("A - onStart");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Logger.logger("A - onRestart");
+        Logger.log("A - onRestart");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Logger.logger("A - onResume");
+        Logger.log("A - onResume");
 
         int total = 0;
         int coreNumber = Runtime.getRuntime().availableProcessors();
-        Logger.logger("cpu核数：" + coreNumber);
+        Logger.log("cpu核数：" + coreNumber);
         master = new Master(coreNumber);
         for (int i = 1; i < 50; i++) {
             master.addTask(i);
@@ -55,25 +65,31 @@ public class MainActivity extends Activity {
         }
 
         long overTime = System.currentTimeMillis();
-        Logger.logger("用时：" + (int) (overTime - beginTime));
+        Logger.log("用时：" + (int) (overTime - beginTime));
+        int i = 2/0;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Logger.logger("A - onPause");
+        Logger.log("A - onPause");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Logger.logger("A - onStop");
+        Logger.log("A - onStop");
    //     mHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Logger.logger("A - onDestroy");
+        Logger.log("A - onDestroy");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
     }
 }

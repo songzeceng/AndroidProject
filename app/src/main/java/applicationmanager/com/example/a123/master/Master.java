@@ -1,7 +1,9 @@
-package applicationmanager.com.example.a123;
+package applicationmanager.com.example.a123.master;
 
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import applicationmanager.com.example.a123.worker.CalculateWorker;
 
 public class Master {
     // 根据cpu核数，创建worker线程

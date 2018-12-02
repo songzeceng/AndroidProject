@@ -1,4 +1,6 @@
-package applicationmanager.com.example.a123;
+package applicationmanager.com.example.a123.worker;
+
+import applicationmanager.com.example.a123.util.Constants;
 
 public class CalculateWorker extends BaseWorker {
     @Override
