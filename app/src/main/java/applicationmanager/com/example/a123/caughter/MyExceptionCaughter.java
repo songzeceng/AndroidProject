@@ -86,6 +86,7 @@ public class MyExceptionCaughter implements Thread.UncaughtExceptionHandler {
             PrintWriter writer = new PrintWriter(new FileOutputStream(file));
             e.printStackTrace(writer);
             writer.flush();
+            writer.close();
         } catch (Exception e1) {
             e1.printStackTrace();
         }
