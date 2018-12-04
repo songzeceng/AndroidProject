@@ -4,17 +4,16 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.os.Environment;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 
+import applicationmanager.com.example.a123.util.Constants;
 import applicationmanager.com.example.a123.util.Logger;
 
 public class MyExceptionCaughter implements Thread.UncaughtExceptionHandler {
     private static MyExceptionCaughter caughter;
-    public static final String SD_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
 
     private Context mContext;
     private Thread.UncaughtExceptionHandler mDefaultExceptionHandler;
@@ -71,17 +70,9 @@ public class MyExceptionCaughter implements Thread.UncaughtExceptionHandler {
         }
 
         try {
-            File dir = new File(SD_PATH + File.separator + "caughtExceptionInfo" + File.separator);
-            int number = 0;
-            if (!dir.exists()) {
-                dir.mkdirs();
-            } else if (dir.isDirectory()) {
-                number = dir.listFiles().length;
-            }
-            File file = new File(dir.getAbsolutePath() + File.separator + "info" + (number + 1) + ".txt");
-            if (!file.exists()) {
-                file.createNewFile();
-            }
+            File file = new File(Constants.INFO_PATH);
+            file.deleteOnExit();
+            file.createNewFile();
 
             PrintWriter writer = new PrintWriter(new FileOutputStream(file));
             e.printStackTrace(writer);

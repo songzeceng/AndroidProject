@@ -2,13 +2,20 @@ package applicationmanager.com.example.a123.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Application;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import com.alipay.euler.andfix.patch.PatchManager;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import applicationmanager.com.example.a123.R;
+import applicationmanager.com.example.a123.application.BaseApplication;
 import applicationmanager.com.example.a123.master.Master;
+import applicationmanager.com.example.a123.util.Constants;
 import applicationmanager.com.example.a123.util.Logger;
 
 public class MainActivity extends Activity {
@@ -23,6 +30,18 @@ public class MainActivity extends Activity {
         if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             Logger.log("申请写外存权限");
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        }
+
+        if (new File(Constants.PATCH_PATH).exists()) {
+            Application application = getApplication();
+            if (application instanceof BaseApplication) {
+                try {
+                    PatchManager patchManager = ((BaseApplication) application).getPatchManager();
+                    patchManager.addPatch(Constants.PATCH_PATH);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
