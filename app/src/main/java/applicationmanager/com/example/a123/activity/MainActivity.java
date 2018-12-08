@@ -15,11 +15,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import applicationmanager.com.example.a123.R;
 import applicationmanager.com.example.a123.application.BaseApplication;
 import applicationmanager.com.example.a123.master.Master;
+import applicationmanager.com.example.a123.master.MyDexFixMaster;
 import applicationmanager.com.example.a123.util.Constants;
 import applicationmanager.com.example.a123.util.Logger;
 
 public class MainActivity extends Activity {
     private Master master;
+    private MyDexFixMaster mDexFixMaster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,13 @@ public class MainActivity extends Activity {
                     e.printStackTrace();
                 }
             }
+
+//            mDexFixMaster = new MyDexFixMaster(this);
+//            try {
+//                mDexFixMaster.hotFix(Constants.PATCH_PATH);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
         }
     }
 
