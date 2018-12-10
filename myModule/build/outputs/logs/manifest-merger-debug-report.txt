@@ -1,0 +1,81 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:2:1-30:12
+	package
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:3:5-53
+		INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:2:1-30:12
+		INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:2:1-30:12
+		INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:5:5-96
+	android:name
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:5:22-77
+application
+ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:7:5-26:19
+	android:supportsRtl
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:13:9-35
+	android:label
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:11:9-41
+	android:roundIcon
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:12:9-54
+	android:icon
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:10:9-43
+	android:allowBackup
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:9:9-35
+	android:theme
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:14:9-40
+	android:name
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:8:9-38
+activity#com.example.songzeceng.studyofretrofit.MainActivity
+ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:15:9-16:20
+	android:name
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:15:19-47
+provider#android.support.v4.content.FileProvider
+ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:18:9-25:20
+	android:grantUriPermissions
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:22:13-47
+	android:authorities
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:19:13-78
+	android:exported
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:21:13-37
+	android:name
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:20:13-67
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:23:13-24:64
+	android:resource
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:24:17-51
+	android:name
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:23:24-74
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:28:5-83
+	android:name
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml:28:22-64
+uses-sdk
+INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml
+INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml
+INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml
+INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml
+		ADDED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\123\Desktop\szc\first\myModule\src\main\AndroidManifest.xml

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.songzeceng.studyofipc.test" >
+
+    <uses-sdk
+        android:minSdkVersion="24"
+        android:targetSdkVersion="26" />
+
+    <instrumentation
+        android:name="android.support.test.runner.AndroidJUnitRunner"
+        android:functionalTest="false"
+        android:handleProfiling="false"
+        android:label="Tests for com.example.songzeceng.studyofipc.test"
+        android:targetPackage="com.example.songzeceng.studyofipc.test" />
+
+    <application
+        android:allowBackup="true"
+        android:debuggable="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+        <uses-library android:name="android.test.runner" />
+
+        <activity android:name="com.example.songzeceng.studyofipc.MainActivity" />
+
+        <service
+            android:name="com.example.songzeceng.studyofipc.PeopleService"
+            android:exported="true"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.example.songzeceng" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.example.songzeceng.studyofipc.MessengerService"
+            android:exported="true"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.example.songzeceng.Messenger" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+        <provider
+            android:name="com.example.songzeceng.studyofipc.PersonProvider"
+            android:authorities="com.example.songzeceng.PersonProvider"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:process=":provider" >
+        </provider>
+    </application>
+
+</manifest>

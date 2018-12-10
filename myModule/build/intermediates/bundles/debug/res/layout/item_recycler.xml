@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="4dp"
+    android:layout_margin="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/iv_img"
+            android:layout_width="100dp"
+            android:gravity="center"
+            android:layout_marginRight="10dp"
+            android:layout_height="85dp" />
+        <TextView
+            android:id="@+id/tv_img"
+            android:layout_width="135dp"
+            android:gravity="center"
+            android:layout_height="85dp" />
+
+        <Button
+            android:id="@+id/btn_img"
+            android:text="这是哪个队"
+            android:gravity="center"
+            android:layout_width="115dp"
+            android:layout_height="85dp" />
+    </LinearLayout>
+
+
+
+</android.support.v7.widget.CardView>

@@ -1,0 +1,62 @@
+[
+    {
+        "merged": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\res\\merged\\androidTest\\debug\\mipmap-xxxhdpi-v4_ic_launcher.png.flat",
+        "source": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\bundles\\debug\\res\\mipmap-xxxhdpi-v4\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\res\\merged\\androidTest\\debug\\mipmap-xxhdpi-v4_ic_launcher.png.flat",
+        "source": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\bundles\\debug\\res\\mipmap-xxhdpi-v4\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\res\\merged\\androidTest\\debug\\mipmap-xhdpi-v4_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\bundles\\debug\\res\\mipmap-xhdpi-v4\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\bundles\\debug\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\res\\merged\\androidTest\\debug\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\bundles\\debug\\res\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\res\\merged\\androidTest\\debug\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\bundles\\debug\\res\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\res\\merged\\androidTest\\debug\\mipmap-xxxhdpi-v4_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\bundles\\debug\\res\\mipmap-xxxhdpi-v4\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\res\\merged\\androidTest\\debug\\mipmap-mdpi-v4_ic_launcher.png.flat",
+        "source": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\bundles\\debug\\res\\mipmap-mdpi-v4\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\bundles\\debug\\res\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\bundles\\debug\\res\\drawable-v24\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\res\\merged\\androidTest\\debug\\mipmap-hdpi-v4_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\bundles\\debug\\res\\mipmap-hdpi-v4\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\res\\merged\\androidTest\\debug\\mipmap-xxhdpi-v4_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\bundles\\debug\\res\\mipmap-xxhdpi-v4\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\res\\merged\\androidTest\\debug\\mipmap-xhdpi-v4_ic_launcher.png.flat",
+        "source": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\bundles\\debug\\res\\mipmap-xhdpi-v4\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\res\\merged\\androidTest\\debug\\mipmap-mdpi-v4_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\bundles\\debug\\res\\mipmap-mdpi-v4\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\res\\merged\\androidTest\\debug\\mipmap-hdpi-v4_ic_launcher.png.flat",
+        "source": "C:\\Users\\123\\Desktop\\szc\\first\\server\\build\\intermediates\\bundles\\debug\\res\\mipmap-hdpi-v4\\ic_launcher.png"
+    }
+]
