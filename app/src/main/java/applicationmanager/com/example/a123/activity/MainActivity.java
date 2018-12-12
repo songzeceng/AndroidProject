@@ -3,6 +3,7 @@ package applicationmanager.com.example.a123.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import applicationmanager.com.example.a123.MyReceiveService;
 import applicationmanager.com.example.a123.R;
 import applicationmanager.com.example.a123.application.BaseApplication;
 import applicationmanager.com.example.a123.master.Master;
@@ -94,7 +96,11 @@ public class MainActivity extends Activity {
 
         long overTime = System.currentTimeMillis();
         Logger.log("用时：" + (int) (overTime - beginTime));
-        int i = 2/0;
+//        int i = 2/0;
+
+        Intent serviceIntent = new Intent(this, MyReceiveService.class);
+        serviceIntent.putExtra("type", "start");
+        startService(serviceIntent);
     }
 
     @Override
