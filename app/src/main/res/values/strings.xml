@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">StudyOfDataBinding</string>
+    <string name="personName">姓名:</string>
+    <string name="personAge">年龄:</string>
+    <string name="personDescription">描述:</string>
+    <string name="separator">-------</string>
+</resources>

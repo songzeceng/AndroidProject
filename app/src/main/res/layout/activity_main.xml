@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- 根节点换成layout -->
+
+    <!-- 数据区包裹在<data>标签下 -->
+    <data>
+        <import type="android.databinding.ObservableArrayMap"/>
+        <import type="android.databinding.ObservableInt"/>
+        <import type="android.databinding.ObservableField"/>
+        <import type="android.databinding.ObservableArrayList"/>
+        <!-- 导包 -->
+
+        <variable
+            name="person"
+            type="applicationmanager.com.example.a123.studyofdatabinding.javaBean.Person"/>
+        <!-- 声明要用到的变量，名字和类型 -->
+        <variable
+            name="count"
+            type="ObservableInt"/>
+        <variable
+            name="info"
+            type="ObservableField&lt;String&gt;"/>
+        <!-- <>括号要转义，<改成&lt; >改成&gt; -->
+        <variable
+            name="maps"
+            type="ObservableArrayMap&lt;String, String&gt;"/>
+        <variable
+            name="arrays"
+            type="android.databinding.ObservableArrayList&lt;String&gt;"/>
+        <variable
+            name="index"
+            type="int"/>
+        <variable
+            name="monitor"
+            type="applicationmanager.com.example.a123.studyofdatabinding.monitor.Monitor"/>
+    </data>
+
+    <!-- 原来的布局 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{person.name}" />
+        <!-- 获取属性 -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf((Integer)count)}"/>
+        <!-- 整数必须先转成Integer，再转成String -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{info}"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{maps["name"]}'/>
+        <!-- 根据键取值 -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{maps["description"]}'/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{arrays[index]}'/>
+        <!-- 遍历数组不是很方便 -->
+        <ListView
+            android:id="@+id/list_people"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/increment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击改变"
+            android:onClick="@{monitor::onClick}"/>
+        <!-- 绑定监听，自动传入view -->
+        <Button
+            android:id="@+id/decrement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击减少"
+            android:onClick="@{monitor::onClick}"/>
+    </LinearLayout>
+</layout>
