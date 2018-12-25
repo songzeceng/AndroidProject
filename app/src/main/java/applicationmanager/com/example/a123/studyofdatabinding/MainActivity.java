@@ -26,6 +26,7 @@ public class MainActivity extends Activity implements IActivity {
     private ObservableField<String> infoObservable = new ObservableField<>();
     private ObservableArrayMap<String, String> mapObservable = new ObservableArrayMap<>();
     private ObservableArrayList<String> arraysObservable = new ObservableArrayList<>();
+    private ObservableInt indexObservable = new ObservableInt();
     private Person person;
     private ViewDataBinding mBinding;
 
@@ -74,8 +75,16 @@ public class MainActivity extends Activity implements IActivity {
         mBinding.setVariable(applicationmanager.com.example.a123.studyofdatabinding.BR.info, infoObservable);
         mBinding.setVariable(applicationmanager.com.example.a123.studyofdatabinding.BR.maps, mapObservable);
         mBinding.setVariable(applicationmanager.com.example.a123.studyofdatabinding.BR.arrays, arraysObservable);
+        mBinding.setVariable(BR.index, indexObservable);
         mBinding.setVariable(BR.monitor,mMonitor);
         // 绑定数据
+
+//        findViewById(R.id.increment).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                person.setAge(person.getAge() + 1);
+//            }
+//        });
 
         new Thread(new Runnable() {
             @Override
@@ -89,8 +98,22 @@ public class MainActivity extends Activity implements IActivity {
                     mapObservable.put("name", name);
                     mapObservable.put("description", decription);
                     arraysObservable.add(name);
-                    arraysObservable.set(0, name);
+//                    arraysObservable.set(0, name);
 
+                    try {
+                        Thread.sleep(3 * 1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 10; i++) {
+                    indexObservable.set(i);
                     try {
                         Thread.sleep(3 * 1000);
                     } catch (InterruptedException e) {

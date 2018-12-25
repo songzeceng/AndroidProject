@@ -30,7 +30,7 @@
             type="android.databinding.ObservableArrayList&lt;String&gt;"/>
         <variable
             name="index"
-            type="int"/>
+            type="ObservableInt"/>
         <variable
             name="monitor"
             type="applicationmanager.com.example.a123.studyofdatabinding.monitor.Monitor"/>
@@ -46,7 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{person.name}" />
+            android:text="@{person.name + @string/separator + person.age}" />
         <!-- 获取属性 -->
 
         <TextView
@@ -74,7 +74,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='@{arrays[index]}'/>
+            android:text="@{arrays[index]}"/>
         <!-- 遍历数组不是很方便 -->
         <ListView
             android:id="@+id/list_people"
@@ -86,7 +86,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="点击改变"
-            android:onClick="@{monitor::onClick}"/>
+            android:onClick="@{monitor::onClick}"
+            />
         <!-- 绑定监听，自动传入view -->
         <Button
             android:id="@+id/decrement"

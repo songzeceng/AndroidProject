@@ -45,6 +45,7 @@ public class Person  extends BaseObservable {
 
     public void setUrl(String url) {
         this.url = url;
+        notifyPropertyChanged(BR.url);
     }
 
     @Override
