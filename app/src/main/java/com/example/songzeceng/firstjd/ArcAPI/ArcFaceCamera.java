@@ -132,12 +132,16 @@ public class ArcFaceCamera implements SurfaceHolder.Callback {
 
 					if (rect != null) {
 						//画人脸框
+						// faceTracker:1280 * 768
+						// canvas:720 * 1096
 						Rect adjustedRect = DrawUtils.adjustRect(rect, faceTrackService.getWidth(), faceTrackService.getHeight(),
 								canvas.getWidth(), canvas.getHeight(), cameraOri, cameraId);
+						// adjustedRect:Rect(204, 100 - 820, 716)
 						DrawUtils.drawFaceRect(canvas, adjustedRect, Color.YELLOW, 4);
 
 						Rect rect1=DrawUtils.adjustRect(rect, previewSizeX, previewSizeY,
 								canvas.getWidth(), canvas.getHeight(), cameraOri, cameraId);
+						// rect1：Rect(145, 391 - 597, 886)
 						if (rect1.right < previewSizeX - 100) {
 							canvas.drawText("张三", rect1.right + 30, rect1.bottom, paint);
 						} else {
