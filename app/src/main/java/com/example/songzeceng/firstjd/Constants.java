@@ -8,6 +8,7 @@ public class Constants {
 	public static String FR_KEY = "8BzsFWHVFLf6Y5WQ1i2n9WpcbLNxkRzFqATURvjHEFkb";
 	public static String AGE_KEY = "8BzsFWHVFLf6Y5WQ1i2n9Wprv8uGXwkHVJf8xVyhk64H";
 	public static String GENDER_KEY = "8BzsFWHVFLf6Y5WQ1i2n9Wpz5YAUk37MbUE1PBgbtBE7";
+	public static final String SDK_KEY_2 = "8BzsFWHVFLf6Y5WQ1i2n9X9dZ72RVgxckygmqANo1KxJ";
 
 //	public static String IDCARDAPPID = "";
 //	public static String IDCARDSDKKEY = "";

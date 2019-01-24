@@ -1,10 +1,10 @@
 package com.example.songzeceng.firstjd.ArcAPI;
 
-import com.arcsoft.facetracking.AFT_FSDKFace;
+import com.example.songzeceng.firstjd.Face;
 
 import java.util.List;
 
 public interface CameraPreviewListener {
-	void onPreviewData(byte[] data,List<AFT_FSDKFace> fsdkFaces);
+	void onPreviewData(byte[] data,List<Face> fsdkFaces);
 	void onPreviewSize(int width,int height);
 }

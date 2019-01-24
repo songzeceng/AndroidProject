@@ -1,5 +1,12 @@
 package com.example.songzeceng.firstjd;
 
+import android.content.pm.FeatureInfo;
+
+import com.arcsoft.face.Face3DAngle;
+import com.arcsoft.face.FaceFeature;
+import com.arcsoft.face.FaceInfo;
+import com.arcsoft.face.LivenessInfo;
+
 import java.io.Serializable;
 
 public class Face implements Serializable {
@@ -7,6 +14,13 @@ public class Face implements Serializable {
 	private byte[] data;
 	private int age = -1;
 	private int gender = -1;
+	private FaceInfo faceInfo;
+	private Face3DAngle face3DAngle;
+	private LivenessInfo livenessInfo;
+	private FaceFeature faceFeature;
+
+	public Face() {
+	}
 
 	public Face(String name, byte[] data, int age, int gender) {
 		this.name = name;
@@ -50,5 +64,33 @@ public class Face implements Serializable {
 
 	public void setData(byte[] data) {
 		this.data = data;
+	}
+
+	public FaceInfo getFaceInfo() {
+		return faceInfo;
+	}
+
+	public void setFaceInfo(FaceInfo faceInfo) {
+		this.faceInfo = faceInfo;
+	}
+
+	public Face3DAngle getFace3DAngle() {
+		return face3DAngle;
+	}
+
+	public void setFace3DAngle(Face3DAngle face3DAngle) {
+		this.face3DAngle = face3DAngle;
+	}
+
+//	public void setLivenessInfo(LivenessInfo livenessInfo) {
+//		this.livenessInfo = livenessInfo;
+//	}
+//
+	public FaceFeature getFaceFeature() {
+		return faceFeature;
+	}
+
+	public void setFaceFeature(FaceFeature faceFeature) {
+		this.faceFeature = faceFeature;
 	}
 }

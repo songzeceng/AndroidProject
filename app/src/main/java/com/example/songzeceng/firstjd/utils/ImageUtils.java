@@ -7,8 +7,8 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 
-import com.arcsoft.facedetection.AFD_FSDKFace;
-import com.arcsoft.facetracking.AFT_FSDKFace;
+import com.arcsoft.face.FaceInfo;
+import com.example.songzeceng.firstjd.Face;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -59,7 +59,7 @@ public class ImageUtils {
 		}
 	}
 
-	public static int findFDMaxAreaFace(List<AFD_FSDKFace> fdFaceList) {
+	public static int findFDMaxAreaFace(List<FaceInfo> fdFaceList) {
 		if (fdFaceList.size() == 0) {
 			return -1;
 		}
@@ -76,15 +76,17 @@ public class ImageUtils {
 		return index;
 	}
 
-	public static int findFTMaxAreaFace(List<AFT_FSDKFace> ftFaceList) {
-		if (ftFaceList.size() == 0) {
+	public static int findFTMaxAreaFace(List<Face> ftFaceList) {
+		if (ftFaceList == null || ftFaceList.size() == 0) {
 			return -1;
 		}
 		int index = 0;
 		int maxArea = 0;
 		int area;
 		for (int i = 0; i < ftFaceList.size(); i++) {
-			area = ftFaceList.get(i).getRect().width() * ftFaceList.get(i).getRect().height();
+			FaceInfo faceInfo = ftFaceList.get(i).getFaceInfo();
+			Rect rect = faceInfo.getRect();
+			area = rect.width() * rect.height();
 			if (area > maxArea) {
 				maxArea = area;
 				index = i;
@@ -103,6 +105,10 @@ public class ImageUtils {
 		YuvImage yuv = new YuvImage(faceData, ImageFormat.NV21, imageWidth, imageHeight, null);
 		ByteArrayOutputStream ops = new ByteArrayOutputStream();
 		try {
+			/*
+				wholeImage:Rect(0, 0 - 1280, 768)
+				rectangle:Rect(125, 49 - 817, 741)
+			 */
 			yuv.compressToJpeg(rect, 100, ops);
 			byte[] bytes = ops.toByteArray();
 			bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);

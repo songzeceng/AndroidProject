@@ -28,12 +28,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.arcsoft.facetracking.AFT_FSDKFace;
 import com.example.songzeceng.firstjd.ArcAPI.ArcFaceCamera;
-import com.example.songzeceng.firstjd.ArcAPI.ArcFaceCamera2;
 import com.example.songzeceng.firstjd.ArcAPI.CameraPreviewListener;
-import com.example.songzeceng.firstjd.FaceAPI.FaceRecognizer;
-import com.example.songzeceng.firstjd.FaceAPI.FaceSearchListener;
 import com.example.songzeceng.firstjd.View.OverlayView;
 import com.example.songzeceng.firstjd.utils.ImageUtils;
 
@@ -53,6 +49,8 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 	SurfaceView surfce_preview, surfce_rect;
 	TextView tv_status, tv_name, tv_age, tv_gender;
 	ImageView iv_face;
+	private View dialogView;
+	private EditText input;
 
 	//相机的位置
 	private int cameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
@@ -61,10 +59,10 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 	private int cameraOri = 90;
 	public static int flag = 0;
 
-	FaceRecognizer faceRecognitionService;
+	//	FaceRecognizer faceRecognitionService;
 	private boolean useCamera2API;
 
-	private ArcFaceCamera2 arcFaceCamera2 = null;
+	//	private ArcFaceCamera2 arcFaceCamera2 = null;
 	private int previewHeight;
 	private int previewWidth;
 	private int sensorOrientation;
@@ -87,7 +85,7 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 		surfce_rect = findViewById(R.id.surfce_rect);
 		iv_face = findViewById(R.id.iv_face);
 
-		faceRecognitionService = new FaceRecognizer();
+//		faceRecognitionService = new FaceRecognizer();
 
 		ArcFaceCamera.getInstance().setCameraPreviewListener(this);
 		ArcFaceCamera.getInstance().init(cameraId);
@@ -164,78 +162,98 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 	}
 
 	//开始检测
-	public synchronized void detect(final byte[] data, final List<AFT_FSDKFace> fsdkFaces) {
-
-
-		if (fsdkFaces.size() > 0) {//如果有人脸进行注册、识别
-			final AFT_FSDKFace aft_fsdkFace = fsdkFaces.get(0).clone();
-			if (flag == 1) {
-				flag = -1;
-				final Face faceData = faceRecognitionService.faceData(data, aft_fsdkFace
-						.getRect(), aft_fsdkFace.getDegree());
-				final View dialogView = getLayoutInflater().inflate(R.layout.regist_dialog, null);
-				new AlertDialog.Builder(this).setTitle("输入名字").setView(dialogView)
-						.setPositiveButton("确定", new
-								DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int which) {
-										EditText input = dialogView.findViewById(R.id.input_name);
-										faceData.setName(input.getText().toString());
-										faces.add(faceData);
-										toast("注册成功，姓名为：" + faceData.getName());
-										finish();
-									}
-								}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						toast("注册取消");
-						finish();
-						dialog.dismiss();
-					}
-				}).show();
-			} else if (flag == 2) {
-				Face faceData = faceRecognitionService.faceData(data, aft_fsdkFace
-						.getRect(), aft_fsdkFace.getDegree());
-
-				List<byte[]> faceList = new ArrayList<>();
-				for (Face face : faces) {
-					faceList.add(face.getData());
-				}
-
-				faceRecognitionService.faceSerch(faceData.getData(), faceList, new
-						FaceSearchListener() {
-							@Override
-							public void serchFinish(float sorce, int position) {
-								Log.e("LivenessActivity", "sorce：" + sorce + "，position：" +
-										position);
-								if (sorce > 0.7) {
-									Face face = faces.get(position);
-									tv_name.setText(face.getName() + "：相似度：" +
-											sorce);
-									tv_age.setText("" + face.getAge());
-									tv_gender.setText(face.getGender() == 0 ? "男" : "女");
-									iv_face.setImageBitmap(ImageUtils.cropFace(data, aft_fsdkFace
-											.getRect
-													(), mWidth, mHeight, cameraOri));
-								} else {
-									tv_name.setText("");
-								}
-							}
-						});
-				flag = -1;
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							Thread.sleep(500);
-							flag = 2;
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-				}).start();
-			}
+	public synchronized void detect(final byte[] data, final List<Face> fsdkFaces) {
+		if (fsdkFaces.size() <= 0) {
+			return;
 		}
+		//如果有人脸进行注册、识别
+//			final FaceInfo aft_fsdkFace = fsdkFaces.get(0).getFaceInfo().clone();
+		if (flag == 1) {
+			flag = -1;
+			final Face faceData = fsdkFaces.get(0);
+			if (dialogView == null) {
+				dialogView = getLayoutInflater().inflate(R.layout.regist_dialog, null);
+			}
+			new AlertDialog.Builder(this).setTitle("输入名字").setView(dialogView)
+					.setPositiveButton("确定", new
+							DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									if (input == null) {
+										input = dialogView.findViewById(R.id.input_name);
+									}
+									faceData.setName(input.getText().toString());
+									faces.add(faceData);
+									toast("注册成功，姓名为：" + faceData.getName());
+									finish();
+								}
+							}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					toast("注册取消");
+					finish();
+					dialog.dismiss();
+				}
+			}).show();
+		} else if (flag == 2) {
+			Face faceData = fsdkFaces.get(0);
+
+			List<Face> faceList = new ArrayList<>();
+//				for (Face face : faces) {
+//					faceList.add(face.getData());
+//				}
+			faceList.addAll(faces);
+			Object[] results = ArcFaceCamera.getInstance().searchFace(faceData, faceList);
+			if (results != null) {
+				Face result = (Face) results[0];
+				float score = (Float) results[1];
+				if (result != null) {
+					tv_name.setText(result.getName() + "：相似度：" +
+							score);
+					tv_age.setText("" + result.getAge());
+					tv_gender.setText(result.getGender() == 0 ? "男" : "女");
+					iv_face.setImageBitmap(ImageUtils.cropFace(data, faceData.getFaceInfo()
+							.getRect
+									(), mWidth, mHeight, cameraOri));
+				} else {
+					tv_name.setText("");
+				}
+			}
+
+//				faceRecognitionService.faceSerch(faceData.getData(), faceList, new
+//						FaceSearchListener() {
+//							@Override
+//							public void serchFinish(float sorce, int position) {
+//								Log.e("LivenessActivity", "sorce：" + sorce + "，position：" +
+//										position);
+//								if (sorce > 0.7) {
+//									Face face = faces.get(position);
+//									tv_name.setText(face.getName() + "：相似度：" +
+//											sorce);
+//									tv_age.setText("" + face.getAge());
+//									tv_gender.setText(face.getGender() == 0 ? "男" : "女");
+//									iv_face.setImageBitmap(ImageUtils.cropFace(data, aft_fsdkFace
+//											.getRect
+//													(), mWidth, mHeight, cameraOri));
+//								} else {
+//									tv_name.setText("");
+//								}
+//							}
+//						});
+			flag = -1;
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(500);
+						flag = 2;
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+		}
+
 	}
 
 	public void toast(final String test) {
@@ -251,12 +269,13 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 	protected void onDestroy() {
 		super.onDestroy();
 //		livenessService.destoryEngine();
-		faceRecognitionService.destroyEngine();
+//		faceRecognitionService.destroyEngine();
 //		IdCardVerifyManager.getInstance().unInit();
+		ArcFaceCamera.getInstance().destroyEngine();
 	}
 
 	@Override
-	public void onPreviewData(byte[] data, List<AFT_FSDKFace> fsdkFaces) {
+	public void onPreviewData(byte[] data, List<Face> fsdkFaces) {
 		detect(data, fsdkFaces);
 	}
 
@@ -266,7 +285,7 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 	public void onPreviewSize(int width, int height) {
 		mHeight = height;
 		mWidth = width;
-		faceRecognitionService.setSize(width, height);
+//		faceRecognitionService.setSize(width, height);
 	}
 
 	public void onPreviewSizeChosen(final Size size, final int rotation) {
@@ -323,7 +342,7 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 
 		Log.i(TAG, "Camera2获取图片的格式：" + image.getFormat()); // 35:YUV_420_888
 
-		detect(bytes, arcFaceCamera2.getRawFaces(bytes));
+//		detect(bytes, arcFaceCamera2.getRawFaces(bytes));
 		image.close();
 	}
 }
