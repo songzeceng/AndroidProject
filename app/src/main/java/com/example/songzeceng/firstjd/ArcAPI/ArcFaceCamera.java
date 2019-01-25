@@ -57,7 +57,10 @@ public class ArcFaceCamera implements SurfaceHolder.Callback {
 		surfce_rect.setZOrderMediaOverlay(true);
 		surfce_rect.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 //		faceTrackService = new FaceTracker();
-		mFaceEngineManager = new FaceEngineManager(activity);
+		if (mFaceEngineManager == null) {
+			mFaceEngineManager = new FaceEngineManager(activity);
+		}
+		mFaceEngineManager.initEngine(activity);
 	}
 
 

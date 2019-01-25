@@ -22,6 +22,7 @@ import static com.arcsoft.face.FaceEngine.CP_PAF_NV21;
 
 public class FaceEngineManager {
 	public static final String TAG = "FaceEngineManager";
+	private static boolean hasActived = false;
 	private FaceEngine mFaceEngine;
 	private List<FaceInfo> mFaceInfoList = new ArrayList<>();
 	private List<AgeInfo> mAgeInfoList = new ArrayList<>();
@@ -36,15 +37,20 @@ public class FaceEngineManager {
 
 	public FaceEngineManager(Context context) {
 		mFaceEngine = new FaceEngine();
-		int activeCode = mFaceEngine.active(context,
-				Constants.APP_ID,
-				Constants.SDK_KEY_2);
-		if (activeCode == ErrorInfo.MOK) {
-			Log.d(TAG, "人脸引擎激活成功");
-		} else {
-			Log.d(TAG, "人脸引擎激活失败 " + activeCode);
+		if (!hasActived) {
+			int activeCode = mFaceEngine.active(context,
+					Constants.APP_ID,
+					Constants.SDK_KEY_2);
+			if (activeCode == ErrorInfo.MOK) {
+				Log.d(TAG, "人脸引擎激活成功");
+			} else {
+				Log.d(TAG, "人脸引擎激活失败 " + activeCode);
+			}
+			hasActived = true;
 		}
+	}
 
+	public void initEngine(Context context) {
 		int engineCode = mFaceEngine.init(context,
 				FaceEngine.ASF_DETECT_MODE_VIDEO,
 				FaceEngine.ASF_OP_270_ONLY,
@@ -139,21 +145,23 @@ public class FaceEngineManager {
 			return;
 		}
 		for (int i = 0; i < mFaceInfoList.size(); i++) {
-			Log.i(TAG, "人脸信息 " + mFaceInfoList.get(i).toString() + " " +
-					"年龄" + mAgeInfoList.get(i).getAge() +
-					" 性别 " + mGenderInfoList.get(i).getGender() +
-					" 角度 " + mFace3DAngleList.get(i).toString());
-		}
-		//将检测到的信息存储到FaceDetectInfo中
-		for (FaceInfo faceInfo : mFaceInfoList) {
-			int index = mFaceInfoList.indexOf(faceInfo);
+			FaceInfo faceInfo = mFaceInfoList.get(i);
+			int age = mAgeInfoList.get(i).getAge();
+			int gender = mGenderInfoList.get(i).getGender();
+			Face3DAngle face3DAngle = mFace3DAngleList.get(i);
+
+			Log.i(TAG, "人脸信息 " + faceInfo.toString() + " " +
+					"年龄" + age + " 性别 " + gender +
+					" 角度 " + face3DAngle.toString());
+			if (!isAgeGenderValid(age, gender)) {
+				continue;
+			}
 			Face faceDetectInfo = new Face();
-			faceDetectInfo.setFaceInfo(mFaceInfoList.get(index));
-			faceDetectInfo.setFace3DAngle(mFace3DAngleList.get(index));
-			faceDetectInfo.setAge(mAgeInfoList.get(index).getAge());
-			faceDetectInfo.setGender(mGenderInfoList.get(index).getGender());
-//			faceDetectInfo.setLivenessInfo(mLivenessInfoList.get(index));
-			faceDetectInfo.setFaceFeature(mFaceFeatureList.get(index));
+			faceDetectInfo.setFaceInfo(faceInfo);
+			faceDetectInfo.setFace3DAngle(face3DAngle);
+			faceDetectInfo.setAge(age);
+			faceDetectInfo.setGender(gender);
+			faceDetectInfo.setFaceFeature(mFaceFeatureList.get(i));
 			mFaceResults.add(faceDetectInfo);
 		}
 	}
@@ -176,6 +184,10 @@ public class FaceEngineManager {
 		}
 
 		return new Object[]{result, maxGoal};
+	}
+
+	private boolean isAgeGenderValid(int age, int gender) {
+		return age >= 0 && (gender == 0 || gender == 1);
 	}
 
 	public float compareFaceFeature(FaceFeature faceFeature1, FaceFeature faceFeature2) {

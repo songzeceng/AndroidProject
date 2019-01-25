@@ -211,10 +211,24 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 					tv_name.setText(result.getName() + "：相似度：" +
 							score);
 					tv_age.setText("" + result.getAge());
-					tv_gender.setText(result.getGender() == 0 ? "男" : "女");
-					iv_face.setImageBitmap(ImageUtils.cropFace(data, faceData.getFaceInfo()
-							.getRect
-									(), mWidth, mHeight, cameraOri));
+					String genderStr = "";
+					switch (result.getGender()) {
+						case 0:
+							genderStr = "男";
+							break;
+						case 1:
+							genderStr = "女";
+							break;
+						default:
+							genderStr = "未知";
+							break;
+					}
+					tv_gender.setText(genderStr);
+					Bitmap bitmap = ImageUtils.cropFace(data, faceData.getFaceInfo().getRect(),
+							mWidth, mHeight, cameraOri);
+					if (bitmap != null) {
+						iv_face.setImageBitmap(bitmap);
+					}
 				} else {
 					tv_name.setText("");
 				}
