@@ -106,8 +106,9 @@ public class ImageUtils {
 			yuv.compressToJpeg(rect, 100, ops);
 			byte[] bytes = ops.toByteArray();
 			bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+			return rotateBitmap(bitmap, -angle);
 		} catch (Exception e) {
-			bitmap = null;
+			e.printStackTrace();
 		} finally {
 			try {
 				ops.close();
@@ -115,7 +116,7 @@ public class ImageUtils {
 				e.printStackTrace();
 			}
 		}
-		return rotateBitmap(bitmap, -angle);
+		return null;
 	}
 
 
