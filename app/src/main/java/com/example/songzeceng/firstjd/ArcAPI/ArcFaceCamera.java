@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ImageFormat;
-import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -134,13 +133,7 @@ public class ArcFaceCamera implements SurfaceHolder.Callback {
 	private void drawFaceRect(List<AFT_FSDKFace> fsdkFaces) {
 		final SurfaceHolder rectHolder = mSurfceRect.getHolder();
 		final Canvas canvas = rectHolder.lockCanvas();
-
-		Paint paint = new Paint();
-		paint.setColor(Color.RED);
-		paint.setStyle(Paint.Style.FILL);
-		paint.setStrokeWidth(5);
-		paint.setTextSize(80);
-
+		// surfaceRect.getWidth() = canvas.getWidth() = 720
 		for (AFT_FSDKFace aft_fsdkFace : fsdkFaces) {
 			if (aft_fsdkFace.getRect() == null) {
 				continue;
@@ -173,10 +166,6 @@ public class ArcFaceCamera implements SurfaceHolder.Callback {
 		mCamera.release();
 		mCamera = null;
 		mFaceTracker.destoryEngine();
-	}
-
-	private static class SingletonHolder {
-		public static ArcFaceCamera INSTANCE = new ArcFaceCamera();
 	}
 
 	//设置相机预览分辨率，可以自己设置

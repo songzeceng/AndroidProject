@@ -4,22 +4,14 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.media.Image;
-import android.media.ImageReader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.Size;
-import android.view.Display;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
@@ -35,18 +27,14 @@ import com.example.songzeceng.firstjd.FaceAPI.FaceRecognizer;
 import com.example.songzeceng.firstjd.FaceAPI.FaceSearchListener;
 import com.example.songzeceng.firstjd.utils.ImageUtils;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import permison.PermissonUtil;
 import permison.listener.PermissionListener;
 
-public class LivenessActivity extends AppCompatActivity implements CameraPreviewListener,
-		ImageReader.OnImageAvailableListener {
+public class LivenessActivity extends AppCompatActivity implements CameraPreviewListener {
 	private static final String TAG = "LivenessActivity";
-	private static final float TEXT_SIZE_DIP = 12;
-	private static Size DESIRED_PREVIEW_SIZE = new Size(800, 600);
 	private static List<Face> faces = new ArrayList<>();
 	public static int flag = 0;
 
@@ -56,24 +44,14 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 
 	//相机的位置
 	private int mCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
-	private String mCameraIdFor2;
 	//相机的方向
 	private int mCameraOri = 90;
 	FaceRecognizer mFaceRecognitionService;
-	private boolean mUseCamera2API;
 	int mWidth, mHeight;
-//	private ArcFaceCamera2 mArcFaceCamera2 = null;
-	private int mPreviewHeight;
-	private int mPreviewWidth;
-	private int mSensorOrientation;
-	private boolean mDebug;
-	private Bitmap mTextureCopyBitmap;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mCameraIdFor2 = chooseCamera();
-		// int layout = mUseCamera2API ? R.layout.activity_liveness_2 : R.layout.activity_liveness;
 		int layout = R.layout.activity_liveness;
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(layout);
@@ -89,29 +67,12 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 
 		ArcFaceCamera.getInstance().setCameraPreviewListener(this);
 		ArcFaceCamera.getInstance().init(mCameraId);
-//		if (!mUseCamera2API) {
-//			ArcFaceCamera.getInstance().setCameraPreviewListener(this);
-//			ArcFaceCamera.getInstance().init(mCameraId);
-//		} else {
-//			mArcFaceCamera2 = new ArcFaceCamera2(new ArcFaceCamera2.ConnectionCallback() {
-//				@Override
-//				public void onPreviewSizeChosen(final Size size, final int rotation) {
-//					mPreviewHeight = size.getHeight();
-//					mPreviewWidth = size.getWidth();
-//					LivenessActivity.this.onPreviewSizeChosen(size, rotation);
-//				}
-//			}, this, getDesiredPreviewFrameSize(), this, (AutoTextureView) findViewById(R.id
-//					.texture));
-//			mArcFaceCamera2.setCamera(mCameraIdFor2);
-//		}
 
 		PermissonUtil.checkPermission(this, new PermissionListener() {
 			@Override
 			public void havePermission() {
-				//if (!mUseCamera2API) {
 				ArcFaceCamera.getInstance().openCamera(LivenessActivity.this, mSurfcePreview,
 						mSurfceRect);
-				//}
 			}
 
 			@Override
@@ -121,44 +82,32 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 		}, Manifest.permission.CAMERA);
 	}
 
-	private String chooseCamera() {
-		final CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
-		try {
-			for (final String cameraId : manager.getCameraIdList()) {
-				final CameraCharacteristics characteristics = manager.getCameraCharacteristics
-						(cameraId);
-
-				// We don't use a front facing camera in this sample.
-				final Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-				if (facing != null && facing == CameraCharacteristics.LENS_FACING_BACK) {
-					continue;
-				}
-
-				final StreamConfigurationMap map =
-						characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-
-				if (map == null) {
-					continue;
-				}
-				mUseCamera2API = (facing == CameraCharacteristics.LENS_FACING_EXTERNAL)
-						|| isHardwareLevelSupported(characteristics,
-						CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL);
-				return cameraId;
-			}
-		} catch (CameraAccessException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	private boolean isHardwareLevelSupported(
-			CameraCharacteristics characteristics, int requiredLevel) {
-		int deviceLevel = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
-		if (deviceLevel == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
-			return requiredLevel == deviceLevel;
-		}
-		return requiredLevel <= deviceLevel;
-	}
+//	private String chooseCamera() {
+//		final CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+//		try {
+//			for (final String cameraId : manager.getCameraIdList()) {
+//				final CameraCharacteristics characteristics = manager.getCameraCharacteristics
+//						(cameraId);
+//
+//				// We don't use a front facing camera in this sample.
+//				final Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
+//				if (facing != null && facing == CameraCharacteristics.LENS_FACING_BACK) {
+//					continue;
+//				}
+//
+//				final StreamConfigurationMap map =
+//						characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+//
+//				if (map == null) {
+//					continue;
+//				}
+//				return cameraId;
+//			}
+//		} catch (CameraAccessException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 
 	//开始检测
 	public synchronized void detect(final byte[] data, final List<AFT_FSDKFace> fsdkFaces) {
@@ -249,9 +198,7 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-//		livenessService.destoryEngine();
 		mFaceRecognitionService.destroyEngine();
-//		IdCardVerifyManager.getInstance().unInit();
 	}
 
 	@Override
@@ -264,64 +211,5 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 		mHeight = height;
 		mWidth = width;
 		mFaceRecognitionService.setSize(width, height);
-	}
-
-	public void onPreviewSizeChosen(final Size size, final int rotation) {
-		mPreviewWidth = size.getWidth();
-		mPreviewHeight = size.getHeight();
-		final Display display = getWindowManager().getDefaultDisplay();
-		final int screenOrientation = display.getRotation();
-
-		Log.i(TAG, "Sensor orientation: " + rotation + " Screen orientation: " +
-				screenOrientation);
-
-		mSensorOrientation = rotation + screenOrientation;
-
-//		addCallback(
-//				new OverlayView.DrawCallback() {
-//					@Override
-//					public void drawCallback(final Canvas canvas) {
-//						renderDebug(canvas);
-//					}
-//				});
-	}
-
-//
-//	public void addCallback(final OverlayView.DrawCallback callback) {
-//		final OverlayView overlay = findViewById(R.id.debug_overlay);
-//		if (overlay != null) {
-//			overlay.addCallback(callback);
-//		}
-//	}
-
-	private void renderDebug(final Canvas canvas) {
-		if (!mDebug) {
-			return;
-		}
-		Bitmap textureBitmap = mTextureCopyBitmap;
-		if (textureBitmap == null) {
-			return;
-		}
-		final Matrix matrix = new Matrix();
-		// 绘制具有红色矩形框的图像
-		canvas.drawBitmap(textureBitmap, matrix, new Paint());
-	}
-
-	protected Size getDesiredPreviewFrameSize() {
-		return DESIRED_PREVIEW_SIZE;
-	}
-
-	@Override
-	public void onImageAvailable(ImageReader reader) {
-		Image image = reader.acquireNextImage();
-		Image.Plane[] planes = image.getPlanes();
-		ByteBuffer buffer = planes[0].getBuffer();
-		byte[] bytes = new byte[buffer.remaining()];
-		buffer.get(bytes);
-
-		Log.i(TAG, "Camera2获取图片的格式：" + image.getFormat()); // 35:YUV_420_888
-
-//		detect(bytes, mArcFaceCamera2.getRawFaces(bytes));
-		image.close();
 	}
 }
