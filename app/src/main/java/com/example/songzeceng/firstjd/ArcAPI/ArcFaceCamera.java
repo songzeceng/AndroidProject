@@ -25,6 +25,7 @@ import java.util.List;
 public class ArcFaceCamera implements SurfaceHolder.Callback {
 	public static final String TAG = "ArcFaceCamera";
 	public static int previewSizeX, previewSizeY;
+	private static ArcFaceCamera instance;
 
 	SurfaceView mSurfcePreview, mSurfceRect;
 	SurfaceHolder mHolder;
@@ -60,7 +61,14 @@ public class ArcFaceCamera implements SurfaceHolder.Callback {
 
 
 	public static ArcFaceCamera getInstance() {
-		return SingletonHolder.INSTANCE;
+		if (instance == null) {
+			synchronized (ArcFaceCamera.class) {
+				if (instance == null) {
+					instance = new ArcFaceCamera();
+				}
+			}
+		}
+		return instance;
 	}
 
 	@Override
@@ -77,6 +85,7 @@ public class ArcFaceCamera implements SurfaceHolder.Callback {
 			DisplayMetrics metrics = new DisplayMetrics();
 			mActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 			Camera.Parameters parameters = mCamera.getParameters();
+
 			Camera.Size previewSize = getBestSupportedSize(parameters.getSupportedPreviewSizes(),
 					metrics);
             /*previewSize.width = 800;

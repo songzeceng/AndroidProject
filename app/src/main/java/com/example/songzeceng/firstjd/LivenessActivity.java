@@ -30,11 +30,9 @@ import android.widget.Toast;
 
 import com.arcsoft.facetracking.AFT_FSDKFace;
 import com.example.songzeceng.firstjd.ArcAPI.ArcFaceCamera;
-import com.example.songzeceng.firstjd.ArcAPI.ArcFaceCamera2;
 import com.example.songzeceng.firstjd.ArcAPI.CameraPreviewListener;
 import com.example.songzeceng.firstjd.FaceAPI.FaceRecognizer;
 import com.example.songzeceng.firstjd.FaceAPI.FaceSearchListener;
-import com.example.songzeceng.firstjd.View.OverlayView;
 import com.example.songzeceng.firstjd.utils.ImageUtils;
 
 import java.nio.ByteBuffer;
@@ -61,11 +59,10 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 	private String mCameraIdFor2;
 	//相机的方向
 	private int mCameraOri = 90;
-
 	FaceRecognizer mFaceRecognitionService;
 	private boolean mUseCamera2API;
 	int mWidth, mHeight;
-	private ArcFaceCamera2 mArcFaceCamera2 = null;
+//	private ArcFaceCamera2 mArcFaceCamera2 = null;
 	private int mPreviewHeight;
 	private int mPreviewWidth;
 	private int mSensorOrientation;
@@ -92,7 +89,6 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 
 		ArcFaceCamera.getInstance().setCameraPreviewListener(this);
 		ArcFaceCamera.getInstance().init(mCameraId);
-
 //		if (!mUseCamera2API) {
 //			ArcFaceCamera.getInstance().setCameraPreviewListener(this);
 //			ArcFaceCamera.getInstance().init(mCameraId);
@@ -203,7 +199,6 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 			for (Face face : faces) {
 				faceList.add(face.getData());
 			}
-
 			final long finalStartTime = System.currentTimeMillis();
 			mFaceRecognitionService.faceSearch(faceData.getData(), faceList, new
 					FaceSearchListener() {
@@ -282,21 +277,22 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 
 		mSensorOrientation = rotation + screenOrientation;
 
-		addCallback(
-				new OverlayView.DrawCallback() {
-					@Override
-					public void drawCallback(final Canvas canvas) {
-						renderDebug(canvas);
-					}
-				});
+//		addCallback(
+//				new OverlayView.DrawCallback() {
+//					@Override
+//					public void drawCallback(final Canvas canvas) {
+//						renderDebug(canvas);
+//					}
+//				});
 	}
 
-	public void addCallback(final OverlayView.DrawCallback callback) {
-		final OverlayView overlay = findViewById(R.id.debug_overlay);
-		if (overlay != null) {
-			overlay.addCallback(callback);
-		}
-	}
+//
+//	public void addCallback(final OverlayView.DrawCallback callback) {
+//		final OverlayView overlay = findViewById(R.id.debug_overlay);
+//		if (overlay != null) {
+//			overlay.addCallback(callback);
+//		}
+//	}
 
 	private void renderDebug(final Canvas canvas) {
 		if (!mDebug) {
@@ -325,7 +321,7 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 
 		Log.i(TAG, "Camera2获取图片的格式：" + image.getFormat()); // 35:YUV_420_888
 
-		detect(bytes, mArcFaceCamera2.getRawFaces(bytes));
+//		detect(bytes, mArcFaceCamera2.getRawFaces(bytes));
 		image.close();
 	}
 }
