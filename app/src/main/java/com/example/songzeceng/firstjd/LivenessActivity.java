@@ -46,74 +46,75 @@ import permison.listener.PermissionListener;
 
 public class LivenessActivity extends AppCompatActivity implements CameraPreviewListener,
 		ImageReader.OnImageAvailableListener {
-	public static final String TAG = "LivenessActivity";
+	private static final String TAG = "LivenessActivity";
 	private static final float TEXT_SIZE_DIP = 12;
 	private static Size DESIRED_PREVIEW_SIZE = new Size(800, 600);
-	public static List<Face> faces = new ArrayList<>();
-	SurfaceView surfce_preview, surfce_rect;
-	TextView tv_status, tv_name, tv_age, tv_gender;
-	ImageView iv_face;
-
-	//相机的位置
-	private int cameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
-	private String cameraIdFor2;
-	//相机的方向
-	private int cameraOri = 90;
+	private static List<Face> faces = new ArrayList<>();
 	public static int flag = 0;
 
-	FaceRecognizer faceRecognitionService;
-	private boolean useCamera2API;
+	private SurfaceView mSurfcePreview, mSurfceRect;
+	private TextView mTvStatus, mTvName, mTvAge, mTvGender;
+	private ImageView mIvFace;
 
-	private ArcFaceCamera2 arcFaceCamera2 = null;
-	private int previewHeight;
-	private int previewWidth;
-	private int sensorOrientation;
-	private boolean debug;
-	private Bitmap textureCopyBitmap;
+	//相机的位置
+	private int mCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
+	private String mCameraIdFor2;
+	//相机的方向
+	private int mCameraOri = 90;
+
+	FaceRecognizer mFaceRecognitionService;
+	private boolean mUseCamera2API;
+	int mWidth, mHeight;
+	private ArcFaceCamera2 mArcFaceCamera2 = null;
+	private int mPreviewHeight;
+	private int mPreviewWidth;
+	private int mSensorOrientation;
+	private boolean mDebug;
+	private Bitmap mTextureCopyBitmap;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		cameraIdFor2 = chooseCamera();
-		// int layout = useCamera2API ? R.layout.activity_liveness_2 : R.layout.activity_liveness;
+		mCameraIdFor2 = chooseCamera();
+		// int layout = mUseCamera2API ? R.layout.activity_liveness_2 : R.layout.activity_liveness;
 		int layout = R.layout.activity_liveness;
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(layout);
-		tv_status = findViewById(R.id.tv_status);
-		tv_name = findViewById(R.id.tv_name);
-		tv_gender = findViewById(R.id.tv_gender);
-		tv_age = findViewById(R.id.tv_age);
-		surfce_preview = findViewById(R.id.surfce_preview);
-		surfce_rect = findViewById(R.id.surfce_rect);
-		iv_face = findViewById(R.id.iv_face);
+		mTvStatus = findViewById(R.id.tv_status);
+		mTvName = findViewById(R.id.tv_name);
+		mTvGender = findViewById(R.id.tv_gender);
+		mTvAge = findViewById(R.id.tv_age);
+		mSurfcePreview = findViewById(R.id.surfce_preview);
+		mSurfceRect = findViewById(R.id.surfce_rect);
+		mIvFace = findViewById(R.id.iv_face);
 
-		faceRecognitionService = new FaceRecognizer();
+		mFaceRecognitionService = new FaceRecognizer();
 
 		ArcFaceCamera.getInstance().setCameraPreviewListener(this);
-		ArcFaceCamera.getInstance().init(cameraId);
+		ArcFaceCamera.getInstance().init(mCameraId);
 
-//		if (!useCamera2API) {
+//		if (!mUseCamera2API) {
 //			ArcFaceCamera.getInstance().setCameraPreviewListener(this);
-//			ArcFaceCamera.getInstance().init(cameraId);
+//			ArcFaceCamera.getInstance().init(mCameraId);
 //		} else {
-//			arcFaceCamera2 = new ArcFaceCamera2(new ArcFaceCamera2.ConnectionCallback() {
+//			mArcFaceCamera2 = new ArcFaceCamera2(new ArcFaceCamera2.ConnectionCallback() {
 //				@Override
 //				public void onPreviewSizeChosen(final Size size, final int rotation) {
-//					previewHeight = size.getHeight();
-//					previewWidth = size.getWidth();
+//					mPreviewHeight = size.getHeight();
+//					mPreviewWidth = size.getWidth();
 //					LivenessActivity.this.onPreviewSizeChosen(size, rotation);
 //				}
 //			}, this, getDesiredPreviewFrameSize(), this, (AutoTextureView) findViewById(R.id
 //					.texture));
-//			arcFaceCamera2.setCamera(cameraIdFor2);
+//			mArcFaceCamera2.setCamera(mCameraIdFor2);
 //		}
 
 		PermissonUtil.checkPermission(this, new PermissionListener() {
 			@Override
 			public void havePermission() {
-				//if (!useCamera2API) {
-				ArcFaceCamera.getInstance().openCamera(LivenessActivity.this, surfce_preview,
-						surfce_rect);
+				//if (!mUseCamera2API) {
+				ArcFaceCamera.getInstance().openCamera(LivenessActivity.this, mSurfcePreview,
+						mSurfceRect);
 				//}
 			}
 
@@ -143,7 +144,7 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 				if (map == null) {
 					continue;
 				}
-				useCamera2API = (facing == CameraCharacteristics.LENS_FACING_EXTERNAL)
+				mUseCamera2API = (facing == CameraCharacteristics.LENS_FACING_EXTERNAL)
 						|| isHardwareLevelSupported(characteristics,
 						CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL);
 				return cameraId;
@@ -165,76 +166,79 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 
 	//开始检测
 	public synchronized void detect(final byte[] data, final List<AFT_FSDKFace> fsdkFaces) {
+		if (fsdkFaces == null || fsdkFaces.isEmpty()) {
+			return;
+		}
 
-
-		if (fsdkFaces.size() > 0) {//如果有人脸进行注册、识别
-			final AFT_FSDKFace aft_fsdkFace = fsdkFaces.get(0).clone();
-			if (flag == 1) {
-				flag = -1;
-				final Face faceData = faceRecognitionService.faceData(data, aft_fsdkFace
-						.getRect(), aft_fsdkFace.getDegree());
-				final View dialogView = getLayoutInflater().inflate(R.layout.regist_dialog, null);
-				new AlertDialog.Builder(this).setTitle("输入名字").setView(dialogView)
-						.setPositiveButton("确定", new
-								DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int which) {
-										EditText input = dialogView.findViewById(R.id.input_name);
-										faceData.setName(input.getText().toString());
-										faces.add(faceData);
-										toast("注册成功，姓名为：" + faceData.getName());
-										finish();
-									}
-								}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						toast("注册取消");
-						finish();
-						dialog.dismiss();
-					}
-				}).show();
-			} else if (flag == 2) {
-				Face faceData = faceRecognitionService.faceData(data, aft_fsdkFace
-						.getRect(), aft_fsdkFace.getDegree());
-
-				List<byte[]> faceList = new ArrayList<>();
-				for (Face face : faces) {
-					faceList.add(face.getData());
-				}
-
-				faceRecognitionService.faceSerch(faceData.getData(), faceList, new
-						FaceSearchListener() {
-							@Override
-							public void serchFinish(float sorce, int position) {
-								Log.e("LivenessActivity", "sorce：" + sorce + "，position：" +
-										position);
-								if (sorce > 0.7) {
-									Face face = faces.get(position);
-									tv_name.setText(face.getName() + "：相似度：" +
-											sorce);
-									tv_age.setText("" + face.getAge());
-									tv_gender.setText(face.getGender() == 0 ? "男" : "女");
-									iv_face.setImageBitmap(ImageUtils.cropFace(data, aft_fsdkFace
-											.getRect
-													(), mWidth, mHeight, cameraOri));
-								} else {
-									tv_name.setText("");
+		final AFT_FSDKFace aft_fsdkFace = fsdkFaces.get(0).clone();
+		long startTime = System.currentTimeMillis();
+		final Face faceData = mFaceRecognitionService.faceData(data, aft_fsdkFace
+				.getRect(), aft_fsdkFace.getDegree());
+		long endTime = System.currentTimeMillis();
+		Log.i(TAG, "faceData()用时：" + (endTime - startTime));
+		if (flag == 1) {
+			flag = -1;
+			final View dialogView = getLayoutInflater().inflate(R.layout.regist_dialog, null);
+			new AlertDialog.Builder(this).setTitle("输入名字").setView(dialogView)
+					.setPositiveButton("确定", new
+							DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									EditText input = dialogView.findViewById(R.id.input_name);
+									faceData.setName(input.getText().toString());
+									faces.add(faceData);
+									toast("注册成功，姓名为：" + faceData.getName());
+									finish();
 								}
-							}
-						});
-				flag = -1;
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							Thread.sleep(500);
-							flag = 2;
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-				}).start();
+							}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					toast("注册取消");
+					finish();
+					dialog.dismiss();
+				}
+			}).show();
+		} else if (flag == 2) {
+			List<byte[]> faceList = new ArrayList<>();
+			for (Face face : faces) {
+				faceList.add(face.getData());
 			}
+
+			final long finalStartTime = System.currentTimeMillis();
+			mFaceRecognitionService.faceSearch(faceData.getData(), faceList, new
+					FaceSearchListener() {
+						@Override
+						public void searchFinish(float score, int position) {
+							long endTime = System.currentTimeMillis();
+							Log.i(TAG, "faceSearch()用时：" + (endTime - finalStartTime));
+							Log.e("LivenessActivity", "score：" + score + "，position：" +
+									position);
+							if (score > 0.7) {
+								Face face = faces.get(position);
+								mTvName.setText(face.getName() + "，相似度：" +
+										score);
+								mTvAge.setText("" + face.getAge());
+								mTvGender.setText(face.getGender() == 0 ? "男" : "女");
+								mIvFace.setImageBitmap(ImageUtils.cropFace(data, aft_fsdkFace
+										.getRect
+												(), mWidth, mHeight, mCameraOri));
+							} else {
+								mTvName.setText("");
+							}
+						}
+					});
+			flag = -1;
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(500);
+						flag = 2;
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
 		}
 	}
 
@@ -251,7 +255,7 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 	protected void onDestroy() {
 		super.onDestroy();
 //		livenessService.destoryEngine();
-		faceRecognitionService.destroyEngine();
+		mFaceRecognitionService.destroyEngine();
 //		IdCardVerifyManager.getInstance().unInit();
 	}
 
@@ -260,25 +264,23 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 		detect(data, fsdkFaces);
 	}
 
-	int mWidth, mHeight;
-
 	@Override
 	public void onPreviewSize(int width, int height) {
 		mHeight = height;
 		mWidth = width;
-		faceRecognitionService.setSize(width, height);
+		mFaceRecognitionService.setSize(width, height);
 	}
 
 	public void onPreviewSizeChosen(final Size size, final int rotation) {
-		previewWidth = size.getWidth();
-		previewHeight = size.getHeight();
+		mPreviewWidth = size.getWidth();
+		mPreviewHeight = size.getHeight();
 		final Display display = getWindowManager().getDefaultDisplay();
 		final int screenOrientation = display.getRotation();
 
 		Log.i(TAG, "Sensor orientation: " + rotation + " Screen orientation: " +
 				screenOrientation);
 
-		sensorOrientation = rotation + screenOrientation;
+		mSensorOrientation = rotation + screenOrientation;
 
 		addCallback(
 				new OverlayView.DrawCallback() {
@@ -297,10 +299,10 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 	}
 
 	private void renderDebug(final Canvas canvas) {
-		if (!debug) {
+		if (!mDebug) {
 			return;
 		}
-		Bitmap textureBitmap = textureCopyBitmap;
+		Bitmap textureBitmap = mTextureCopyBitmap;
 		if (textureBitmap == null) {
 			return;
 		}
@@ -323,7 +325,7 @@ public class LivenessActivity extends AppCompatActivity implements CameraPreview
 
 		Log.i(TAG, "Camera2获取图片的格式：" + image.getFormat()); // 35:YUV_420_888
 
-		detect(bytes, arcFaceCamera2.getRawFaces(bytes));
+		detect(bytes, mArcFaceCamera2.getRawFaces(bytes));
 		image.close();
 	}
 }

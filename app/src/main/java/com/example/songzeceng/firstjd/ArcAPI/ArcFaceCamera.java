@@ -10,6 +10,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -18,28 +19,27 @@ import com.arcsoft.facetracking.AFT_FSDKFace;
 import com.example.songzeceng.firstjd.FaceAPI.FaceTracker;
 import com.example.songzeceng.firstjd.LivenessActivity;
 import com.example.songzeceng.firstjd.utils.DrawUtils;
-import com.example.songzeceng.firstjd.utils.ImageUtils;
 
 import java.util.List;
 
 public class ArcFaceCamera implements SurfaceHolder.Callback {
+	public static final String TAG = "ArcFaceCamera";
+	public static int previewSizeX, previewSizeY;
 
-	SurfaceView surfce_preview, surfce_rect;
-	SurfaceHolder holder;
-	private Camera camera;
-	private Activity activity;
-	private CameraPreviewListener cameraPreviewListener;
-	FaceTracker faceTrackService;
-
-	public static int previewSizeX,previewSizeY;
+	SurfaceView mSurfcePreview, mSurfceRect;
+	SurfaceHolder mHolder;
+	private Camera mCamera;
+	private Activity mActivity;
+	private CameraPreviewListener mCameraPreviewListener;
+	FaceTracker mFaceTracker;
 
 	//相机的位置
-	private int cameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
+	private int mCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
 	//相机的方向
-	private int cameraOri = 90;
+	private int mCameraOri = 90;
 
 	public void init(int cameraId) {
-		this.cameraId = cameraId;
+		mCameraId = cameraId;
 	}
 
 	private ArcFaceCamera() {
@@ -47,14 +47,15 @@ public class ArcFaceCamera implements SurfaceHolder.Callback {
 	}
 
 
-	public void openCamera(Activity activity, SurfaceView surfacePreview, SurfaceView surfaceViewRect) {
-		this.activity = activity;
-		surfce_preview = surfacePreview;
-		surfce_rect = surfaceViewRect;
-		surfce_preview.getHolder().addCallback(this);
-		surfce_rect.setZOrderMediaOverlay(true);
-		surfce_rect.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-		faceTrackService = new FaceTracker();
+	public void openCamera(Activity activity, SurfaceView surfacePreview, SurfaceView
+			surfaceViewRect) {
+		mActivity = activity;
+		mSurfcePreview = surfacePreview;
+		mSurfceRect = surfaceViewRect;
+		mSurfcePreview.getHolder().addCallback(this);
+		mSurfceRect.setZOrderMediaOverlay(true);
+		mSurfceRect.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+		mFaceTracker = new FaceTracker();
 	}
 
 
@@ -64,92 +65,87 @@ public class ArcFaceCamera implements SurfaceHolder.Callback {
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		this.holder = holder;
+		mHolder = holder;
 		start();
 	}
 
 
 	private void start() {
 		//选择摄像头ID
-		camera = Camera.open(cameraId);
+		mCamera = Camera.open(mCameraId);
 		try {
 			DisplayMetrics metrics = new DisplayMetrics();
-			activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-			Camera.Parameters parameters = camera.getParameters();
-			Camera.Size previewSize = getBestSupportedSize(parameters.getSupportedPreviewSizes(), metrics);
+			mActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+			Camera.Parameters parameters = mCamera.getParameters();
+			Camera.Size previewSize = getBestSupportedSize(parameters.getSupportedPreviewSizes(),
+					metrics);
             /*previewSize.width = 800;
             previewSize.height = 600;*/
 			parameters.setPreviewSize(previewSize.width, previewSize.height);
 			parameters.setPreviewFormat(ImageFormat.NV21);
-			camera.setParameters(parameters);
-			previewSizeX=previewSize.width;
-			previewSizeY=previewSize.height;
-			faceTrackService.setSize(previewSize.width, previewSize.height);
-			if (cameraPreviewListener != null) {
-				cameraPreviewListener.onPreviewSize(previewSize.width, previewSize.height);
+			mCamera.setParameters(parameters);
+			previewSizeX = previewSize.width;
+			previewSizeY = previewSize.height;
+			mFaceTracker.setSize(previewSize.width, previewSize.height);
+			if (mCameraPreviewListener != null) {
+				mCameraPreviewListener.onPreviewSize(previewSize.width, previewSize.height);
 			}
-			//camera.setDisplayOrientation(cameraOri);
+			//mCamera.setDisplayOrientation(mCameraOri);
 
-			setCameraDisplayOrientation(activity, cameraId, camera);
+			setCameraDisplayOrientation(mActivity, mCameraId, mCamera);
 
-			camera.setPreviewDisplay(holder);
-			camera.setPreviewCallback(new Camera.PreviewCallback() {
+			mCamera.setPreviewDisplay(mHolder);
+			mCamera.setPreviewCallback(new Camera.PreviewCallback() {
 				@Override
 				public void onPreviewFrame(byte[] data, Camera camera) {
+					clearReact();
 					//获取人脸的位置信息
-					List<AFT_FSDKFace> fsdkFaces = faceTrackService.getFtfaces(data);
+					List<AFT_FSDKFace> fsdkFaces = mFaceTracker.getFtfaces(data);
 					//画出人脸的位置
 					drawFaceRect(fsdkFaces);
 					//输出数据进行其他处理
-					if ((cameraPreviewListener != null && fsdkFaces.size() > 0)||LivenessActivity.flag==0) {
-						cameraPreviewListener.onPreviewData(data.clone(), fsdkFaces);
+					if ((mCameraPreviewListener != null && fsdkFaces.size() > 0) ||
+							LivenessActivity.flag == 0) {
+						mCameraPreviewListener.onPreviewData(data.clone(), fsdkFaces);
 					}
 				}
 			});
-			camera.startPreview();
+			mCamera.startPreview();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	private void clearReact() {
+		final Canvas canvas = mSurfceRect.getHolder().lockCanvas();
+		canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+		mSurfceRect.getHolder().unlockCanvasAndPost(canvas);
+	}
 
 	private void drawFaceRect(List<AFT_FSDKFace> fsdkFaces) {
-		//这里只获取最大的人脸
-		int maxIndex = ImageUtils.findFTMaxAreaFace(fsdkFaces);
-		if (surfce_rect != null) {
-			Canvas canvas = surfce_rect.getHolder().lockCanvas();
-			canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+		final SurfaceHolder rectHolder = mSurfceRect.getHolder();
+		final Canvas canvas = rectHolder.lockCanvas();
 
-			Paint paint = new Paint();
-			paint.setColor(Color.RED);
-			paint.setStyle(Paint.Style.FILL);
-			paint.setStrokeWidth(5);
-			paint.setTextSize(80);
+		Paint paint = new Paint();
+		paint.setColor(Color.RED);
+		paint.setStyle(Paint.Style.FILL);
+		paint.setStrokeWidth(5);
+		paint.setTextSize(80);
 
-			if (fsdkFaces.size() > 0) {
-				for(AFT_FSDKFace aft_fsdkFace:fsdkFaces){
-					Rect rect = new Rect(aft_fsdkFace.getRect());
-
-					if (rect != null) {
-						//画人脸框
-						Rect adjustedRect = DrawUtils.adjustRect(rect, faceTrackService.getWidth(), faceTrackService.getHeight(),
-								canvas.getWidth(), canvas.getHeight(), cameraOri, cameraId);
-						DrawUtils.drawFaceRect(canvas, adjustedRect, Color.YELLOW, 4);
-
-						Rect rect1=DrawUtils.adjustRect(rect, previewSizeX, previewSizeY,
-								canvas.getWidth(), canvas.getHeight(), cameraOri, cameraId);
-						if (rect1.right < previewSizeX - 100) {
-							canvas.drawText("张三", rect1.right + 30, rect1.bottom, paint);
-						} else {
-							canvas.drawText("张三", rect1.left - 30, rect1.bottom, paint);
-						}
-
-					}
-
-				}
+		for (AFT_FSDKFace aft_fsdkFace : fsdkFaces) {
+			if (aft_fsdkFace.getRect() == null) {
+				continue;
 			}
-			surfce_rect.getHolder().unlockCanvasAndPost(canvas);
+			Rect rect = new Rect(aft_fsdkFace.getRect());
+			//画人脸框
+			Log.i(TAG, "cameraOrientation:" + mCameraOri + "---mCameraId:" + mCameraId);
+			Rect adjustedRect = DrawUtils.adjustRect(rect, mFaceTracker.getWidth(),
+					mFaceTracker.getHeight(),
+					canvas.getWidth(), canvas.getHeight(), mCameraOri, mCameraId);
+			DrawUtils.drawFaceRect(canvas, adjustedRect, Color.YELLOW, 4);
 		}
+
+		rectHolder.unlockCanvasAndPost(canvas);
 	}
 
 	@Override
@@ -163,11 +159,11 @@ public class ArcFaceCamera implements SurfaceHolder.Callback {
 	}
 
 	private void closeCamera() {
-		camera.setPreviewCallback(null);
-		camera.stopPreview();
-		camera.release();
-		camera = null;
-		faceTrackService.destoryEngine();
+		mCamera.setPreviewCallback(null);
+		mCamera.stopPreview();
+		mCamera.release();
+		mCamera = null;
+		mFaceTracker.destoryEngine();
 	}
 
 	private static class SingletonHolder {
@@ -192,12 +188,13 @@ public class ArcFaceCamera implements SurfaceHolder.Callback {
 	}
 
 	public void setCameraPreviewListener(CameraPreviewListener cameraPreviewListener) {
-		this.cameraPreviewListener = cameraPreviewListener;
+		this.mCameraPreviewListener = cameraPreviewListener;
 	}
 
 
 	//设置相机方向
-	private void setCameraDisplayOrientation(Activity activity, int cameraId, android.hardware.Camera camera) {
+	private void setCameraDisplayOrientation(Activity activity, int cameraId, android.hardware
+			.Camera camera) {
 		android.hardware.Camera.CameraInfo info =
 				new android.hardware.Camera.CameraInfo();
 		android.hardware.Camera.getCameraInfo(cameraId, info);
@@ -226,7 +223,7 @@ public class ArcFaceCamera implements SurfaceHolder.Callback {
 		} else {  // back-facing
 			result = (info.orientation - degrees + 360) % 360;
 		}
-		cameraOri = result;
+		mCameraOri = result;
 		camera.setDisplayOrientation(result);
 	}
 }

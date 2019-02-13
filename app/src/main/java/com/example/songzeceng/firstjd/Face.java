@@ -3,52 +3,52 @@ package com.example.songzeceng.firstjd;
 import java.io.Serializable;
 
 public class Face implements Serializable {
-	private String name;
-	private byte[] data;
-	private int age = -1;
-	private int gender = -1;
+	private String mName;
+	private byte[] mData;
+	private int mAge = -1;
+	private int mGender = -1;
 
 	public Face(String name, byte[] data, int age, int gender) {
-		this.name = name;
-		this.data = data;
-		this.age = age;
-		this.gender = gender;
+		mName = name;
+		mData = data;
+		mAge = age;
+		mGender = gender;
 	}
 
 	public Face(String name, byte[] data) {
-		this.name = name;
-		this.data = data;
+		mName = name;
+		mData = data;
 	}
 
 	public int getAge() {
-		return age;
+		return mAge;
 	}
 
 	public void setAge(int age) {
-		this.age = age;
+		mAge = age;
 	}
 
 	public int getGender() {
-		return gender;
+		return mGender;
 	}
 
 	public void setGender(int gender) {
-		this.gender = gender;
+		mGender = gender;
 	}
 
 	public String getName() {
-		return name;
+		return mName;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		mName = name;
 	}
 
 	public byte[] getData() {
-		return data;
+		return mData;
 	}
 
 	public void setData(byte[] data) {
-		this.data = data;
+		mData = data;
 	}
 }

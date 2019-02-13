@@ -8,14 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.arcsoft.facedetection.AFD_FSDKEngine;
 import com.arcsoft.facedetection.AFD_FSDKFace;
 import com.example.songzeceng.firstjd.FaceAPI.FaceFinder;
 import com.example.songzeceng.firstjd.utils.DrawUtils;
@@ -30,27 +27,25 @@ import permison.PermissonUtil;
 import permison.listener.PermissionListener;
 
 public class MainActivity extends Activity {
-	private Button btn_register, btn_recognition, btn_picture;
-	private ImageView imageView;
-
-	public static File file;
+	private Button mBtnRegister, mBtnRecognition, mBtnPicture;
+	private ImageView mImageView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		Log.i("MainActivity", "手机指令集：" + getCpuAbi());
-		btn_register = findViewById(R.id.btn_register);
-		btn_recognition = findViewById(R.id.btn_recognition);
-		btn_picture = findViewById(R.id.btn_picture);
+//		Log.i("MainActivity", "手机指令集：" + getCpuAbi());
+		mBtnRegister = findViewById(R.id.btn_register);
+		mBtnRecognition = findViewById(R.id.btn_recognition);
+		mBtnPicture = findViewById(R.id.btn_picture);
 		setClick();
 
 		PermissonUtil.checkPermission(this, new PermissionListener() {
 			@Override
 			public void havePermission() {
-				AFD_FSDKEngine fdEngine = new AFD_FSDKEngine();
-				fdEngine.AFD_FSDK_InitialFaceEngine(Constants.APP_ID, Constants.FD_KEY,
-						AFD_FSDKEngine.AFD_FOC_0, 16, 2);
+//				AFD_FSDKEngine fdEngine = new AFD_FSDKEngine();
+//				fdEngine.AFD_FSDK_InitialFaceEngine(Constants.APP_ID, Constants.FD_KEY,
+//						AFD_FSDKEngine.AFD_FOC_0, 16, 2);
 			}
 
 			@Override
@@ -60,24 +55,24 @@ public class MainActivity extends Activity {
 		}, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 	}
 
-	private String getCpuAbi() {
-		String[] abis;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			abis = Build.SUPPORTED_ABIS;
-		} else {
-			abis = new String[]{Build.CPU_ABI, Build.CPU_ABI2};
-		}
-		StringBuilder abiStr = new StringBuilder();
-		for (String abi : abis) {
-			abiStr.append(abi);
-			abiStr.append(',');
-		}
-		return abiStr.toString();
-	}
+//	private String getCpuAbi() {
+//		String[] abis;
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//			abis = Build.SUPPORTED_ABIS;
+//		} else {
+//			abis = new String[]{Build.CPU_ABI, Build.CPU_ABI2};
+//		}
+//		StringBuilder abiStr = new StringBuilder();
+//		for (String abi : abis) {
+//			abiStr.append(abi);
+//			abiStr.append(',');
+//		}
+//		return abiStr.toString();
+//	}
 
 	private void setClick() {
 
-		btn_register.setOnClickListener(new View.OnClickListener() {
+		mBtnRegister.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				LivenessActivity.flag = 1;
@@ -85,7 +80,7 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		btn_recognition.setOnClickListener(new View.OnClickListener() {
+		mBtnRecognition.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				LivenessActivity.flag = 2;
@@ -93,7 +88,7 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		btn_picture.setOnClickListener(new View.OnClickListener() {
+		mBtnPicture.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				PicturePickUtil.pick(MainActivity.this, new OnPickListener() {
@@ -101,7 +96,7 @@ public class MainActivity extends Activity {
 					public void pickPicture(final File file) {
 						final Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
 						showDialog();
-						imageView.setImageBitmap(bitmap);
+						mImageView.setImageBitmap(bitmap);
 						new Thread(new Runnable() {
 							@Override
 							public void run() {
@@ -119,7 +114,7 @@ public class MainActivity extends Activity {
 								MainActivity.this.runOnUiThread(new Runnable() {
 									@Override
 									public void run() {
-										imageView.setImageBitmap(bitmap1);
+										mImageView.setImageBitmap(bitmap1);
 										faceFindService.destroyEngine();
 									}
 								});
@@ -135,9 +130,9 @@ public class MainActivity extends Activity {
 	private void showDialog() {
 		AlertDialog.Builder di = new AlertDialog.Builder(MainActivity.this);
 		di.setCancelable(true);
-		imageView = new ImageView(MainActivity.this);
-		imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-		di.setView(imageView);
+		mImageView = new ImageView(MainActivity.this);
+		mImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+		di.setView(mImageView);
 		di.show();
 	}
 }

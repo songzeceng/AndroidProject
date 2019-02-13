@@ -15,14 +15,14 @@ import java.util.List;
 public class FaceRecognizer {
 	public static final String TAG = "FaceRecognizer";
 	//传入的视频数据的长宽
-	private int width = 1080, height = 1920;
+	private int mWidth = 1080, mHeight = 1920;
 
 	//人脸对比引擎
-	private AFR_FSDKEngine frEngine;
+	private AFR_FSDKEngine mFrEngine;
 
 	public FaceRecognizer() {
-		frEngine = new AFR_FSDKEngine();
-		AFR_FSDKError fr_error = frEngine.AFR_FSDK_InitialEngine(Constants.APP_ID, Constants
+		mFrEngine = new AFR_FSDKEngine();
+		AFR_FSDKError fr_error = mFrEngine.AFR_FSDK_InitialEngine(Constants.APP_ID, Constants
 				.FR_KEY);
 		Log.i(TAG, "AFR_FSDK_InitialEngine = " + fr_error.getCode());
 	}
@@ -37,9 +37,9 @@ public class FaceRecognizer {
 	 */
 	public Face faceData(byte[] data, Rect rect, int degree) {
 		AFR_FSDKFace afr_fsdkFace = new AFR_FSDKFace();
-		frEngine.AFR_FSDK_ExtractFRFeature(data, width, height, AFR_FSDKEngine.CP_PAF_NV21, rect,
+		mFrEngine.AFR_FSDK_ExtractFRFeature(data, mWidth, mHeight, AFR_FSDKEngine.CP_PAF_NV21, rect,
 				degree, afr_fsdkFace);
-		return FaceIntergrator.getInstance().intergrate(data, rect, degree, width, height, afr_fsdkFace);
+		return FaceIntergrator.getInstance().intergrate(data, rect, degree, mWidth, mHeight, afr_fsdkFace);
 	}
 
 
@@ -58,7 +58,7 @@ public class FaceRecognizer {
 		AFR_FSDKFace face2 = new AFR_FSDKFace();
 		face1.setFeatureData(faceData1);
 		face2.setFeatureData(faceData2);
-		frEngine.AFR_FSDK_FacePairMatching(face1, face2, score);
+		mFrEngine.AFR_FSDK_FacePairMatching(face1, face2, score);
 		return score.getScore();
 	}
 
@@ -66,7 +66,7 @@ public class FaceRecognizer {
 	/**
 	 * 人脸搜索
 	 */
-	public void faceSerch(byte[] faceData, List<byte[]> faceDataList, FaceSearchListener
+	public void faceSearch(byte[] faceData, List<byte[]> faceDataList, FaceSearchListener
 			listener) {
 		AFR_FSDKMatching score = new AFR_FSDKMatching();
 		AFR_FSDKFace face1 = new AFR_FSDKFace();
@@ -77,40 +77,40 @@ public class FaceRecognizer {
 		for (int i = 0; i < faceDataList.size(); i++) {
 			float like = 0.0f;
 			face2.setFeatureData(faceDataList.get(i));
-			frEngine.AFR_FSDK_FacePairMatching(face1, face2, score);
+			mFrEngine.AFR_FSDK_FacePairMatching(face1, face2, score);
 			like = score.getScore();
 			if (like > max) {
 				max = like;
 				positon = i;
 			}
 		}
-		listener.serchFinish(max, positon);
+		listener.searchFinish(max, positon);
 	}
 
 
 	public void destroyEngine() {
-		frEngine.AFR_FSDK_UninitialEngine();
+		mFrEngine.AFR_FSDK_UninitialEngine();
 		FaceIntergrator.destroyIntergrator();
 	}
 
 	public void setSize(int width, int height) {
-		this.width = width;
-		this.height = height;
+		mWidth = width;
+		mHeight = height;
 	}
 
 	public int getWidth() {
-		return width;
+		return mWidth;
 	}
 
 	public void setWidth(int width) {
-		this.width = width;
+		mWidth = width;
 	}
 
 	public int getHeight() {
-		return height;
+		return mHeight;
 	}
 
 	public void setHeight(int height) {
-		this.height = height;
+		mHeight = height;
 	}
 }

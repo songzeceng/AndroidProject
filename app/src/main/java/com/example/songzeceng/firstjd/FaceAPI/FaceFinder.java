@@ -12,47 +12,47 @@ import java.util.List;
 
 public class FaceFinder {
 	//传入的视频数据的长宽
-	private int width = 1080, height = 1920;
+	private int mWidth = 1080, mHeight = 1920;
 
-	private AFD_FSDKEngine fdEngine;
+	private AFD_FSDKEngine mFdEngine;
 
 	public FaceFinder() {
-		fdEngine = new AFD_FSDKEngine();
-		AFD_FSDKError err = fdEngine.AFD_FSDK_InitialFaceEngine(Constants.APP_ID, Constants.FD_KEY, AFD_FSDKEngine.AFD_OPF_0_HIGHER_EXT, 16, 5);
+		mFdEngine = new AFD_FSDKEngine();
+		AFD_FSDKError err = mFdEngine.AFD_FSDK_InitialFaceEngine(Constants.APP_ID, Constants.FD_KEY, AFD_FSDKEngine.AFD_OPF_0_HIGHER_EXT, 16, 5);
 		Log.d("FaceFinder", "AFD_FSDK_InitialFaceEngine = "+err.getCode());
 	}
 
 	public List<AFD_FSDKFace> findFace(byte[] data) {
 		// 用来存放检测到的人脸信息列表
 		List<AFD_FSDKFace> result = new ArrayList<AFD_FSDKFace>();
-		if (fdEngine != null) {
-			fdEngine.AFD_FSDK_StillImageFaceDetection(data, width, height, AFD_FSDKEngine.CP_PAF_NV21, result);
+		if (mFdEngine != null) {
+			mFdEngine.AFD_FSDK_StillImageFaceDetection(data, mWidth, mHeight, AFD_FSDKEngine.CP_PAF_NV21, result);
 		}
 		return result;
 	}
 
 	public void destroyEngine() {
-		fdEngine.AFD_FSDK_UninitialFaceEngine();
+		mFdEngine.AFD_FSDK_UninitialFaceEngine();
 	}
 
 	public void setSize(int width, int height) {
-		this.width = width;
-		this.height = height;
+		mWidth = width;
+		mHeight = height;
 	}
 
 	public int getWidth() {
-		return width;
+		return mWidth;
 	}
 
 	public void setWidth(int width) {
-		this.width = width;
+		mWidth = width;
 	}
 
 	public int getHeight() {
-		return height;
+		return mHeight;
 	}
 
 	public void setHeight(int height) {
-		this.height = height;
+		mHeight = height;
 	}
 }
