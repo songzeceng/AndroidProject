@@ -26,7 +26,7 @@ public class ArcFaceCamera implements SurfaceHolder.Callback {
 	public static int previewSizeX, previewSizeY;
 	private static ArcFaceCamera instance;
 
-	SurfaceView mSurfcePreview, mSurfceRect;
+	SurfaceView mSurfacePreview, mSurfaceRect;
 	SurfaceHolder mHolder;
 	private Camera mCamera;
 	private Activity mActivity;
@@ -50,11 +50,11 @@ public class ArcFaceCamera implements SurfaceHolder.Callback {
 	public void openCamera(Activity activity, SurfaceView surfacePreview, SurfaceView
 			surfaceViewRect) {
 		mActivity = activity;
-		mSurfcePreview = surfacePreview;
-		mSurfceRect = surfaceViewRect;
-		mSurfcePreview.getHolder().addCallback(this);
-		mSurfceRect.setZOrderMediaOverlay(true);
-		mSurfceRect.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+		mSurfacePreview = surfacePreview;
+		mSurfaceRect = surfaceViewRect;
+		mSurfacePreview.getHolder().addCallback(this);
+		mSurfaceRect.setZOrderMediaOverlay(true);
+		mSurfaceRect.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 		mFaceTracker = new FaceTracker();
 	}
 
@@ -125,21 +125,19 @@ public class ArcFaceCamera implements SurfaceHolder.Callback {
 	}
 
 	private void clearReact() {
-		final Canvas canvas = mSurfceRect.getHolder().lockCanvas();
+		final Canvas canvas = mSurfaceRect.getHolder().lockCanvas();
 		canvas.drawColor(0, PorterDuff.Mode.CLEAR);
-		mSurfceRect.getHolder().unlockCanvasAndPost(canvas);
+		mSurfaceRect.getHolder().unlockCanvasAndPost(canvas);
 	}
 
 	private void drawFaceRect(List<AFT_FSDKFace> fsdkFaces) {
-		final SurfaceHolder rectHolder = mSurfceRect.getHolder();
+		final SurfaceHolder rectHolder = mSurfaceRect.getHolder();
 		final Canvas canvas = rectHolder.lockCanvas();
-		// surfaceRect.getWidth() = canvas.getWidth() = 720
 		for (AFT_FSDKFace aft_fsdkFace : fsdkFaces) {
 			if (aft_fsdkFace.getRect() == null) {
 				continue;
 			}
 			Rect rect = new Rect(aft_fsdkFace.getRect());
-			//画人脸框
 			Log.i(TAG, "cameraOrientation:" + mCameraOri + "---mCameraId:" + mCameraId);
 			Rect adjustedRect = DrawUtils.adjustRect(rect, mFaceTracker.getWidth(),
 					mFaceTracker.getHeight(),

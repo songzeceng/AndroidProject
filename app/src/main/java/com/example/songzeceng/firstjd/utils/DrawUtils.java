@@ -7,7 +7,8 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 
 public class DrawUtils {
-	public static Rect adjustRect(Rect oldRect, int previewWidth, int previewHeight, int canvasWidth, int canvasHeight, int cameraOri, int mCameraId) {
+	public static Rect adjustRect(Rect oldRect, int previewWidth, int previewHeight, int
+			canvasWidth, int canvasHeight, int cameraOri, int mCameraId) {
 		if (oldRect == null) {
 			return null;
 		}
@@ -18,20 +19,21 @@ public class DrawUtils {
 			previewHeight = previewWidth;
 			previewWidth = t;
 		}
-		float widthRatio = (float) canvasWidth / (float) previewWidth;
-		float heightRatio = (float) canvasHeight / (float) previewHeight;
+		float widthRatio;
+		float heightRatio;
 
-		if (cameraOri == 0 || cameraOri == 180 ){
-			rect.left *= widthRatio;
-			rect.right *= widthRatio;
-			rect.top *= heightRatio;
-			rect.bottom *= heightRatio;
-		}else {
-			rect.left *= widthRatio;
-			rect.right *= widthRatio;
-			rect.top *= heightRatio;
-			rect.bottom *= heightRatio;
+		if (cameraOri == 0 || cameraOri == 180) {
+			widthRatio = (float) canvasWidth / (float) previewWidth;
+			heightRatio = (float) canvasHeight / (float) previewHeight;
+		} else {
+			widthRatio = (float) canvasHeight / (float) previewHeight;
+			heightRatio = (float) canvasWidth / (float) previewWidth;
 		}
+
+		rect.left *= widthRatio;
+		rect.right *= widthRatio;
+		rect.top *= heightRatio;
+		rect.bottom *= heightRatio;
 
 		Rect newRect = new Rect();
 
