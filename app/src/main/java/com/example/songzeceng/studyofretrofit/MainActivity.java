@@ -30,6 +30,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.songzeceng.studyofretrofit.item.PersonProto;
 import com.example.songzeceng.studyofretrofit.recyclerView.AdapterForRecyclerVIew;
 import com.example.songzeceng.studyofretrofit.rxBus.MyRxBus;
 import com.example.songzeceng.studyofretrofit.rxBus.Student;
@@ -41,6 +42,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.IntSummaryStatistics;
@@ -138,6 +140,20 @@ public class MainActivity extends Activity {
                     , 0);
         } else {
             // studyOfExecutor();
+        }
+
+        PersonProto.Person.Builder builder = PersonProto.Person.newBuilder();
+        builder.setName("玉面郎君菲尔米诺");
+        builder.setAge(30);
+        builder.setId(9);
+        PersonProto.Person person = builder.build();
+        try {
+            String name = new String(person.getName().getBytes("utf-8"), "utf-8");
+            int age = person.getAge();
+            int id = person.getId();
+            System.out.println("name:" + name + "--age:" + age + "--id:" + id);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
 //        usingIntervalRange();

@@ -1,0 +1,33 @@
+option java_package = "com.example.songzeceng.studyofretrofit.item"; // 输出包名
+option java_outer_classname = "PersonProto"; // 输出类名
+
+// 一个message相当于一个类
+message Person {
+    required string name = 1; // require表示必须赋初值，optional则不必
+    required int32 id = 2; // 32位整型，也就是java里的int
+    required int32 age = 3; // 1 2 3 4是属性的序号，在同一个大括号内(不包括嵌套)，序号唯一
+    optional string email = 4;
+
+    enum PhoneType {
+        MOBILE = 0;
+        HOME = 1;
+        WORK = 2;
+    }
+
+    message PhoneNumber {
+        required string number = 1;
+        optional PhoneType type = 2 [default = HOME]; // 默认值
+    }
+    // repeated是集合
+    repeated PhoneNumber phones = 5;
+}
+enum PhoneType {
+    MOBILE = 0;
+    HOME = 1;
+    WORK = 2;
+}
+
+message AddressBook {
+    // 集合
+    repeated Person people = 1;
+}
