@@ -14,61 +14,51 @@ class MyApp extends StatelessWidget { // 无状态控件，只负责显示信息
         // theme是主题外观
         primarySwatch: Colors.lightBlue,
       ),
-      home: MyHomePage( // home表示主页，传入的是一个MyHomePage对象
-          title: '主页',
+      home: Scaffold( // home表示主页，传入的是一个Scaffold对象
+          appBar: AppBar(title: Text("宋泽嶒的flutter"),), // 顶部栏
+          body: Center( // 主页内容
+            child: MyButton(), // 中间放一个MyButton
+          ),
       )
     );
   }
 }
 
-class MyHomePage extends StatefulWidget { // 有状态的控件，可以响应动作
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
+class MyButton extends StatefulWidget {
+  // MyButton继承StatefulWidget
+  // StatefulWidget可以响应动作
   @override
-  _MyHomePageState createState() => _MyHomePageState();
-  // 初始状态是构造一个_MyHomePageState对象，也就是一个状态对象
+  State<StatefulWidget> createState() {
+    return MyButtonState(); // 创建一个初始状态
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> { // 传入泛型是和此状态绑定的控件类
+class MyButtonState extends State<MyButton> {
+  // 状态类，泛型绑定为MyButton
   final random = Random();
   int number1 = -1, number2 = -1;
 
   void produceRandomNumbers() {
     number1 = random.nextInt(20) + 1;
     number2 = random.nextInt(20) + 1;
+    showDialog(context: context,
+        // 显示对话框
+        builder:(_) {
+          // 构造对话框，返回一个AlertDialog
+          int result = getResults();
+          return AlertDialog(content: Text("两个随机数：$number1和$number2,"
+              "乘积是$result" ));
+          // $用来引用外部变量的值
+        });
   }
 
   int getResults() {
-    return number1 + number2;
+    return number1 * number2;
   }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '两个随机数:',
-            ),
-            Text(
-              '$number1' + '和 ' + '$number2',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: produceRandomNumbers,
-        tooltip: '产生两个随机数',
-        child: Icon(Icons.center_focus_strong),
-      ),
-    );
+    // 初始化状态
+    return RaisedButton(onPressed: produceRandomNumbers, // onPressed相当于onClick
+      child: Text("生成两个随机数"),);
   }
 }
