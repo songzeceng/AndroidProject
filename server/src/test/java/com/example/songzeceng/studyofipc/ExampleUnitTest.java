@@ -2,7 +2,6 @@ package com.example.songzeceng.studyofipc;
 
 import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.Stack;
 
 /**
@@ -104,11 +103,7 @@ public class ExampleUnitTest {
 
     private void travelsTreeNoDigui() {
         Tree root1 = new Tree();
-        Stack<Tree> stack = new Stack<>();
-        HashMap<Tree, Integer> layerMap = new HashMap<>();
-        stack.push(root1);
         Tree node = null;
-        int layer = 1;
 
         Tree root2 = new Tree();
         Tree root3 = new Tree();
@@ -132,26 +127,64 @@ public class ExampleUnitTest {
         root5.left = root7;
         root3.right = root6;
 
+        beforeOrdertraverseTree(root1);
+    }
+
+    private void beforeOrdertraverseTree(Tree root1) {
+        Tree node;
+        Stack<Tree> stack = new Stack<>();
+        stack.push(root1);
         while (!stack.empty()) { // 开始下一次从右上到左下的循环
             node = stack.pop(); // 出栈的是某一个右结点
 
-            /*
-              保存每一个结点和其父结点，做为键值对存储
-                每一个结点再和其层数做为键值对
-             */
-            if (node != null && layerMap.get(node) != null) {
-                layer = layerMap.get(node);
-            }
             while (node != null) {
-                System.out.println("data:" + node.data + "--layer:" + layer);
-                layerMap.put(node, layer);
+                System.out.println("data:" + node.data);
                 if (node.right != null) { // 右结点入栈
-                    layerMap.put(node.right, layer + 1);
                     stack.push(node.right);
                 }
-
                 node = node.left;
-                layer++;
+            }
+        }
+    }
+
+    private void midOrderTraverseTree(Tree root) {
+        if (root == null) {
+            return;
+        }
+
+        Stack<Tree> stack = new Stack<>();
+
+        Tree node = root;
+        while (node != null || !stack.isEmpty()) {
+            while(node != null) {
+                stack.push(node);
+                node = node.left;
+            }
+            node = stack.pop(); // 此时已到最左下边
+            System.out.println(node.data);
+            node = node.right;
+        }
+    }
+
+    private void afterOrderTraverseTree(Tree root) {
+        if (root == null) {
+            return;
+        }
+        Stack<Tree> stack = new Stack<>();
+
+        Tree node = root;
+        while(node != null || !stack.isEmpty()) {
+            while(node != null) {
+                stack.push(node);
+                node = node.left == null ? node.right : node.left;
+            }
+
+            node = stack.pop();
+            System.out.println(node.data);
+            if (!stack.isEmpty() && node == stack.peek().left) {
+                node = stack.peek().right;
+            } else {
+                node = null;
             }
         }
     }

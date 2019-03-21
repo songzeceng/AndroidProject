@@ -1,0 +1,163 @@
+        /**
+         * Activity四种启动模式
+         *
+         * Standard: 收到新的Intent的时候，创建新的实例，新的实例和发送intent的activity在同一个任务栈中
+         * SingleTop: 收到新的Intent，如果这个activity在当前的任务栈顶，就复用，否则创建新的实例，和发送意图的activity在同一个任务栈
+         * SingleTask: 收到新的intent，如果此activity在当期的任务栈顶，不创建新的实例直接启动，
+         *                            否则将在其上面的activity全部弹出销毁，保证任务栈中只有自己的一个实例。
+         * SingleInstance: 始终保持一个实例，独占一个任务栈
+         *
+         * 屏幕旋转：
+         *
+         * 不设置android:configChanges:切横屏调用一次生命周期，竖屏调用两次
+         * android:configChanges = orientation:切横竖屏各一次
+         * android:configChanges = orientation|hiddenKeyBoard:不会调用生命周期，只会执行onConfigurationChanged()方法
+         *
+         * Vector：线程安全 2
+         *
+         * ArrayList：线程不安全 1.5
+         *
+         * HashMap:2，允许null键值对(位置0)，线程不安全
+         *
+         * HashTable:2n + 1，不允许null键值对，线程安全，效率高
+         *
+         * view设置id和不设置id的区别：
+         * 如果不给一个view设置一个id，那么在Activity调用onSaveInstanceState(Bundle outState)方法时，
+         * 就没办法保存它的状态，而且即使它当前是焦点view，也没办法将其焦点状态记录在Bundle对象中，这会导致在需要取出Bundle状态对象时，出现问题。
+         *
+         * Fragment生命周期：
+         * onAttach()
+         * onCreate()
+         * onCreateView()
+         * onActivtyCreated()
+         * onResume():Fragment可视
+         * onPause()
+         * onStop()
+         * onDestroyView()：如果Fragment重新可视，回到onCreateView()
+         * onDestroy()
+         * onDetach()
+         *
+         * ActivityA 跳转到ActivityB，ActivityB按返回键回到A
+         * onCreateA() -> onStartA() -> onResumeA() -> 启动B -> onPauseA() -> onCreateB()
+         * -> onStartB() -> onResumeB() -> onStopA() -> B按返回键回到A -> onPauseB() -> onRetartA()
+         * -> onStartA() -> onResumeA() -> onStopB() -> onDestroyB()
+         *
+         * 访问修饰符：
+         *  protected:包内+子类
+         *  默认：包内
+         *
+         * HandlerThread:
+         *  本质是一个线程，但拥有自己的Looper
+         *  Looper对象在run()方法里初始化
+         *  外部的handler可以获取looper，从而在子线程里处理子线程的消息
+         *  内部只有一个线程，所以是串行执行
+         *
+         * IntentService:
+         *  本质是一个Service，但内部有一个HandlerThread子线程和Handler
+         *  onStart()方法把意图封装给Message，发送给Handler
+         *  handler处理消息，执行onHandleIntent方法，然后调用quitSelf()，传入自己的id，结束这个IntentService
+         *  故而IntentService是在子线程里处理结果的，而且是串行执行，可以和BroadCastReceiver结合，更改UI
+         *
+         * Http安全性：
+         *  1、内容是明文 --》 ssl加密
+         *  2、不验证通信方身份 --》 ssl证书
+         *  3、不验证明文内容的完整性 -》 ssl摘要
+         *
+         * https密钥交换：
+         *  1、网站花钱从CA买一个数字证书，包括一个公钥一个私钥，这两个是非对称加密的
+         *  2、用户通过浏览器访问网站，网站服务器把公钥发给浏览器
+         *  3、浏览器发现不是权威CA发放的证书，警告用户
+         *  4、用户信任或本身就是权威CA的话，浏览器生成一个随机私钥，利用服务器发的公钥进行对称加密构成密文，发给服务器
+         *  5、服务器收到密文后，利用服务器的私钥解密，得到浏览器的随机私钥。
+         *
+         * GC：
+         *  栈内存，堆内存，常量区，方法区
+         *
+         *  栈：存放基本数据类型和对象的引用
+         *  堆：存放new出来的对象，栈里面的引用可以作为GCRoot
+         *
+         *  GCRoot:栈中的对象引用、常量或静态变量的对象引用、jni中的对象引用(如Bitmap)
+         *
+         *  引用计数：引用一次计数+1，引用销毁，计数-1。
+         *  可达性分析：从GCRoot往下遍历，判断一个对象是不是在GCRoot的引用链中
+         *      如果不在GCRoot的引用链中，进行两次标记
+         *      两次标记：如果对象没有覆写finalize()方法或者已经执行过，直接回收；否则标记之，放入F-Queue队列中，由Finalizer线程处理
+         *      处理F-Queue队列时，如果对象在finalize()方法中关联上了GCRoot，就标记为不回收；否则回收之
+         *
+         * 内存泄漏：
+         *  原因：要被销毁的对象还被持有引用，导致不能被销毁
+         *  情况：
+         *      1、内部handler、以及handler中的耗时操作。
+         *          当我们要销毁一个activity时，handler还有消息没有发送，这时message持有handler的引用，handler持有Activity的引用，导致Activity不能被销毁
+         *          或者handler在处理消息时，用了一个处理无限循环的子线程，导致子线程不能结束，同样Activity不能被销毁
+         *
+         *          方法：1、对于无限循环的子线程，可以通过标志位控制循环的结束和进行，在onDestroy()时改变标志位的值，就可以结束无限循环
+         *                2、 对于内部handler，一种是在onDestroy()时，调用handler.removeAllMessagesAndCallbacks(null)清空未发送的消息
+         *                3、另一种是让handler持有activity的弱引用
+         *
+         *      2、 单例、静态变量或属性
+         *          当我们给一个静态变量传context时，由于静态变量生命周期是应用的生命周期，所以也不能及时释放activity
+         *
+         *          方法：传入Application的context
+         *
+         *      3、游标的释放、bitmap.recycle()、监听的取消订阅
+         *
+         *      4、异步任务：在onPause()里取消任务，或者持有activity的弱引用
+         *
+         * 八种基本数据类型大小(字节)：
+         *  int 4
+         *  long 8
+         *  short 2
+         *  byte 1
+         *  boolean 1
+         *  char 2
+         *  float 4
+         *  double 8
+         *
+         * Http报头信息：
+         *  公共报头：远程IP、远程URL、请求方法、状态码
+         *  请求报头：接受内容格式、编码、语言、Cookie信息、浏览器信息、服务器url、页面来源url等
+         *  响应报头：内容格式和编码、返回日期、内容过期时期、cookie信息等
+         *
+         * Retrofit2.0优点：
+         *  自定义httpClient(okhttp还是httpClient)
+         *  方法参数用注解的方式定义
+         *  支持同步异步和RxJava
+         *  使用方便、可配置json或xml
+         *  可以设置基地址，在请求的方法注解上可传入相对地址
+         *
+         * 同步方法和同步代码块区别：
+         *  同步范围不同，前者大性能差
+         *  前者锁住的是当前对象，后者可以指定锁
+         *
+         * wait和sleep区别：
+         *  前者释放锁，后者不释放
+         */
+
+        /**
+         * 简单工厂模式：
+         *  根据传来的标识进行switch-case生产商品
+         *
+         * 工厂：
+         *  定义抽象工厂接口或抽象类，不同的具体工厂生产不同的产品
+         *
+         * 抽象工厂：
+         *  定义抽象工厂和抽象产品类，不同工厂生产抽象产品的具体类，可以实现多种具体产品的生产
+         *
+         * 适配器模式：
+         *  主要是对象适配：抽象类为目标类，适配器继承目标类，然后给被适配器的set方法传入适配器
+         *
+         * 装饰者模式：
+         *  装饰者和被装饰者共有一个抽象父类，同时装饰者有自己的父类，此父类也继承自抽象父类
+         *  然后装饰者拥有一个抽象父类属性，做为被装饰者，在装饰者自己的实现方法里，可以先调用被装饰者的方法，再调用自己的
+         *
+         * 代理模式：
+         *  代理者和被代理者共有一个抽象父类，同时代理者拥有抽象父类的引用，此抽象父类做为被代理者，执行代理方法方法时，执行的是被代理者的方法
+         *
+         * 装饰者模式和代理模式的区别：
+         *  装饰者模式是在被装饰者的方法基础上，再执行自己的方法
+         *  代理模式则是代理类决定被代理类的方法执行与否
+         *
+         * 策略模式：
+         *  所用算法提取一个抽象类，不同的算法类实现不同的算法。用户类拥有抽象类属性，设置的时候，传入不同的具体类执行具体的算法
+         */
