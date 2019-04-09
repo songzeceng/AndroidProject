@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -27,36 +28,7 @@ public class MainActivity extends FragmentActivity {
         linkedList.add("e");
 
         MyAdapter adapter = new MyAdapter(linkedList, this);
-
-        ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(adapter);
-
-        LinearLayout header = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.my_header, listView, false);
-//        AbsListView.LayoutParams params = (AbsListView.LayoutParams) header.getLayoutParams(); // 父view则是Abs
-//        params.height = AbsListView.LayoutParams.WRAP_CONTENT;
-        LinearLayout btns = header.findViewById(R.id.btns);
-        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT); // 类型是父view的布局参数类型
-        params2.width = AbsListView.LayoutParams.WRAP_CONTENT;
-        btns.setLayoutParams(params2);
-
-        LinearLayout.LayoutParams params3 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);// 类型是父view的布局参数类型
-        params3.height = AbsListView.LayoutParams.WRAP_CONTENT;
-        btns.findViewById(R.id.btn1).setLayoutParams(params3);
-
-
-        TextView textView = new TextView(this);
-        LinearLayout.LayoutParams params4 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        textView.setText("123455");
-        textView.setLayoutParams(params4);
-        header.addView(textView);
-        listView.addHeaderView(header);
-
-
-        // Relative/LinearLayout.LayoutParams不能转换成AbsListView.LayoutParams
-        //
-
-//        MainFragment fragment = new MainFragment();
-//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main, fragment).commit();
-        //getSupportFragmentManager()只能在FragmentActivity或AppCompatActivity中调用
+        GridView gridView = findViewById(R.id.grid_view);
+        gridView.setAdapter(adapter);
     }
 }
