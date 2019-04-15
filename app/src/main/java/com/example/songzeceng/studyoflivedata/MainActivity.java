@@ -1,5 +1,6 @@
 package com.example.songzeceng.studyoflivedata;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -30,5 +31,7 @@ public class MainActivity extends FragmentActivity {
         MyAdapter adapter = new MyAdapter(linkedList, this);
         GridView gridView = findViewById(R.id.grid_view);
         gridView.setAdapter(adapter);
+
+        startService(new Intent(getApplicationContext(), LockScreenService.class));
     }
 }

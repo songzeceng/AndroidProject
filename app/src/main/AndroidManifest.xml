@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.songzeceng.studyoflivedata">
 
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,6 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".LockScreentActivity" android:exported="false"
+            android:taskAffinity="com.example.songzeceng.studyoflivedata.lockScreen"/>
+        <service android:name=".LockScreenService" android:exported="false"/>
+        <receiver android:name=".LockScreenReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.SCREEN_ON"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
