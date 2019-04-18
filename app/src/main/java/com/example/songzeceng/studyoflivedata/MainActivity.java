@@ -3,20 +3,16 @@ package com.example.songzeceng.studyoflivedata;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
+import android.util.Log;
 import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends FragmentActivity {
+    private TimerTask mTimerTask;
+    private Timer mTimer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,5 +29,26 @@ public class MainActivity extends FragmentActivity {
         gridView.setAdapter(adapter);
 
         startService(new Intent(getApplicationContext(), LockScreenService.class));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("MainActivity", "onResume: ");
+        mTimer = new Timer();
+        mTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                Log.i("MainActivity", "run: 任务被触发");
+            }
+        };
+        mTimer.schedule(mTimerTask, 1000);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("MainActivity", "onStop: ");
+        mTimer.cancel();
     }
 }

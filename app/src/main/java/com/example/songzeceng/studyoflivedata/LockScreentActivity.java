@@ -1,6 +1,5 @@
 package com.example.songzeceng.studyoflivedata;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -8,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -27,14 +25,13 @@ import java.util.LinkedList;
  */
 public class LockScreentActivity extends Activity {
 	private LockScreenListView mContentView;
-	private int mWindowWidth = 0;
 
-	private ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListener = new ViewTreeObserver
+	private final ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListener = new ViewTreeObserver
 			.OnGlobalLayoutListener() {
 		@Override
 		public void onGlobalLayout() {
-			mWindowWidth = getWindow().getDecorView().getWidth();
-			mContentView.setmWindowWidth(mWindowWidth);
+			int windowWidth = getWindow().getDecorView().getWidth();
+			mContentView.setmWindowWidth(windowWidth);
 			mContentView.setActivity(LockScreentActivity.this);
 			if (mContentView != null) {
 				mContentView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -112,7 +109,7 @@ public class LockScreentActivity extends Activity {
 		}
 	}
 
-	public int getStatusBarHeight() {
+	private int getStatusBarHeight() {
 		int result = 0;
 		int resourceId = getResources().getIdentifier("status_bar_height",
 				"dimen", "android");

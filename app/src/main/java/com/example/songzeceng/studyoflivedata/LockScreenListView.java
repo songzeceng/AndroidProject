@@ -63,8 +63,8 @@ public class LockScreenListView extends ListView {
 
 	private void handleTouchResult(float destination) {
 		float offsetX = destination - mStartX;
-		if (offsetX > mWindowWidth * 0.4) { // 超过阈值，结束锁屏activity
-			handleTouchResult(mWindowWidth - this.getLeft(), true);
+		if (offsetX > mWindowWidth * 0.2) { // 超过阈值，结束锁屏activity
+			handleTouchResult(mWindowWidth - getLeft(), true);
 		} else { // 否则内容回到原位
 			handleTouchResult(-getLeft(), false);
 		}
