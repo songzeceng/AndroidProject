@@ -20,6 +20,7 @@ public class LockScreenService extends Service {
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(Intent.ACTION_SCREEN_ON); // 接收屏幕亮时的广播
 		intentFilter.addAction(Intent.ACTION_USER_PRESENT);
+		intentFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
 		mReceiver = new LockScreenReceiver();
 		registerReceiver(mReceiver, intentFilter);
 	}

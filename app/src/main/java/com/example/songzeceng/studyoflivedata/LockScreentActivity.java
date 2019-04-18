@@ -1,11 +1,14 @@
 package com.example.songzeceng.studyoflivedata;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -42,6 +45,7 @@ public class LockScreentActivity extends Activity {
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		ActivityManager.setCurrentActivity(this );
 		initWindow();
 
 		setContentView(R.layout.activity_screen_lock);
@@ -55,6 +59,21 @@ public class LockScreentActivity extends Activity {
 		initContentData();
 
 		mContentView.getViewTreeObserver().addOnGlobalLayoutListener(mOnGlobalLayoutListener);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		// 屏蔽recent键
+		android.app.ActivityManager activityManager = (android.app.ActivityManager) getApplicationContext()
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		activityManager.moveTaskToFront(getTaskId(), 0);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		ActivityManager.setCurrentActivity(null);
 	}
 
 	private void initContentData() {
@@ -105,6 +124,6 @@ public class LockScreentActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		// 屏蔽返回键
+		// 屏蔽Back键
 	}
 }
