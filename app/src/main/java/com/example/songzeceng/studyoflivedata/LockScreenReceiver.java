@@ -30,7 +30,6 @@ public class LockScreenReceiver extends BroadcastReceiver {
 									newIntent, 0);
 							try {
 								pendingIntent.send();
-
 							} catch (PendingIntent.CanceledException e) {
 								e.printStackTrace();
 							}

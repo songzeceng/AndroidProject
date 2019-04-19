@@ -48,14 +48,18 @@ public class LockScreentActivity extends Activity {
 		setContentView(R.layout.activity_screen_lock);
 
 		mContentView = findViewById(R.id.lock_content);
+		modifyMarginTop();
+		initContentData();
+
+		mContentView.getViewTreeObserver().addOnGlobalLayoutListener(mOnGlobalLayoutListener);
+	}
+
+	private void modifyMarginTop() {
 		int statusHeight = getStatusBarHeight();
 		Log.i("LockScreen", "onCreate: 状态栏高度:" + statusHeight);
 		RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mContentView.getLayoutParams();
 		layoutParams.topMargin = statusHeight + 5;
 		mContentView.setLayoutParams(layoutParams);
-		initContentData();
-
-		mContentView.getViewTreeObserver().addOnGlobalLayoutListener(mOnGlobalLayoutListener);
 	}
 
 	@Override
@@ -88,6 +92,8 @@ public class LockScreentActivity extends Activity {
 	private void initWindow() {
 		final Window window = getWindow();
 		requestWindowFeature(Window.FEATURE_NO_TITLE); // 无标题
+		window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD // 取消系统锁屏
 				| WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED); // 锁屏时仍显示
 		window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE // 防止系统栏隐藏时activity大小发生变化
