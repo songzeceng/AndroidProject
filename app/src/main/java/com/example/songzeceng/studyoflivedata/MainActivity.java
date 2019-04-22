@@ -1,10 +1,12 @@
 package com.example.songzeceng.studyoflivedata;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.GridView;
+import android.widget.VideoView;
 
 import java.util.LinkedList;
 import java.util.Timer;
@@ -27,6 +29,10 @@ public class MainActivity extends FragmentActivity {
         MyAdapter adapter = new MyAdapter(linkedList, this);
         GridView gridView = findViewById(R.id.grid_view);
         gridView.setAdapter(adapter);
+
+        VideoView videoView = findViewById(R.id.video);
+        videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.movie));
+        videoView.start();
 
         startService(new Intent(getApplicationContext(), LockScreenService.class));
     }
