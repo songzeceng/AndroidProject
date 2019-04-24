@@ -6,11 +6,15 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.GridView;
-import android.widget.VideoView;
 
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import io.vov.vitamio.LibsChecker;
+import io.vov.vitamio.MediaPlayer;
+import io.vov.vitamio.Vitamio;
+import io.vov.vitamio.widget.VideoView;
 
 public class MainActivity extends FragmentActivity {
     private TimerTask mTimerTask;
@@ -18,6 +22,9 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Vitamio.isInitialized(this);
+        if (!LibsChecker.checkVitamioLibs(this))
+            return;
         setContentView(R.layout.activity_main);
         LinkedList<String> linkedList = new LinkedList<>();
         linkedList.add("a");
@@ -30,9 +37,13 @@ public class MainActivity extends FragmentActivity {
         GridView gridView = findViewById(R.id.grid_view);
         gridView.setAdapter(adapter);
 
-        VideoView videoView = findViewById(R.id.video);
-        videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.movie));
-        videoView.start();
+        try {
+            VideoView videoView = findViewById(R.id.video);
+            videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.movie));
+            videoView.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         startService(new Intent(getApplicationContext(), LockScreenService.class));
     }
