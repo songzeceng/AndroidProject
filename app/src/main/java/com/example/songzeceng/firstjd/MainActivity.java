@@ -6,6 +6,8 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +23,13 @@ public class MainActivity extends Activity {
 	private ImageView imageView;
 
 	public static File file;
+	private static int sCount = 5;
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+		    System.out.println("sCount = 0，from thread:" + msg.obj.toString());
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,32 @@ public class MainActivity extends Activity {
 				finish();
 			}
 		}, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		for (int i = 0; i < 5; i++) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					synchronized (MainActivity.this) {
+						sCount--;
+						if (sCount == 0) {
+							Message msg = mHandler.obtainMessage(0);
+							msg.obj = Thread.currentThread().getName();
+							mHandler.sendMessage(msg);
+						}
+					}
+				}
+			}).start();
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mHandler.removeCallbacksAndMessages(null);
 	}
 
 	private String getCpuAbi() {
