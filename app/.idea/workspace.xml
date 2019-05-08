@@ -12,6 +12,9 @@
   <component name="ChangeListManager">
     <list default="true" id="28ce7049-a988-4da1-a757-1404f37cbf5e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/songzeceng/firstjd/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/songzeceng/firstjd/MainActivity.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -37,8 +40,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/songzeceng/firstjd/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="81" column="48" selection-start-line="81" selection-start-column="48" selection-end-line="81" selection-end-column="48" />
+            <state relative-caret-position="107">
+              <caret line="85" column="52" selection-start-line="85" selection-start-column="52" selection-end-line="85" selection-end-column="52" />
               <folding>
                 <element signature="e#686#839#0" expanded="true" />
                 <element signature="e#838#839#0" expanded="true" />
@@ -46,6 +49,8 @@
                 <element signature="e#1570#1571#0" expanded="true" />
                 <element signature="e#1758#2052#0" expanded="true" />
                 <element signature="e#2051#2052#0" expanded="true" />
+                <element signature="e#2215#3059#0" expanded="true" />
+                <element signature="e#3058#3059#0" expanded="true" />
                 <element signature="e#2501#2689#0" expanded="true" />
                 <element signature="e#2688#2689#0" expanded="true" />
                 <element signature="e#2730#2918#0" expanded="true" />
@@ -82,7 +87,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="app" type="b2602c69:ProjectViewProjectNode" />
+              <item name="first" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="app" type="b2602c69:ProjectViewProjectNode" />
+              <item name="first" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -93,13 +113,11 @@
             <path>
               <item name="app" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="assets" type="edd41e36:AndroidSourceTypeNode" />
             </path>
             <path>
               <item name="app" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="firstjd" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
           </expand>
           <select />
@@ -110,11 +128,20 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="DEBUGGABLE_DEVICE" value="huawei-trt_al00a-9YJNW17C29005255" />
+    <property name="DEBUGGABLE_PROCESS" value="com.example.songzeceng.firstjd" />
+    <property name="DEBUGGER_ID" value="Auto" />
+    <property name="SHOW_ALL_PROCESSES" value="false" />
     <property name="android.sdk.path" value="D:/ProgramCoding/Android/sdk" />
     <property name="device.picker.selection" value="9YJNW17C29005255" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="not.eligible.for.single.variant.sync" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\123\Desktop\szc\first\app\src\main\assets" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -264,11 +291,11 @@
       <window_info id="Resources Explorer" order="7" />
       <window_info id="Capture Tool" order="8" />
       <window_info anchor="bottom" id="Run" />
-      <window_info anchor="bottom" id="Debug" />
-      <window_info anchor="bottom" id="Version Control" order="0" />
+      <window_info anchor="bottom" id="Debug" weight="0.32964602" />
+      <window_info anchor="bottom" id="Version Control" order="0" weight="0.32964602" />
       <window_info active="true" anchor="bottom" id="Logcat" order="1" visible="true" weight="0.32964602" />
       <window_info anchor="bottom" id="TODO" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="3" />
+      <window_info anchor="bottom" id="Terminal" order="3" weight="0.32964602" />
       <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Build" order="5" weight="0.15044248" />
       <window_info anchor="bottom" id="Android Profiler" order="6" />
@@ -278,6 +305,18 @@
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info anchor="right" id="Palette&#9;" order="4" />
     </layout>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/songzeceng/firstjd/MainActivity.java</url>
+          <line>85</line>
+          <properties />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="jar://$PROJECT_DIR$/libs/arcsoft_face.jar!/com/arcsoft/face/FaceFeature.class">
@@ -346,8 +385,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/songzeceng/firstjd/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="81" column="48" selection-start-line="81" selection-start-column="48" selection-end-line="81" selection-end-column="48" />
+        <state relative-caret-position="107">
+          <caret line="85" column="52" selection-start-line="85" selection-start-column="52" selection-end-line="85" selection-end-column="52" />
           <folding>
             <element signature="e#686#839#0" expanded="true" />
             <element signature="e#838#839#0" expanded="true" />
@@ -355,6 +394,8 @@
             <element signature="e#1570#1571#0" expanded="true" />
             <element signature="e#1758#2052#0" expanded="true" />
             <element signature="e#2051#2052#0" expanded="true" />
+            <element signature="e#2215#3059#0" expanded="true" />
+            <element signature="e#3058#3059#0" expanded="true" />
             <element signature="e#2501#2689#0" expanded="true" />
             <element signature="e#2688#2689#0" expanded="true" />
             <element signature="e#2730#2918#0" expanded="true" />

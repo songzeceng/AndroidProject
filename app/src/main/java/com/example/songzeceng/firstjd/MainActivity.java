@@ -13,7 +13,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import permison.PermissonUtil;
 import permison.listener.PermissionListener;
@@ -74,6 +78,35 @@ public class MainActivity extends Activity {
 				}
 			}).start();
 		}
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					File destFile = new File(MainActivity.this.getExternalCacheDir().getParentFile(), "movie.mp4");
+					if (!destFile.exists()) {
+						destFile.createNewFile();
+					} else {
+						destFile.delete();
+					}
+					BufferedInputStream inputStream = new BufferedInputStream(MainActivity.this.getAssets().open("movie.mp4"));
+					BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(destFile));
+					byte[] bytes = new byte[1024];
+					int len;
+					while ((len = inputStream.read(bytes)) != -1) {
+						outputStream.write(bytes, 0, len);
+						outputStream.flush();
+					}
+
+					inputStream.close();
+					outputStream.close();
+					System.out.println("拷贝assets文件完毕");
+				} catch (IOException e) {
+					e.printStackTrace();
+					System.out.println("出现异常");
+				}
+			}
+		}).start();
 	}
 
 	@Override
