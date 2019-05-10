@@ -6,7 +6,6 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="System.out" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
@@ -15,8 +14,95 @@
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/songzeceng/firstjd/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/songzeceng/firstjd/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/strings.xml" afterDir="false" />
     </list>
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/layout/activity_main.xml" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/layout/activity_main.xml" />
+    <ignored path="../myModule/build/intermediates/manifests/aapt/debug/AndroidManifest.xml" />
+    <ignored path="../myModule/build/intermediates/manifests/full/debug/AndroidManifest.xml" />
+    <ignored path="../server/build/intermediates/manifests/aapt/debug/AndroidManifest.xml" />
+    <ignored path="../server/build/intermediates/manifests/full/debug/AndroidManifest.xml" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/drawable-v24/bayern.png" />
+    <ignored path="../server/build/generated/source/buildConfig/debug/com/example/songzeceng/studyofipc/BuildConfig.java" />
+    <ignored path="../myModule/build/generated/source/buildConfig/debug/com/example/songzeceng/studyofretrofit/BuildConfig.java" />
+    <ignored path="../myModule/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" />
+    <ignored path="../server/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" />
+    <ignored path="../myModule/build/intermediates/incremental/compileDebugAidl/dependency.store" />
+    <ignored path="../server/build/intermediates/incremental/compileDebugAidl/dependency.store" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/layout/dialog_layout.xml" />
+    <ignored path="../.idea/encodings.xml" />
+    <ignored path="../.idea/caches/gradle_models.ser" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/mipmap-hdpi-v4/ic_launcher.png" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/mipmap-mdpi-v4/ic_launcher.png" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/mipmap-xhdpi-v4/ic_launcher.png" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/mipmap-xxhdpi-v4/ic_launcher.png" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/mipmap-xxxhdpi-v4/ic_launcher.png" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/mipmap-hdpi-v4/ic_launcher.png" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/mipmap-mdpi-v4/ic_launcher.png" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/mipmap-xhdpi-v4/ic_launcher.png" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/mipmap-xxhdpi-v4/ic_launcher.png" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/mipmap-xxxhdpi-v4/ic_launcher.png" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/mipmap-anydpi-v26/ic_launcher.xml" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/mipmap-anydpi-v26/ic_launcher.xml" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/drawable/ic_launcher_background.xml" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/drawable/ic_launcher_background.xml" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/drawable-v24/ic_launcher_foreground.xml" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/drawable-v24/ic_launcher_foreground.xml" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/mipmap-hdpi-v4/ic_launcher_round.png" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/mipmap-mdpi-v4/ic_launcher_round.png" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/mipmap-xhdpi-v4/ic_launcher_round.png" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/mipmap-xxhdpi-v4/ic_launcher_round.png" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/mipmap-xxxhdpi-v4/ic_launcher_round.png" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/mipmap-hdpi-v4/ic_launcher_round.png" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/mipmap-mdpi-v4/ic_launcher_round.png" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/mipmap-xhdpi-v4/ic_launcher_round.png" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/mipmap-xxhdpi-v4/ic_launcher_round.png" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/mipmap-xxxhdpi-v4/ic_launcher_round.png" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/mipmap-anydpi-v26/ic_launcher_round.xml" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/mipmap-anydpi-v26/ic_launcher_round.xml" />
+    <ignored path="../server/build/generated/source/aidl/debug/com/example/songzeceng/studyofipc/IPersonManagerInterface.java" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/layout/item_recycler.xml" />
+    <ignored path="../server/build/outputs/logs/manifest-merger-debug-report.txt" />
+    <ignored path="../myModule/build/outputs/logs/manifest-merger-debug-report.txt" />
+    <ignored path="../myModule/build/intermediates/incremental/packageDebugResources/merger.xml" />
+    <ignored path="../server/build/intermediates/incremental/packageDebugResources/merger.xml" />
+    <ignored path="src/main/assets/movie.mp4" />
+    <ignored path="../server/build/intermediates/res/debug/output.json" />
+    <ignored path="../myModule/build/intermediates/manifests/aapt/debug/output.json" />
+    <ignored path="../myModule/build/intermediates/manifests/full/debug/output.json" />
+    <ignored path="../server/build/intermediates/manifests/aapt/debug/output.json" />
+    <ignored path="../server/build/intermediates/manifests/full/debug/output.json" />
+    <ignored path="../myModule/build/intermediates/res/debug/output.json" />
+    <ignored path="../server/build/intermediates/res/symbol-table-with-package/debug/package-aware-r.txt" />
+    <ignored path="../myModule/build/intermediates/res/symbol-table-with-package/debug/package-aware-r.txt" />
+    <ignored path="../server/build/intermediates/bundles/debug/aidl/com/example/songzeceng/studyofipc/Person.aidl" />
+    <ignored path="../server/build/generated/source/r/debug/com/example/songzeceng/studyofipc/R.java" />
+    <ignored path="../server/build/generated/source/r/debug/android/support/constraint/R.java" />
+    <ignored path="../myModule/build/generated/source/r/debug/android/support/v4/R.java" />
+    <ignored path="../myModule/build/generated/source/r/debug/android/support/v7/cardview/R.java" />
+    <ignored path="../myModule/build/generated/source/r/debug/android/support/v7/recyclerview/R.java" />
+    <ignored path="../myModule/build/generated/source/r/debug/android/support/compat/R.java" />
+    <ignored path="../myModule/build/generated/source/r/debug/android/support/coreui/R.java" />
+    <ignored path="../myModule/build/generated/source/r/debug/android/support/fragment/R.java" />
+    <ignored path="../myModule/build/generated/source/r/debug/android/support/coreutils/R.java" />
+    <ignored path="../myModule/build/generated/source/r/debug/android/support/mediacompat/R.java" />
+    <ignored path="../myModule/build/generated/source/r/debug/butterknife/R.java" />
+    <ignored path="../myModule/build/generated/source/r/debug/io/reactivex/android/R.java" />
+    <ignored path="../myModule/build/generated/source/r/debug/com/example/songzeceng/studyofretrofit/R.java" />
+    <ignored path="../server/build/intermediates/attr/R.txt" />
+    <ignored path="../server/build/intermediates/bundles/debug/R.txt" />
+    <ignored path="../myModule/build/intermediates/attr/R.txt" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/R.txt" />
+    <ignored path="../myModule/build/generated/source/r/debug/com/example/songzeceng/studyofretrofit/R2.java" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/layout/text_item_recycler.xml" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/xml/updatepath.xml" />
+    <ignored path="../myModule/build/intermediates/bundles/debug/res/values/values.xml" />
+    <ignored path="../server/build/intermediates/bundles/debug/res/values/values.xml" />
+    <ignored path="../myModule/build/intermediates/incremental/packageDebugResources/merged.dir/values/values.xml" />
+    <ignored path="../server/build/intermediates/incremental/packageDebugResources/merged.dir/values/values.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,30 +123,110 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/songzeceng/firstjd/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="107">
-              <caret line="85" column="52" selection-start-line="85" selection-start-column="52" selection-end-line="85" selection-end-column="52" />
+            <state relative-caret-position="217">
+              <caret line="207" selection-start-line="207" selection-end-line="207" />
               <folding>
-                <element signature="e#686#839#0" expanded="true" />
-                <element signature="e#838#839#0" expanded="true" />
-                <element signature="e#1551#1552#0" expanded="true" />
-                <element signature="e#1570#1571#0" expanded="true" />
-                <element signature="e#1758#2052#0" expanded="true" />
-                <element signature="e#2051#2052#0" expanded="true" />
-                <element signature="e#2215#3059#0" expanded="true" />
-                <element signature="e#3058#3059#0" expanded="true" />
-                <element signature="e#2501#2689#0" expanded="true" />
-                <element signature="e#2688#2689#0" expanded="true" />
-                <element signature="e#2730#2918#0" expanded="true" />
-                <element signature="e#2917#2918#0" expanded="true" />
+                <element signature="e#4335#4336#0" expanded="true" />
+                <element signature="e#4383#4384#0" expanded="true" />
+                <element signature="e#4539#4540#0" expanded="true" />
+                <element signature="e#4583#4584#0" expanded="true" />
+                <element signature="e#4868#6253#0" expanded="true" />
+                <element signature="e#4972#6216#0" expanded="true" />
+                <element signature="e#5634#5851#0" expanded="true" />
+                <element signature="e#5850#5851#0" expanded="true" />
+                <element signature="e#6215#6216#0" expanded="true" />
+                <element signature="e#6252#6253#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/QRCodeManager.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="181">
+              <caret line="65" selection-start-line="65" selection-end-line="65" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/activity/CaptureActivity.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="337">
+              <caret line="303" column="33" lean-forward="true" selection-start-line="303" selection-start-column="33" selection-end-line="303" selection-end-column="33" />
+              <folding>
+                <element signature="e#3358#3717#0" expanded="true" />
+                <element signature="e#3716#3717#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/camera/CameraManager.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="77">
+              <caret line="110" column="43" selection-start-line="110" selection-start-column="33" selection-end-line="110" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/camera/PreviewCallback.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="280">
+              <caret line="29" selection-start-line="29" selection-end-line="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/decode/DecodeHandler.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-500">
+              <caret line="63" column="20" lean-forward="true" selection-start-line="63" selection-start-column="20" selection-end-line="63" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.0/39d966e052e28fc7d83793b02e0af97ccf955745/core-3.3.0-sources.jar!/com/google/zxing/MultiFormatReader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="185">
+              <caret line="94" column="14" selection-start-line="94" selection-start-column="14" selection-end-line="94" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/utils/CaptureActivityHandler.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="260">
+              <caret line="39" column="34" selection-start-line="39" selection-start-column="34" selection-end-line="39" selection-end-column="34" />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="resourceFile" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>openDriver</find>
+      <find>101</find>
+      <find>410</find>
+      <find>setHandler</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -69,11 +235,16 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/main/java/com/example/songzeceng/firstjd/FaceAPI/FaceEngineManager.java" />
+        <option value="$PROJECT_DIR$/src/main/res/xml/path.xml" />
+        <option value="$PROJECT_DIR$/src/main/res/xml/provider_paths.xml" />
+        <option value="$PROJECT_DIR$/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/main/res/layout/activity_main.xml" />
+        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/songzeceng/firstjd/MainActivity.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-7" />
     <option name="y" value="2" />
     <option name="width" value="1292" />
@@ -83,7 +254,7 @@
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="ProjectPane" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -99,42 +270,44 @@
               <item name="first" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
+            <path>
+              <item name="app" type="b2602c69:ProjectViewProjectNode" />
+              <item name="first" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="app" type="b2602c69:ProjectViewProjectNode" />
+              <item name="first" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="app" type="b2602c69:ProjectViewProjectNode" />
+              <item name="first" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView">
-        <subPane>
-          <expand>
-            <path>
-              <item name="app" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-            </path>
-            <path>
-              <item name="app" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="assets" type="edd41e36:AndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="app" type="1abcf292:AndroidViewProjectNode" />
-              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="AndroidView" />
       <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="DEBUGGABLE_DEVICE" value="huawei-trt_al00a-9YJNW17C29005255" />
+    <property name="DEBUGGABLE_DEVICE" value="trt_al00a-9YJNW17C29005255" />
     <property name="DEBUGGABLE_PROCESS" value="com.example.songzeceng.firstjd" />
     <property name="DEBUGGER_ID" value="Auto" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
     <property name="android.sdk.path" value="D:/ProgramCoding/Android/sdk" />
     <property name="device.picker.selection" value="9YJNW17C29005255" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="D:/ProgramCoding/Android/SDK/platforms/android-28/android" />
     <property name="not.eligible.for.single.variant.sync" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
@@ -264,6 +437,20 @@
       </method>
     </configuration>
   </component>
+  <component name="StructuralSearchPlugin">
+    <searchConfiguration name="user defined" created="1557456537320" text="FileProvider" recursive="true" caseInsensitive="false" type="XML" scope_type="PROJECT" scope_descriptor="" history="1">
+      <constraint name="__context__" within="" contains="" />
+    </searchConfiguration>
+    <searchConfiguration name="user defined" created="1557456484730" text="FileProvider&#10;&#10;" recursive="true" caseInsensitive="false" type="XML" scope_type="PROJECT" scope_descriptor="" history="1">
+      <constraint name="__context__" within="" contains="" />
+    </searchConfiguration>
+    <searchConfiguration name="user defined" created="1557416208797" text="provider_paths" recursive="true" caseInsensitive="true" type="XML" scope_type="PROJECT" scope_descriptor="" history="1">
+      <constraint name="__context__" within="" contains="" />
+    </searchConfiguration>
+  </component>
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",ALPHA_COMPARATOR" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -278,27 +465,29 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1062" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1062" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.21641791" />
-      <window_info id="Structure" order="2" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.49834985" visible="true" weight="0.21641791" />
+      <window_info id="Structure" order="2" sideWeight="0.50165015" side_tool="true" visible="true" weight="0.21641791" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Build Variants" order="4" side_tool="true" />
       <window_info id="Image Layers" order="5" />
       <window_info id="Designer" order="6" />
       <window_info id="Resources Explorer" order="7" />
       <window_info id="Capture Tool" order="8" />
-      <window_info anchor="bottom" id="Run" />
-      <window_info anchor="bottom" id="Debug" weight="0.32964602" />
+      <window_info anchor="bottom" id="Run" weight="0.32964602" />
+      <window_info active="true" anchor="bottom" id="Debug" visible="true" weight="0.32964602" />
+      <window_info anchor="bottom" id="Find" weight="0.32964602" />
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.32964602" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="1" visible="true" weight="0.32964602" />
+      <window_info anchor="bottom" id="Logcat" order="1" weight="0.32964602" />
       <window_info anchor="bottom" id="TODO" order="2" />
       <window_info anchor="bottom" id="Terminal" order="3" weight="0.32964602" />
       <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Build" order="5" weight="0.15044248" />
       <window_info anchor="bottom" id="Android Profiler" order="6" />
+      <window_info anchor="right" id="Preview" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
       <window_info anchor="right" id="Gradle" order="2" />
@@ -310,13 +499,81 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/songzeceng/firstjd/MainActivity.java</url>
-          <line>85</line>
+          <url>jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/activity/CaptureActivity.class</url>
+          <line>295</line>
           <properties />
-          <option name="timeStamp" value="2" />
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/activity/CaptureActivity.class</url>
+          <line>173</line>
+          <properties />
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/songzeceng/firstjd/MainActivity.java</url>
+          <line>207</line>
+          <properties />
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>activity.getHandler()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>Uri.parse(&quot;file://&quot; + destFile)</expression-string>
+        <language-id>JAVA</language-id>
+        <custom-info>android.net.Uri</custom-info>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>FileProvider.getUriForFile(MainActivity.this, &quot;songzeceng&quot;, destFile)</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>cursor.getString(cursor.getColumnIndex(&quot;_display_name&quot;))</expression-string>
+        <language-id>JAVA</language-id>
+        <custom-info>android.database.CrossProcessCursorWrapper</custom-info>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>cursor.getString(cursor.getColumnIndex(&quot;_size&quot;))</expression-string>
+        <language-id>JAVA</language-id>
+        <custom-info>android.database.CrossProcessCursorWrapper</custom-info>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>cursor.moveToNext()</expression-string>
+        <language-id>JAVA</language-id>
+        <custom-info>android.database.CrossProcessCursorWrapper</custom-info>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>cursor.getColumnCount()</expression-string>
+        <language-id>JAVA</language-id>
+        <custom-info>android.database.CrossProcessCursorWrapper</custom-info>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>cursor.getColumnIndex(&quot;_data&quot;)</expression-string>
+        <language-id>JAVA</language-id>
+        <custom-info>android.database.CrossProcessCursorWrapper</custom-info>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>cursor.getString(cursor.getColumnIndex(&quot;_data&quot;))</expression-string>
+        <language-id>JAVA</language-id>
+        <custom-info>android.database.CrossProcessCursorWrapper</custom-info>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
   </component>
   <component name="editorHistoryManager">
     <entry file="jar://$PROJECT_DIR$/libs/arcsoft_face.jar!/com/arcsoft/face/FaceFeature.class">
@@ -375,31 +632,258 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="10" column="20" lean-forward="true" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/Zxing-v1.0.3.aar/3034578bc50cfadf3203eb456f615fdf/jars/libs/zxing-3.1.1.jar!/com/google/zxing/qrcode/encoder/Encoder.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-509">
+          <caret line="38" column="46" selection-start-line="38" selection-start-column="39" selection-end-line="38" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/Zxing-v1.0.3.aar/3034578bc50cfadf3203eb456f615fdf/jars/libs/zxing-3.1.1.jar!/com/google/zxing/qrcode/QRCodeWriter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="48" column="36" selection-start-line="48" selection-start-column="36" selection-end-line="48" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/Zxing-v1.0.3.aar/3034578bc50cfadf3203eb456f615fdf/jars/libs/zxing-3.1.1.jar!/com/google/zxing/Writer.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="13" column="14" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/Zxing-v1.0.3.aar/3034578bc50cfadf3203eb456f615fdf/jars/libs/zxing-3.1.1.jar!/com/google/zxing/MultiFormatWriter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="69" column="35" lean-forward="true" selection-start-line="69" selection-start-column="35" selection-end-line="69" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/Zxing-v1.0.3.aar/3034578bc50cfadf3203eb456f615fdf/jars/classes.jar!/com/google/zxing/common/BitmapUtils.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="56" column="57" lean-forward="true" selection-start-line="56" selection-start-column="57" selection-end-line="56" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/ProgramCoding/Android/SDK/platforms/android-28/android.jar!/android/app/Activity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="894" column="19" selection-start-line="894" selection-start-column="19" selection-end-line="894" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/ProgramCoding/Android/SDK/platforms/android-28/android.jar!/android/view/View.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1363">
+          <caret line="326" column="16" selection-start-line="326" selection-start-column="16" selection-end-line="326" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/ProgramCoding/Android/SDK/platforms/android-28/android.jar!/android/widget/ImageView.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="124" column="16" selection-start-line="124" selection-start-column="16" selection-end-line="124" selection-end-column="16" />
+          <folding>
+            <element signature="e#3497#3498#0" expanded="true" />
+            <element signature="e#3548#3549#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/xml/provider_paths.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/ProgramCoding/Android/SDK/platforms/android-28/android.jar!/android/graphics/Bitmap.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1003">
+          <caret line="144" column="5" selection-start-line="144" selection-start-column="5" selection-end-line="144" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.0/39d966e052e28fc7d83793b02e0af97ccf955745/core-3.3.0-sources.jar!/com/google/zxing/MultiFormatWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.0/39d966e052e28fc7d83793b02e0af97ccf955745/core-3.3.0-sources.jar!/com/google/zxing/qrcode/QRCodeWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="35" column="28" lean-forward="true" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.0/39d966e052e28fc7d83793b02e0af97ccf955745/core-3.3.0-sources.jar!/com/google/zxing/qrcode/encoder/QRCode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="26" column="23" lean-forward="true" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="5" column="16" lean-forward="true" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/picturePickUtil-v1.0.6.aar/9b53d78d62cb97002b9b4eeb2481b0f3/res/xml/provider_paths.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+        <state relative-caret-position="438">
+          <caret line="31" column="19" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
+          <folding>
+            <element signature="e#417#435#0" expanded="true" />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="android-manifest" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_main.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+          <folding>
+            <element signature="e#865#891#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="40" column="49" selection-start-line="40" selection-start-column="49" selection-end-line="40" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/ProgramCoding/Android/SDK/sources/android-28/android/net/Uri.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="272" column="27" selection-start-line="272" selection-start-column="27" selection-end-line="272" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/ProgramCoding/Android/SDK/sources/android-28/android/view/SurfaceHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-205">
+          <caret line="68" column="21" selection-start-line="68" selection-start-column="21" selection-end-line="68" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.0/39d966e052e28fc7d83793b02e0af97ccf955745/core-3.3.0-sources.jar!/com/google/zxing/PlanarYUVLuminanceSource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="583">
+          <caret line="38" column="9" selection-start-line="38" selection-start-column="9" selection-end-line="38" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.3.0/39d966e052e28fc7d83793b02e0af97ccf955745/core-3.3.0-sources.jar!/com/google/zxing/MultiFormatReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="94" column="14" selection-start-line="94" selection-start-column="14" selection-end-line="94" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/utils/SelectAlbumUtils.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/utils/InactivityTimer.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="55" column="29" selection-start-line="55" selection-start-column="29" selection-end-line="55" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/camera/PreviewCallback.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/decode/DecodeHandler.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-500">
+          <caret line="63" column="20" lean-forward="true" selection-start-line="63" selection-start-column="20" selection-end-line="63" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/utils/CaptureActivityHandler.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="39" column="34" selection-start-line="39" selection-start-column="34" selection-end-line="39" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/songzeceng/firstjd/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="85" column="52" selection-start-line="85" selection-start-column="52" selection-end-line="85" selection-end-column="52" />
+        <state relative-caret-position="217">
+          <caret line="207" selection-start-line="207" selection-end-line="207" />
           <folding>
-            <element signature="e#686#839#0" expanded="true" />
-            <element signature="e#838#839#0" expanded="true" />
-            <element signature="e#1551#1552#0" expanded="true" />
-            <element signature="e#1570#1571#0" expanded="true" />
-            <element signature="e#1758#2052#0" expanded="true" />
-            <element signature="e#2051#2052#0" expanded="true" />
-            <element signature="e#2215#3059#0" expanded="true" />
-            <element signature="e#3058#3059#0" expanded="true" />
-            <element signature="e#2501#2689#0" expanded="true" />
-            <element signature="e#2688#2689#0" expanded="true" />
-            <element signature="e#2730#2918#0" expanded="true" />
-            <element signature="e#2917#2918#0" expanded="true" />
+            <element signature="e#4335#4336#0" expanded="true" />
+            <element signature="e#4383#4384#0" expanded="true" />
+            <element signature="e#4539#4540#0" expanded="true" />
+            <element signature="e#4583#4584#0" expanded="true" />
+            <element signature="e#4868#6253#0" expanded="true" />
+            <element signature="e#4972#6216#0" expanded="true" />
+            <element signature="e#5634#5851#0" expanded="true" />
+            <element signature="e#5850#5851#0" expanded="true" />
+            <element signature="e#6215#6216#0" expanded="true" />
+            <element signature="e#6252#6253#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/QRCodeManager.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="65" selection-start-line="65" selection-end-line="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/camera/CameraManager.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="110" column="43" selection-start-line="110" selection-start-column="33" selection-end-line="110" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/LibZXing-v1.0.4.aar/ab4946332019b159cca69466b572d142/jars/classes.jar!/com/jwkj/libzxing/activity/CaptureActivity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="303" column="33" lean-forward="true" selection-start-line="303" selection-start-column="33" selection-end-line="303" selection-end-column="33" />
+          <folding>
+            <element signature="e#3358#3717#0" expanded="true" />
+            <element signature="e#3716#3717#0" expanded="true" />
           </folding>
         </state>
       </provider>

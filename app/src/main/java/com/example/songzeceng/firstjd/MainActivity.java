@@ -3,15 +3,25 @@ package com.example.songzeceng.firstjd;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.jwkj.libzxing.OnQRCodeScanCallback;
+import com.jwkj.libzxing.QRCodeManager;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -34,6 +44,9 @@ public class MainActivity extends Activity {
 		    System.out.println("sCount = 0，from thread:" + msg.obj.toString());
 		}
 	};
+
+	private QRCodeManager mQRCodeManager;
+	private Resources mRes;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +71,9 @@ public class MainActivity extends Activity {
 				finish();
 			}
 		}, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+		mQRCodeManager = QRCodeManager.getInstance();
+		mRes = MainActivity.this.getResources();
 	}
 
 	@Override
@@ -107,6 +123,89 @@ public class MainActivity extends Activity {
 				}
 			}
 		}).start();
+
+		final EditText editText = findViewById(R.id.content_str);
+		final ImageView contentZxing = findViewById(R.id.content_zxing);
+		final Button btnGenerateQRCode = findViewById(R.id.btn_generateZxing);
+		btnGenerateQRCode.setText(mRes.getString(R.string.generate_qr_code));
+		btnGenerateQRCode.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (btnGenerateQRCode.getText().toString().equals(mRes.getString(R.string.generate_qr_code))) {
+					String text = TextUtils.isEmpty(editText.getText()) ? "szc" : editText.getText().toString();
+					contentZxing.setImageBitmap(mQRCodeManager.createQRCode(text, 500, 500));
+					btnGenerateQRCode.setText(mRes.getString(R.string.begin_scan));
+				} else {
+					mQRCodeManager.with(MainActivity.this).setReqeustType(0).scanningQRCode(new OnQRCodeScanCallback() {
+						@Override
+						public void onCompleted(String s) {
+							System.out.println("扫描完成:" + s);
+						}
+
+						@Override
+						public void onError(Throwable throwable) {
+							throwable.printStackTrace();
+						}
+
+						@Override
+						public void onCancel() {
+							System.out.println("扫描取消");
+						}
+					});
+					btnGenerateQRCode.setText(mRes.getString(R.string.generate_qr_code));
+				}
+			}
+		});
+		contentZxing.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View view) {
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							Context context = MainActivity.this;
+							contentZxing.setDrawingCacheEnabled(true);
+							final Bitmap qrCodeBitmap = contentZxing.getDrawingCache();
+
+							File destFile = new File(getRootIntervalStorage(), "qrCode.jpg");
+							destFile.deleteOnExit();
+							BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(destFile));
+							qrCodeBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+							outputStream.flush();
+							outputStream.close();
+
+							MediaScannerConnection.scanFile(context, new String[]{destFile.toString()}, null, new MediaScannerConnection.OnScanCompletedListener() {
+								@Override
+								public void onScanCompleted(String s, Uri uri) {
+									System.out.println("扫描完成：" + s + ",uri:" + uri.toString());
+								}
+							});
+                            contentZxing.setDrawingCacheEnabled(false);
+							System.out.println("保存成功");
+						} catch (Exception e) {
+							e.printStackTrace();
+							// java.lang.IllegalArgumentException:
+							// Failed to find configured root that contains /storage/emulated/0/Android/data/com.example.songzeceng.firstjd/qrCode.jpeg
+						}
+					}
+				}).start();
+				return false;
+			}
+		});
+	}
+
+	private File getRootIntervalStorage() {
+		File appCacheFile = getExternalCacheDir();
+		while (!appCacheFile.getAbsolutePath().endsWith("0") && !appCacheFile.getAbsolutePath().endsWith("0" + File.separator)) {
+			appCacheFile = appCacheFile.getParentFile();
+		}
+		return appCacheFile;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		mQRCodeManager.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override

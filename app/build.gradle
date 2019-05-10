@@ -39,6 +39,7 @@ dependencies {
     implementation 'com.github.tyhjh:picturePickUtil:v1.0.6'
     api 'com.guo.android_extend:android-extend:1.0.1'
     implementation files('libs/arcsoft_face.jar')
+    implementation 'com.github.jwkj:LibZXing:v1.0.4'
 
     configurations {
         all*.exclude group: 'com.arcsoft.facedetection.AFD_FSDKFace'

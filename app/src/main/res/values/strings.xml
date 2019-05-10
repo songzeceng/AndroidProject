@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FirstJD_2.0</string>
+    <string name="generate_qr_code">生成二维码</string>
+    <string name="begin_scan">进行扫描</string>
 </resources>
