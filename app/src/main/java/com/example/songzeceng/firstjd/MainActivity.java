@@ -168,7 +168,10 @@ public class MainActivity extends Activity {
 							final Bitmap qrCodeBitmap = contentZxing.getDrawingCache();
 
 							File destFile = new File(getRootIntervalStorage(), "qrCode.jpg");
-							destFile.deleteOnExit();
+							if (destFile.exists()) {
+								destFile.delete();
+							}
+							destFile.createNewFile();
 							BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(destFile));
 							qrCodeBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 							outputStream.flush();
@@ -192,6 +195,12 @@ public class MainActivity extends Activity {
 				return false;
 			}
 		});
+
+		try {
+		    int a = 1/0;
+        } catch (Exception e) {
+
+        }
 	}
 
 	private File getRootIntervalStorage() {
