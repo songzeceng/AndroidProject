@@ -1,6 +1,7 @@
 package com.example.songzeceng.firstjd;
 
 import android.Manifest;
+import android.accessibilityservice.FingerprintGestureController;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,6 +14,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
+import android.support.v4.os.CancellationSignal;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +51,9 @@ public class MainActivity extends Activity {
 	private QRCodeManager mQRCodeManager;
 	private Resources mRes;
 
+	private FingerprintManagerCompat mFingerManager;
+	private FingerprintGestureController controller;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,13 +78,62 @@ public class MainActivity extends Activity {
 			}
 		}, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			PermissonUtil.checkPermission(this, new PermissionListener() {
+				@Override
+				public void havePermission() {
+					mFingerManager = FingerprintManagerCompat.from(MainActivity.this.getApplicationContext());
+					if (mFingerManager.isHardwareDetected() && mFingerManager.hasEnrolledFingerprints()) {
+						startAuthenticate();
+					}
+				}
+
+				@Override
+				public void requestPermissionFail() {
+
+				}
+			}, Manifest.permission.USE_FINGERPRINT);
+		}
+
 		mQRCodeManager = QRCodeManager.getInstance();
 		mRes = MainActivity.this.getResources();
+	}
+
+	private void startAuthenticate() {
+		mFingerManager.authenticate(null, 0, new CancellationSignal(), new FingerprintManagerCompat.AuthenticationCallback() {
+			@Override
+			public void onAuthenticationError(int errMsgId, CharSequence errString) {
+				/*
+					应用层不能实现指纹的注册，需要让客户自行注册
+					指纹识别出错，传感器会有一段时间不可用，30s-1min左右
+				 */
+				MainActivity.this.getWindow().getDecorView().postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						startAuthenticate();
+					}
+				}, 5 * 1000);
+			}
+
+			@Override
+			public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult result) {
+				System.out.println("指纹识别成功");
+				startAuthenticate();
+
+			}
+
+			@Override
+			public void onAuthenticationFailed() {
+				System.out.println("指纹识别失败");
+				startAuthenticate();
+			}
+		}, null);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		startAuthenticate();
 		for (int i = 0; i < 5; i++) {
 			new Thread(new Runnable() {
 				@Override
