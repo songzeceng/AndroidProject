@@ -17,7 +17,6 @@ class SampleApp extends StatelessWidget {
       home: new SampleAppPage(),
     );
   }
-
 }
 
 class SampleAppPage extends StatefulWidget {
@@ -26,20 +25,23 @@ class SampleAppPage extends StatefulWidget {
     // TODO: implement createState
     return new SampleAppPageState();
   }
-
 }
 
-class SampleAppPageState extends State<SampleAppPage> {
+class SampleAppPageState extends State<SampleAppPage>
+    with WidgetsBindingObserver {
   List widgets = [];
+  AppLifecycleState _lastState;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    WidgetsBinding.instance.addObserver(this);
     loadData();
   }
 
   void loadData() async {
-
     ReceivePort outReceivePort = new ReceivePort();
     await Isolate.spawn(dataLoader, outReceivePort.sendPort);
     // Isolate异步加载数据，入参：加载的入口方法和初始化消息对象(通常是一个sendPort)
@@ -48,7 +50,8 @@ class SampleAppPageState extends State<SampleAppPage> {
     // 等待接收消息，由于outReceivePort在dataLoader里已经给dataLoader.receivePort发送了消息
     // 所以这儿直接返回了dataLoader.receivePort
 
-    List msg = await sendReceive(sendPort, "https://jsonplaceholder.typicode.com/posts");
+    List msg = await sendReceive(
+        sendPort, "https://jsonplaceholder.typicode.com/posts");
     // 监听sendReceive.receivePort，因为此方法返回的是sendReceive.receivePort.first(这是一个Future对象)
 
     setState(() {
@@ -61,7 +64,8 @@ class SampleAppPageState extends State<SampleAppPage> {
 
     sendPort.send(receivePort.sendPort);
 
-    await for(var msg in receivePort) { // 等待dataLoader.receivePort发送消息
+    await for (var msg in receivePort) {
+      // 等待dataLoader.receivePort发送消息
       // 在sendReceive方法中，dataLoader.receivePort给sendReceive.receivePort发送消息，这里结束等待
 
       String data = msg[0];
@@ -72,7 +76,6 @@ class SampleAppPageState extends State<SampleAppPage> {
       http.Response response = await http.get(dataUrl);
       replyTo.send(json.decode(response.body)); // 给sendReceive.receivePort发消息
     }
-
   }
 
   Future sendReceive(SendPort sendPort, msg) {
@@ -81,7 +84,6 @@ class SampleAppPageState extends State<SampleAppPage> {
 
     return receivePort.first;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -101,16 +103,37 @@ class SampleAppPageState extends State<SampleAppPage> {
       );
     } else {
       return new ListView.builder(
-        itemCount: widgets.length,
+          itemCount: widgets.length + 1,
           itemBuilder: (BuildContext context, int index) {
-            return new Padding(
+            if (index == 0) {
+              return new Text(_lastState == null
+                  ? "state not changed"
+                  : "sate is " + _lastState.toString());
+            } else {
+              return new Padding(
                 padding: new EdgeInsets.all(10.0),
-              child: new Text("Row ${widgets[index]["title"]}"),
-            );
-          }
-      );
+                child: new Text("Row ${widgets[index - 1]["title"]}"),
+              );
+            }
+          });
     }
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // 生命周期回调监听
+    // Android：resumed和paused
+    // IOS：resumed、inactive(非活动，没接收用户输入)、paused(不可见)和suspending(暂时中止)
+    super.didChangeAppLifecycleState(state);
+    setState(() {
+      _lastState = state;
+    });
+  }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
 }
