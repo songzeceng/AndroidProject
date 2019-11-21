@@ -4,33 +4,25 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.songzeceng.studyofretrofit.item.PersonProto;
 import com.example.songzeceng.studyofretrofit.recyclerView.AdapterForRecyclerVIew;
 import com.example.songzeceng.studyofretrofit.rxBus.MyRxBus;
 import com.example.songzeceng.studyofretrofit.rxBus.Student;
@@ -42,7 +34,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.IntSummaryStatistics;
@@ -64,10 +57,13 @@ import java.util.stream.IntStream;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -75,9 +71,6 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.schedulers.Schedulers;
 import rx.Subscription;
 
 public class MainActivity extends Activity {
@@ -142,19 +135,19 @@ public class MainActivity extends Activity {
             // studyOfExecutor();
         }
 
-        PersonProto.Person.Builder builder = PersonProto.Person.newBuilder();
-        builder.setName("玉面郎君菲尔米诺");
-        builder.setAge(30);
-        builder.setId(9);
-        PersonProto.Person person = builder.build();
-        try {
-            String name = new String(person.getName().getBytes("utf-8"), "utf-8");
-            int age = person.getAge();
-            int id = person.getId();
-            System.out.println("name:" + name + "--age:" + age + "--id:" + id);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        PersonProto.Person.Builder builder = PersonProto.Person.newBuilder();
+//        builder.setName("玉面郎君菲尔米诺");
+//        builder.setAge(30);
+//        builder.setId(9);
+//        PersonProto.Person person = builder.build();
+//        try {
+//            String name = new String(person.getName().getBytes("utf-8"), "utf-8");
+//            int age = person.getAge();
+//            int id = person.getId();
+//            System.out.println("name:" + name + "--age:" + age + "--id:" + id);
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
 
 //        usingIntervalRange();
 //
@@ -489,12 +482,34 @@ public class MainActivity extends Activity {
                 Uri uri = FileProvider.getUriForFile(MainActivity.this, "com.example.songzeceng.myFileProvider", file);
                 Log.i(TAG, "uri:" + uri.toString());
                 intent.putExtra(Intent.EXTRA_STREAM, uri);
+
+                getPathByUri(uri);
             }
             intent.putExtra("Kdescrpition","测试转发一张图片");
             startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void getPathByUri(Uri uri) throws NoSuchMethodException,
+            IllegalAccessException, InvocationTargetException {
+        Class<FileProvider> fileProviderClass = FileProvider.class;
+        Class<?> simplePathStrategyClazz = fileProviderClass.getDeclaredClasses()[0];
+
+        Method getPathStrategyMethod = fileProviderClass
+                .getDeclaredMethod("getPathStrategy", Context.class, String.class);
+        getPathStrategyMethod.setAccessible(true);
+
+        Object simplePathStrategyObject = getPathStrategyMethod.invoke(null,
+                MainActivity.this, "com.example.songzeceng.myFileProvider");
+
+        Method getFileForUriMethod = simplePathStrategyClazz
+                .getDeclaredMethod("getFileForUri", Uri.class);
+        getFileForUriMethod.setAccessible(true);
+        File destFile = (File) getFileForUriMethod.invoke(simplePathStrategyObject, uri);
+
+        Log.i(TAG, "share: file path:" + destFile.getAbsolutePath());
     }
 
     private void useOfThreeKindsOfSubjects() {
