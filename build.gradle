@@ -7,8 +7,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.2'
+        classpath 'com.android.tools.build:gradle:3.5.2'
+//        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.6'
         // protobuf插件，AS3.0需要protobuf版本在0.8.2及以上
 
         //compile 'com.android.support:appcompat-v7:26.0.0'
