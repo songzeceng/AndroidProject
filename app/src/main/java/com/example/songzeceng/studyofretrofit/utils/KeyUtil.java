@@ -102,7 +102,6 @@ public class KeyUtil {
             GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(128, sEncryptIv);
             cipher.init(Cipher.DECRYPT_MODE, secretKey, gcmParameterSpec);
             return new String(cipher.doFinal(Base64.decode(needDecrypt, Base64.NO_WRAP)));
-
         } catch (Exception e) {
             e.printStackTrace();
         }
