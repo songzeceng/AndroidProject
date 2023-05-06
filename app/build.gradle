@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id "org.jetbrains.kotlin.kapt"
+    id "me.ele.lancet"
 }
 
 android {
@@ -43,6 +44,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.4'
     implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
+    provided 'me.ele:lancet-base:1.0.6'
 }
 repositories {
     mavenCentral()
